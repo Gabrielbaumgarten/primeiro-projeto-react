@@ -1,6 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'typeface-roboto'
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography'
+import AllInclusiveIcon from '@material-ui/icons/AllInclusive';
+import AllInclusiveSharpIcon from '@material-ui/icons/AllInclusiveSharp';
 
 function Square(props) {
   return (
@@ -142,6 +147,30 @@ function calculateWinner(squares) {
 function App() {
   return (
     <div className="App">
+      <div>
+        <Typography variant='button' gutterBottom>
+          as suas ideias podem mudar o mundo
+          <AllInclusiveIcon />
+          <AllInclusiveSharpIcon />
+        </Typography>
+      </div>
+      <Button variant="contained">
+        Default
+      </Button>
+      <Button variant="contained" color="primary">
+        <Typography variant='botton' gutterBottom>
+          Primary
+        </Typography>
+      </Button>
+      <Button variant="contained" color="secondary">
+        Secondary
+      </Button>
+      <Button variant="contained" disabled>
+        Disabled
+      </Button>
+      <Button variant="contained" color="primary" href="#contained-buttons">
+        Link
+      </Button>
       <Game />
     </div>
   );
