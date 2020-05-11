@@ -8,6 +8,9 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import AppBar from '@material-ui/core/AppBar'
 import Container from '@material-ui/core/Container'
+import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
+import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
+import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
 
 
 function Logo(props) {
@@ -24,6 +27,43 @@ function BotaoMenu(props) {
       </Typography>
     </Button>
   )
+}
+
+function BotaoMenuPrincipal(props) {
+  return(
+    <Button>
+      <div className='BotaoMenuPrincipal'>
+        <SelectIcon icon={props.icon} />
+        <br/>
+        <br/>
+        <br/>
+        <Typography variant="subtitle2" align='left'>
+          {props.conteudo}
+          </Typography>
+          <br/>
+          <Typography variant="body2" align='left' className='DescricaoMenuPrincipal'>
+            {props.descricao}
+            </Typography>
+      </div>
+    </Button>
+  )
+}
+
+function SelectIcon(props) {
+  var icon
+  switch (props.icon) {
+    case "JUNTAR":
+      icon = <CallMergeRoundedIcon fontSize='large' className="IconMenuPrincipal"/>
+      break;
+    case "DIVIDIR":
+      icon = <CallSplitRoundedIcon fontSize='large' className="IconMenuPrincipal"/>
+      break;
+    case "COMPRIMIR":
+      icon = <CompareArrowsRoundedIcon fontSize='large' className="IconMenuPrincipalComprimir"/>
+      break;
+    default:  icon= null;
+  }
+  return icon;
 }
 
 function App() {
@@ -48,15 +88,15 @@ function App() {
           conversão de PDF para JPG, e JPG para PDF.<br/> Não requer instalação.
         </Typography>
         <Container className="ContainerPrincipal">
-          <div>
-            <BotaoMenu conteudo="JUNTAR PDF" />
-          </div>
-          <div>
-            2
-          </div>
-          <div>
-            3
-          </div>
+            <BotaoMenuPrincipal conteudo="JUNTAR PDF"
+            descricao="Mesclar e juntar PDFs e colocá-los em qualquer ordem que desejar. É tudo muito fácil e rápido"
+            icon='JUNTAR' />
+            <BotaoMenuPrincipal conteudo="DIVIDIR PDF"
+            descricao="Selecione um intervalo de páginas, separe uma página, ou converta cada página do documento em um arquivo PDF independente."
+            icon='DIVIDIR'  />
+            <BotaoMenuPrincipal conteudo="COMPRIMIR PDF"
+            descricao="Diminua o tamanho do seu arquivo PDF, mantendo a melhor qualidade possível. Otimize seus arquivos PDF."
+            icon='COMPRIMIR'  />
         </Container>
       </div>
 
@@ -66,3 +106,7 @@ function App() {
 }
 
 export default App;
+
+// AspectRatio/CompareArrows
+// CallMerge/NoteAdd
+// CallSplit
