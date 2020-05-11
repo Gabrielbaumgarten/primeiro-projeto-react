@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container'
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
 function Logo(props) {
@@ -19,12 +20,30 @@ function Logo(props) {
   )
 }
 
-function BotaoMenu(props) {
+function MouseOut() {
+  }
+
+function MouseOver() {
+    alert("Mouse over!!!");
+  }
+
+function BotaoMenuToolbar(props) {
   return(
-    <Button>
+    <Button onClick={function() { alert('click'); }}>
       <Typography variant="button" align="center" className="MenuText">
         {props.conteudo}
       </Typography>
+    </Button>
+  )
+}
+
+function BotaoAllMenuToolbar(props) {
+  return(
+    <Button onMouseOut={() => MouseOut()} onMouseOver={() => MouseOver()} onClick={function() { alert('click'); }}>
+      <Typography variant="button" align="center" className="MenuText">
+        {props.conteudo}
+      </Typography>
+      <ArrowDropDownIcon className='IconDropdown'/>
     </Button>
   )
 }
@@ -71,11 +90,11 @@ function App() {
     <div className="App">
       <div className='Toolbar'>
           <Logo />
-          <BotaoMenu conteudo='JUNTAR PDF' />
-          <BotaoMenu conteudo='DIVIDIR PDF' />
-          <BotaoMenu conteudo='COMPRIMIR PDF' />
-          <BotaoMenu conteudo='CONVERTER PDF' />
-          <BotaoMenu conteudo='TODAS AS FERRAMENTAS PDF' />
+          <BotaoMenuToolbar conteudo='JUNTAR PDF' />
+          <BotaoMenuToolbar conteudo='DIVIDIR PDF' />
+          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' />
+          <BotaoMenuToolbar conteudo='CONVERTER PDF' />
+          <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
           <MenuIcon className="MenuIcon" style={{fontSize:30}}/>
       </div>
       <div>
@@ -106,7 +125,3 @@ function App() {
 }
 
 export default App;
-
-// AspectRatio/CompareArrows
-// CallMerge/NoteAdd
-// CallSplit
