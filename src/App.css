@@ -39,7 +39,7 @@
   margin: 30px;
   background-color: white;
   box-shadow: 2px 2px 3px 2px #999;
-  align-items: center;
+  text-align: center;
 }
 
 .BotaoMenuPrincipal {
