@@ -1,12 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'typeface-roboto'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
-import Toolbar from '@material-ui/core/Toolbar'
-import AppBar from '@material-ui/core/AppBar'
 import Container from '@material-ui/core/Container'
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
@@ -20,30 +17,53 @@ function Logo(props) {
   )
 }
 
-function MouseOut() {
+class BotaoAllMenuToolbar extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      conteudo: props.conteudo,
+      submenuOpen: false,
+    }
   }
 
-function MouseOver() {
-    alert("Mouse over!!!");
+  mouseOut() {
+    this.setState({
+      conteudo: "hello",
+      submenuOpen: false,
+    });
   }
+
+  mouseOver() {
+    this.setState({
+      conteudo: "world",
+      submenuOpen: true,
+    });
+  }
+
+  render(){
+      return(
+        <Button onMouseOut={() => this.mouseOut()} onMouseOver={() => this.mouseOver()} onClick={function() { alert('click'); }}>
+        <Typography variant="button" align="center" className="MenuText">
+        {this.state.conteudo}
+        </Typography>
+        <ArrowDropDownIcon className='IconDropdown'/>
+        </Button>
+      )
+    }
+}
+
+
+
+
+
 
 function BotaoMenuToolbar(props) {
   return(
     <Button onClick={function() { alert('click'); }}>
-      <Typography variant="button" align="center" className="MenuText">
-        {props.conteudo}
-      </Typography>
-    </Button>
-  )
-}
-
-function BotaoAllMenuToolbar(props) {
-  return(
-    <Button onMouseOut={() => MouseOut()} onMouseOver={() => MouseOver()} onClick={function() { alert('click'); }}>
-      <Typography variant="button" align="center" className="MenuText">
-        {props.conteudo}
-      </Typography>
-      <ArrowDropDownIcon className='IconDropdown'/>
+    <Typography variant="button" align="center" className="MenuText">
+    {props.conteudo}
+    </Typography>
     </Button>
   )
 }
@@ -85,6 +105,7 @@ function SelectIcon(props) {
   return icon;
 }
 
+
 function App() {
   return (
     <div className="App">
@@ -118,7 +139,6 @@ function App() {
             icon='COMPRIMIR'  />
         </Container>
       </div>
-
     </div>
 
   );
