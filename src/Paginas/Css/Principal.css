@@ -53,7 +53,7 @@
 }
 
 body {
-  background-image: url("./Paginas/Css/Fundo-espaco.jpg");
+  background-image: url("Fundo-espaco.jpg");
   background-repeat: no-repeat;
   background-size: 100% 500px;
   background-color: Lightgray;
