@@ -19,10 +19,7 @@ export default App;
 
 
 // React.fragment
-// pdf para jpg/ pesquisar no pdf
 //usar draw para telas laterais
 //react router dom
 //export no index.js
 //rocketseat tutoriais
-
-// BurstMode/Image/KeyboardTab/PictureAsPdf/TrendingFlat

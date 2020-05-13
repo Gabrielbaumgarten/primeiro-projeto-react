@@ -9,7 +9,9 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 function Logo(props) {
   return(
+    <a href='/'>
       <img src="ilovepdf.svg" className="Logo" />
+    </a>
   )
 }
 
@@ -54,7 +56,7 @@ class BotaoAllMenuToolbar extends React.Component {
 
 function BotaoMenuToolbar(props) {
   return(
-    <Button onClick={function() { alert('click'); }}>
+    <Button href={props.url}>
     <Typography variant="button" align="center" className="MenuText">
     {props.conteudo}
     </Typography>
@@ -66,10 +68,10 @@ function BotaoMenuToolbar(props) {
 const Toolbar = () => (
       <div className='Toolbar'>
           <Logo />
-          <BotaoMenuToolbar conteudo='JUNTAR PDF' />
-          <BotaoMenuToolbar conteudo='DIVIDIR PDF' />
-          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' />
-          <BotaoMenuToolbar conteudo='CONVERTER PDF' />
+          <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
+          <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='' />
+          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='' />
+          <BotaoMenuToolbar conteudo='CONVERTER PDF' url='' />
           <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
           <MenuIcon className="MenuIcon" style={{fontSize:30}}/>
       </div>

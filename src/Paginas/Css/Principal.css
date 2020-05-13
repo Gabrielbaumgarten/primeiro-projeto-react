@@ -52,7 +52,7 @@
   padding-top: 10px;
 }
 
-body {
+.Background {
   background-image: url("Fundo-espaco.jpg");
   background-repeat: no-repeat;
   background-size: 100% 500px;

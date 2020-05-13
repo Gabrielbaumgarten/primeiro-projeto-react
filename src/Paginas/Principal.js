@@ -17,7 +17,7 @@ import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
 function BotaoMenuPrincipal(props) {
   return(
-    <Button>
+    <Button href={props.url}>
       <div className='BotaoMenuPrincipal'>
         <SelectIcon icon={props.icon} />
         <br/>
@@ -65,7 +65,7 @@ function SelectIcon(props) {
 }
 
 const MainPage = () => (
-  <div>
+  <div className='Background'>
     <Typography variant='h3' align='center' className="Titulo">
       Ferramenta online para amantes de PDF
     </Typography>
@@ -77,7 +77,7 @@ const MainPage = () => (
     <Container className="ContainerPrincipal">
         <BotaoMenuPrincipal conteudo="JUNTAR PDF"
         descricao="Mesclar e juntar PDFs e colocá-los em qualquer ordem que desejar. É tudo muito fácil e rápido"
-        icon='JUNTAR' />
+        icon='JUNTAR' url='/JuntarPDF'/>
         <BotaoMenuPrincipal conteudo="DIVIDIR PDF"
         descricao="Selecione um intervalo de páginas, separe uma página, ou converta cada página do documento em um arquivo PDF independente."
         icon='DIVIDIR'  />
