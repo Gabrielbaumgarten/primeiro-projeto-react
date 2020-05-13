@@ -60,17 +60,25 @@
   font-size: 0.875em !important;
 }
 
-.IconMenuPrincipal {
+.IconMenuPrincipalRotate90 {
   transform: rotate(90deg);
   float: left;
   color: red;
   padding-bottom:  25px;
 }
 
-.IconMenuPrincipalComprimir{
+.IconMenuPrincipal{
   float: left;
   color: red;
   padding-left: 25px;
+  padding-top: 12px;
+  font-size: 2.6em !important;
+}
+
+.IconMenuPrincipalConverter{
+  float: left;
+  color: red;
+  padding-left: 0px;
   padding-top: 12px;
   font-size: 2.6em !important;
 }

@@ -9,6 +9,10 @@ import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
+import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
+import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
 
 function Logo(props) {
@@ -43,18 +47,18 @@ class BotaoAllMenuToolbar extends React.Component {
 
   render(){
       return(
+        // <div className="MenuText">
         <Button onMouseOut={() => this.mouseOut()} onMouseOver={() => this.mouseOver()} onClick={function() { alert('click'); }}>
-        <Typography variant="button" align="center" className="MenuText">
-        {this.state.conteudo}
-        </Typography>
-        <ArrowDropDownIcon className='IconDropdown'/>
+          <Typography variant="button" align="center" className="MenuText">
+          {this.state.conteudo}
+          </Typography>
+          <ArrowDropDownIcon className='IconDropdown'/>
         </Button>
+        // 1
+        // </div>
       )
     }
 }
-
-
-
 
 
 
@@ -92,13 +96,25 @@ function SelectIcon(props) {
   var icon
   switch (props.icon) {
     case "JUNTAR":
-      icon = <CallMergeRoundedIcon fontSize='large' className="IconMenuPrincipal"/>
+      icon = <CallMergeRoundedIcon fontSize='large' className="IconMenuPrincipalRotate90"/>
       break;
     case "DIVIDIR":
-      icon = <CallSplitRoundedIcon fontSize='large' className="IconMenuPrincipal"/>
+      icon = <CallSplitRoundedIcon fontSize='large' className="IconMenuPrincipalRotate90"/>
       break;
     case "COMPRIMIR":
-      icon = <CompareArrowsRoundedIcon fontSize='large' className="IconMenuPrincipalComprimir"/>
+      icon = <CompareArrowsRoundedIcon fontSize='large' className="IconMenuPrincipal"/>
+      break;
+    case "OCR":
+      icon = <FindInPageRoundedIcon fontSize="large" className='IconMenuPrincipal'/>
+      break;
+    case "PDJtoJPG":
+      icon = (
+        <React.Fragment>
+        <PictureAsPdfRoundedIcon fontSize="large" className='IconMenuPrincipalConverter'/>
+        <ArrowRightAltRoundedIcon fontSize="large" className='IconMenuPrincipalConverter'/>
+        <PhotoLibraryRoundedIcon fontSize="large" className='IconMenuPrincipalConverter'/>
+        </React.Fragment>
+      )
       break;
     default:  icon= null;
   }
@@ -137,6 +153,12 @@ function App() {
             <BotaoMenuPrincipal conteudo="COMPRIMIR PDF"
             descricao="Diminua o tamanho do seu arquivo PDF, mantendo a melhor qualidade possível. Otimize seus arquivos PDF."
             icon='COMPRIMIR'  />
+            <BotaoMenuPrincipal conteudo="PDF PARA JPG"
+            descricao="Extraia todas as imagens contidas em um arquivo PDF ou converta cada página em um arquivo JPG."
+            icon='PDJtoJPG'  />
+            <BotaoMenuPrincipal conteudo="PESQUISAR NO PDF"
+            descricao="Torne o PDF um arquivo pesquisável para encontrar mais facilmente as palavras chaves."
+            icon='OCR'  />
         </Container>
       </div>
     </div>
@@ -145,3 +167,13 @@ function App() {
 }
 
 export default App;
+
+
+// React.fragment
+// pdf para jpg/ pesquisar no pdf
+//usar draw para telas laterais
+//react router dom
+//export no index.js
+//rocketseat tutoriais
+
+// BurstMode/Image/KeyboardTab/PictureAsPdf/TrendingFlat
