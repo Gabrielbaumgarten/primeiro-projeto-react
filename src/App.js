@@ -23,3 +23,4 @@ export default App;
 //react router dom
 //export no index.js
 //rocketseat tutoriais
+//inputArea
