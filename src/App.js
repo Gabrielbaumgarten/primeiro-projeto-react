@@ -18,7 +18,6 @@ function App() {
 export default App;
 
 
-// React.fragment
 //usar draw para telas laterais
 //react router dom
 //export no index.js

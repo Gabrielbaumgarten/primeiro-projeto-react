@@ -4,6 +4,29 @@ import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Paper from "@material-ui/core/Paper"
 import ImageIcon from '@material-ui/icons/Image';
+import { SortablePane, Pane } from 'react-sortable-pane';
+import Drawer from '@material-ui/core/Drawer';
+
+
+function OrdemDosArquivos(props) {
+  const key = Array.from(Array(props.arquivos.length).keys());
+  const panes =key.map(key => (
+    <Pane key={key} className='Pane'>
+      <Paper elevation='3' className="Paper">
+        <ImageIcon fontSize="large" className='Centralizar'/>
+        <p>{props.arquivos[key].name}</p>
+      </Paper>
+    </Pane>
+  ));
+
+  return (
+    <React.Fragment>
+      <SortablePane direction="horizontal" margin={30} className='Panes'>
+        {panes}
+      </SortablePane>
+    </React.Fragment>
+  );
+}
 
 function TextosPadrao (){
   return (
@@ -26,7 +49,7 @@ class JuntarPDFPage extends React.Component {
     this.fileInput = React.createRef();
     this.state = {
       /* mudar esse valor para false*/
-      isUpload: true,
+      isUpload: false,
     };
     this.handleOnChange = this.handleOnChange.bind(this);
   }
@@ -39,14 +62,15 @@ class JuntarPDFPage extends React.Component {
 
   render() {
     if(this.state.isUpload) {
+      // provisorio, verificar necessidade de manter o fileInput dessa maneira
+      const aux = Array.from(this.fileInput.current.files)
       return(
-        <div>
-          <Paper elevation='3' className="Paper">
-            {/*<p>{this.fileInput.current.files[0].name}</p>*/}
-            <ImageIcon fontSize="large" className='Centralizar'/>
-            <p>nome do aquivo</p>
-          </Paper>
-        </div>
+        <React.Fragment>
+          <OrdemDosArquivos arquivos={aux}/>
+          <Drawer anchor='right' variant='permanent' className='Drawer'>
+            <h1>Hello world</h1>  
+          </Drawer>
+        </React.Fragment>
       );
     } else {
       return (

@@ -14,7 +14,7 @@
   text-align: center;
 }
 
-.BotaoSelecArq Button{
+.Centralizar Button{
   height: 2.5em;
   background-color: #FA403A;
   color: white;
@@ -28,12 +28,27 @@
 .Paper{
   width:200px;
   height: 250px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
   opacity: 0.6;
+  padding: 5%;
 }
 
 .Paper:hover{
   opacity: 1.0;
+}
+
+.Pane{
+  width:200px;
+  height: 250px;
+  opacity: 0.6;
+}
+
+.Panes {
+  margin-top: 100px;
+  margin-left: 30%;
+  margin-right: auto;
+}
+
+.Drawer{
+  width: 240;
+  margin-top: 62px;
 }
