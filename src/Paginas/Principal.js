@@ -4,17 +4,21 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 
-
+// Icons
 import MenuIcon from '@material-ui/icons/Menu'
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
 import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
+
+/* 
+  Função que retorna um botão no modelo da tela inicial
+  com Logo, Título e descrição
+*/
 function BotaoMenuPrincipal(props) {
   return(
     <Button href={props.url}>
@@ -64,6 +68,13 @@ function SelectIcon(props) {
   return icon;
 }
 
+
+/* 
+  Aqui contém todo o contúdo da página principal do App
+
+  Como está página não precisa guardar valores,
+  foi utilizado o formato de função para simplicar o código.
+*/
 const MainPage = () => (
   <div className='Background'>
     <Typography variant='h3' align='center' className="Titulo">
@@ -74,6 +85,7 @@ const MainPage = () => (
      dividir PDF, comprimir PDF,<br /> converter documentos Office para PDF,
       conversão de PDF para JPG, e JPG para PDF.<br/> Não requer instalação.
     </Typography>
+    
     <Container className="ContainerPrincipal">
         <BotaoMenuPrincipal conteudo="JUNTAR PDF"
         descricao="Mesclar e juntar PDFs e colocá-los em qualquer ordem que desejar. É tudo muito fácil e rápido"

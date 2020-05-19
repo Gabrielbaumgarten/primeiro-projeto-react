@@ -10,10 +10,15 @@ import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 
+// icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import AddIcon from '@material-ui/icons/Add';
 import ImageIcon from '@material-ui/icons/Image';
 
+/* 
+  Sobeescrevendo o style do drawer paper
+  Por algum motivo de hierarquia o drawer não se altera utilizando css 
+*/
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
@@ -23,10 +28,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
+/*
+  Função que permite ordernar os arquivos de forma diferente
+  Ela utliza o pacote react-sortable-pane externo ao react, encontrado no github
+  TODO: Verificar como o LinaPDF receberá esses arquivos
+*/
 function OrdemDosArquivos(props) {
   if (Array.isArray(props.arquivos)){
+    
+    // transformando os arquivos em um novo array
     const key = Array.from(Array(props.arquivos.length).keys());
+    
+    // Utilizando o array acima para criar vários paineis que irão simbolizar os arquivos
     const panes =key.map(key => (
       <Pane key={key} className='Pane'>
         <Paper elevation='3' className="Paper">
@@ -55,6 +68,10 @@ function OrdemDosArquivos(props) {
   }
 }
 
+
+/* 
+  Função que retorna os textos padrões presentes na página ao inicia-lá pela primeira vez
+*/
 function TextosPadrao (){
   return (
     <React.Fragment>
@@ -69,12 +86,19 @@ function TextosPadrao (){
   );
 }
 
+
+/* 
+  Função que retorna o painel lateral após selecionar alguns arquivos
+*/
 function PainelLateral(props) {
   const classes = useStyles();
 
+  // TODO: Verificar a necessidade desse null
   if(props.arquivos == null || props.arquivos.length < 2){
     return(
-      <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }} className='Drawer'>
+
+      // Utilizando classes podemos utlizar o userStyle para sobreescrever styles já presentes do componente 
+      <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }}>
         <h2 className='TitleDrawer'>Juntar PDF</h2>
         <Divider/>
         <Box className='TextDrawer'>
@@ -90,7 +114,7 @@ function PainelLateral(props) {
   }
   else {
     return(
-      <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }} className='Drawer'>
+      <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }}>
         <h2 className='TitleDrawer'>Juntar PDF</h2>
         <Divider/>
         <Box className='TextDrawer'>
@@ -105,6 +129,11 @@ function PainelLateral(props) {
   }
 }
 
+
+/* 
+  Classe que será exportada,
+  Aqui contém todos os componentes que serão renderizados na página
+*/
 class JuntarPDFPage extends React.Component {
 
   constructor(props) {
@@ -117,7 +146,7 @@ class JuntarPDFPage extends React.Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
   }
-
+// TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
     const historico =  this.state.fileInput;
     this.setState({
@@ -171,3 +200,6 @@ class JuntarPDFPage extends React.Component {
 }
 
 export default JuntarPDFPage;
+
+
+// TODO: verificar como colocar um inputArea
