@@ -101,3 +101,18 @@
   transform: rotate(90deg);
   color: white;
 }
+
+.BotaoFlutuante {
+  background-color: #FA403A !important;
+  position: absolute !important;
+  right: 250px;
+  color:white !important;
+}
+
+.BotaoFlutuante:hover{
+  background-color:rgb(224, 224, 224) !important;
+}
+
+.IconAdd {
+  padding-top: 7px;
+}

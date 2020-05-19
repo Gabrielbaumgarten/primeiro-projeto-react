@@ -3,14 +3,16 @@ import './Css/JuntarPDF.css';
 import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Paper from "@material-ui/core/Paper"
-import ImageIcon from '@material-ui/icons/Image';
 import { SortablePane, Pane } from 'react-sortable-pane';
 import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
-import Toolbar from '@material-ui/core/Toolbar'
 import { Box } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
+
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
+import AddIcon from '@material-ui/icons/Add';
+import ImageIcon from '@material-ui/icons/Image';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -107,14 +109,21 @@ class JuntarPDFPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.fileInput = React.createRef();
     this.state = {
       /* mudar esse valor para false*/
       isUpload: false,
+      fileInput: React.createRef(),
     };
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
+  handleAdd() {
+    const historico =  this.state.fileInput;
+    this.setState({
+      fileInput: historico,
+    })
+  }
   
   handleOnChange() {
     this.setState({
@@ -125,12 +134,17 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUpload) {
       // provisorio, verificar necessidade de manter o fileInput dessa maneira
-      const aux = Array.from(this.fileInput.current.files)
+      const aux = Array.from(this.state.fileInput.current.files)
       // const aux = null;
       return(
-        
         <React.Fragment>
           <OrdemDosArquivos arquivos={aux}/>
+          <Fab size='medium' className='BotaoFlutuante'>
+              <label for='file01' className='IconAdd'>
+                <AddIcon />
+              </label>
+              <input id="file01" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleAdd} className='Upload' multiple/>
+          </Fab>
           <PainelLateral arquivos={aux}/>
         </React.Fragment>
       );
@@ -143,7 +157,7 @@ class JuntarPDFPage extends React.Component {
               <label for="files">
                 Selecionar arquivos PDF
               </label>
-              <input id="files" type="file" accept='application/pdf' ref={this.fileInput} onChange={this.handleOnChange} className='Upload' multiple/>
+              <input id="files" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleOnChange} className='Upload' multiple/>
             </Button>
             <Typography variant='body2' className='Text'>
               ou arraste e solte aqui
