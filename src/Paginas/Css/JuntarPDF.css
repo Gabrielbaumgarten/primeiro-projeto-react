@@ -116,3 +116,15 @@
 .IconAdd {
   padding-top: 7px;
 }
+
+.IconDelete {
+  float: right;
+}
+
+.BarraProgresso {
+  height: 10px !important;
+  width: 400px;
+  margin: 20px;
+  background-color: #FA403A;
+
+}

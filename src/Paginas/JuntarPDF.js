@@ -9,11 +9,14 @@ import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import AddIcon from '@material-ui/icons/Add';
 import ImageIcon from '@material-ui/icons/Image';
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 /* 
   Sobeescrevendo o style do drawer paper
@@ -38,11 +41,21 @@ function OrdemDosArquivos(props) {
     
     // transformando os arquivos em um novo array
     const key = Array.from(Array(props.arquivos.length).keys());
+
+    function handleDelete(index, arquivos) {
+      // TODO: Implementar o botão de remover arquivos
+      /* delete arquivos[index];
+      const aux = 1;
+      alert(index); */
+    }
     
     // Utilizando o array acima para criar vários paineis que irão simbolizar os arquivos
-    const panes =key.map(key => (
+    const panes = key.map(key => (
       <Pane key={key} className='Pane'>
         <Paper elevation='3' className="Paper">
+          <IconButton onClick={handleDelete.bind(this, key, props.arquivos)} className='IconDelete'> 
+            <HighlightOffRoundedIcon />
+          </IconButton>
           <ImageIcon fontSize="large" className='Centralizar'/>
           <p>{props.arquivos[key].name}</p>
         </Paper>
@@ -120,13 +133,43 @@ function PainelLateral(props) {
         <Box className='TextDrawer'>
           <p>Para alterar a ordem dos seus PDFs, arraste e solte os arquivos como entender.</p>
         </Box>
-        <Button  variant='contained' className='ButtonDrawer'>
+        <Button  variant='contained' className='ButtonDrawer' onClick={() => {props.executar(!props.exibir)}}>
           Juntar PDF
           <CallMergeRoundedIcon fontSize='large' className="IconJuntar"/>
         </Button>
       </Drawer>
     );
   }
+}
+
+
+function BarraProgresso() {
+
+  const [completed, setCompleted] = React.useState(0);
+
+  React.useEffect(() => {
+    function progress() {
+      setCompleted((oldCompleted) => {
+        if (oldCompleted === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldCompleted + diff, 100);
+      });
+    }
+
+    const timer = setInterval(progress, 500);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+
+  return(
+      <React.Fragment className='Centralizar'>
+          <LinearProgress variant="determinate" value={completed} className='BarraProgresso' />
+      </React.Fragment>
+  );
 }
 
 
@@ -139,12 +182,14 @@ class JuntarPDFPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      /* mudar esse valor para false*/
       isUpload: false,
+      /* mudar esse valor para false*/
+      isButtonMergeClick: true,
       fileInput: React.createRef(),
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleMerge = this.handleMerge.bind(this);
   }
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
@@ -159,22 +204,38 @@ class JuntarPDFPage extends React.Component {
       isUpload: true,
     })
   }
+
+  handleMerge(){
+    this.setState({
+      isButtonMergeClick: true,
+    })
+  }
   
   render() {
-    if(this.state.isUpload) {
+    if(this.state.isButtonMergeClick) {
+      return(
+        <div className='Centralizar'>
+          <Typography variant='h1' className='LargeText'>
+              Carregando os arquivos
+          </Typography>
+          <BarraProgresso />
+       </div>
+      );
+    } else if(this.state.isUpload) {
       // provisorio, verificar necessidade de manter o fileInput dessa maneira
       const aux = Array.from(this.state.fileInput.current.files)
       // const aux = null;
       return(
         <React.Fragment>
-          <OrdemDosArquivos arquivos={aux}/>
+          <OrdemDosArquivos arquivos={aux}>
+          </OrdemDosArquivos>
           <Fab size='medium' className='BotaoFlutuante'>
               <label for='file01' className='IconAdd'>
                 <AddIcon />
               </label>
               <input id="file01" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleAdd} className='Upload' multiple/>
           </Fab>
-          <PainelLateral arquivos={aux}/>
+          <PainelLateral arquivos={aux} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>
       );
     } else {
