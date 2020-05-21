@@ -28,6 +28,9 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     marginTop: 62,
     boxShadow: '0px 0px 3px 0px #9E9E9E',
+  },
+  barColorPrimary: {
+    backgroundColor: '#FA403A',
   }
 }));
 
@@ -143,31 +146,34 @@ function PainelLateral(props) {
 }
 
 
-function BarraProgresso() {
+function BarraProgresso(props) {
 
   const [completed, setCompleted] = React.useState(0);
+  const classes = useStyles();
 
   React.useEffect(() => {
     function progress() {
       setCompleted((oldCompleted) => {
         if (oldCompleted === 100) {
-          return 0;
+          const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
+          return () => clearTimeout(time);
         }
-        const diff = Math.random() * 10;
+        const diff = Math.floor(Math.random() * 10);
         return Math.min(oldCompleted + diff, 100);
       });
     }
 
     const timer = setInterval(progress, 500);
-    return () => {
-      clearInterval(timer);
-    };
+    return () => { clearInterval(timer);  };
   }, []);
 
 
   return(
-      <React.Fragment className='Centralizar'>
-          <LinearProgress variant="determinate" value={completed} className='BarraProgresso' />
+      <React.Fragment>
+          <LinearProgress variant="determinate" value={completed} onCompositionEnd={() => {props.executar(!props.exibir)}} classes={{ barColorPrimary: classes.barColorPrimary }} className='BarraProgresso' />
+          <Typography variant='h4' className='Text'>
+            {completed}%
+          </Typography>
       </React.Fragment>
   );
 }
@@ -185,11 +191,13 @@ class JuntarPDFPage extends React.Component {
       isUpload: false,
       /* mudar esse valor para false*/
       isButtonMergeClick: true,
+      isUploadCompleted: false, 
       fileInput: React.createRef(),
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleMerge = this.handleMerge.bind(this);
+    this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
   }
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
@@ -211,14 +219,23 @@ class JuntarPDFPage extends React.Component {
     })
   }
   
+  handleUploadCompleted(){
+    this.setState({
+      isUploadCompleted: true,
+    })
+  }
   render() {
-    if(this.state.isButtonMergeClick) {
+    if(this.state.isUploadCompleted){
+      return (
+        <h1>Hello</h1>
+      );
+    } else if(this.state.isButtonMergeClick) {
       return(
         <div className='Centralizar'>
           <Typography variant='h1' className='LargeText'>
               Carregando os arquivos
           </Typography>
-          <BarraProgresso />
+          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
        </div>
       );
     } else if(this.state.isUpload) {

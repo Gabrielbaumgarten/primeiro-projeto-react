@@ -123,8 +123,8 @@
 
 .BarraProgresso {
   height: 10px !important;
-  width: 400px;
+  width: 40%;
   margin: 20px;
-  background-color: #FA403A;
+  margin-left: 30%;
 
 }
