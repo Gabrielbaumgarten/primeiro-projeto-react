@@ -19,6 +19,7 @@
   background-color: #FA403A;
   color: white;
   font-size: 1.5em;
+  margin-top: 20px;
 }
 
 .Upload {
@@ -121,10 +122,37 @@
   float: right;
 }
 
+.IconDownload {
+  padding-right: 5px;
+}
+
+.BotaoVoltar {
+  margin: 5px !important;
+  margin-top: 25px !important;
+}
+
 .BarraProgresso {
   height: 10px !important;
   width: 40%;
   margin: 20px;
   margin-left: 30%;
 
+}
+
+.RemoveUnderline {
+  text-decoration: none;
+}
+
+.InputFileArea {
+  text-align: center;
+  border-style: dashed;
+  border-radius: 10px;
+  border-color: #555E69;
+  margin-left: 30%;
+  margin-right: 30%;
+  height: 200px;
+}
+
+.InputFileArea > p{
+  margin-top: 80px;
 }

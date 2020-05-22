@@ -11,12 +11,15 @@ import { Box } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Dropzone from "react-dropzone";
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import AddIcon from '@material-ui/icons/Add';
 import ImageIcon from '@material-ui/icons/Image';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 
 /* 
   Sobeescrevendo o style do drawer paper
@@ -145,12 +148,18 @@ function PainelLateral(props) {
   }
 }
 
-
+/* 
+  Função que entrega a barra de progresso e faz a transição de tela quando carregado
+*/
 function BarraProgresso(props) {
 
   const [completed, setCompleted] = React.useState(0);
   const classes = useStyles();
 
+  /* 
+    Efeito que faz com que a barra de progresso se mova.
+    Ao chegar no valor de 100% é feita a transição para a página de concluído
+  */
   React.useEffect(() => {
     function progress() {
       setCompleted((oldCompleted) => {
@@ -158,6 +167,8 @@ function BarraProgresso(props) {
           const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
           return () => clearTimeout(time);
         }
+        // Aqui é gerado o valor da porcentagem
+        // TODO:Acertar esse valor quando for feita a junção com o lina PDF
         const diff = Math.floor(Math.random() * 10);
         return Math.min(oldCompleted + diff, 100);
       });
@@ -178,7 +189,6 @@ function BarraProgresso(props) {
   );
 }
 
-
 /* 
   Classe que será exportada,
   Aqui contém todos os componentes que serão renderizados na página
@@ -189,8 +199,7 @@ class JuntarPDFPage extends React.Component {
     super(props);
     this.state = {
       isUpload: false,
-      /* mudar esse valor para false*/
-      isButtonMergeClick: true,
+      isButtonMergeClick: false,
       isUploadCompleted: false, 
       fileInput: React.createRef(),
     };
@@ -199,6 +208,7 @@ class JuntarPDFPage extends React.Component {
     this.handleMerge = this.handleMerge.bind(this);
     this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
   }
+
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
     const historico =  this.state.fileInput;
@@ -224,10 +234,32 @@ class JuntarPDFPage extends React.Component {
       isUploadCompleted: true,
     })
   }
+  
+  onDrop = acceptedFiles => {
+    this.setState({
+      fileInput: acceptedFiles,
+      isUpload: true,
+    });
+  };
+
   render() {
     if(this.state.isUploadCompleted){
       return (
-        <h1>Hello</h1>
+        <div className='Centralizar'>
+          <Typography variant='h2' className='LargeText'>
+            Os PDFs foram combinados
+          </Typography>
+          <IconButton href='/' className='BotaoVoltar'>
+            <ArrowBackRoundedIcon fontSize='Large' />
+          </IconButton>
+          {/* TODO: alterar o arquivo de download */}
+          <a href='/hipopotamo.png' className="RemoveUnderline" download>
+            <Button variant='contained'>
+              <GetAppRoundedIcon className='IconDownload'/>
+              Baixar o PDF combinado
+            </Button>
+          </a>
+        </div>
       );
     } else if(this.state.isButtonMergeClick) {
       return(
@@ -239,9 +271,14 @@ class JuntarPDFPage extends React.Component {
        </div>
       );
     } else if(this.state.isUpload) {
-      // provisorio, verificar necessidade de manter o fileInput dessa maneira
-      const aux = Array.from(this.state.fileInput.current.files)
-      // const aux = null;
+
+      if(Array.isArray(this.state.fileInput)){
+        var aux = this.state.fileInput;
+      } else {
+        // provisorio, verificar necessidade de manter o fileInput dessa maneira
+        var aux = Array.from(this.state.fileInput.current.files)
+      }
+
       return(
         <React.Fragment>
           <OrdemDosArquivos arquivos={aux}>
@@ -259,17 +296,26 @@ class JuntarPDFPage extends React.Component {
       return (
         <div>
           <TextosPadrao/>
-          <div className='Centralizar'>
-            <Button variant='contained'>
-              <label for="files">
-                Selecionar arquivos PDF
-              </label>
-              <input id="files" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleOnChange} className='Upload' multiple/>
-            </Button>
-            <Typography variant='body2' className='Text'>
-              ou arraste e solte aqui
-            </Typography>
-          </div>
+           <div className='Centralizar'>
+              <div>
+                {/* Função de Dropzone de arquivos utilizando o react-drop */}
+                <Dropzone onDrop={this.onDrop} accept="application/pdf" multiple >
+                  {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
+                    <div {...getRootProps()} className="InputFileArea">
+                      <input {...getInputProps()} />
+                      {!isDragActive && (<Typography variant='body2' className='Text'>Arraste e solte os PDFs aqui</Typography>)}
+                      {isDragActive && !isDragReject && (<Typography variant='body2' className='Text'>Por favor, apenas PDF</Typography>)}
+                    </div>
+                  )}
+                </Dropzone>
+              </div>
+              <Button variant='contained'>
+                <label for="files">
+                  Selecionar arquivos PDF
+                </label>
+                <input id="files" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleOnChange} className='Upload' multiple/>
+              </Button>
+          </div> 
         </div>
       );
     }
@@ -278,6 +324,3 @@ class JuntarPDFPage extends React.Component {
 }
 
 export default JuntarPDFPage;
-
-
-// TODO: verificar como colocar um inputArea
