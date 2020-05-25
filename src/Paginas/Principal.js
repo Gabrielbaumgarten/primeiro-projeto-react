@@ -95,7 +95,7 @@ const MainPage = () => (
         icon='DIVIDIR'  />
         <BotaoMenuPrincipal conteudo="COMPRIMIR PDF"
         descricao="Diminua o tamanho do seu arquivo PDF, mantendo a melhor qualidade possível. Otimize seus arquivos PDF."
-        icon='COMPRIMIR'  />
+        icon='COMPRIMIR' url='/ComprimirPDF' />
         <BotaoMenuPrincipal conteudo="PDF PARA JPG"
         descricao="Extraia todas as imagens contidas em um arquivo PDF ou converta cada página em um arquivo JPG."
         icon='PDJtoJPG'  />

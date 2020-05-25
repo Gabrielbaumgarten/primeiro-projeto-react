@@ -70,7 +70,7 @@ const Toolbar = () => (
           <Logo />
           <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
           <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='' />
-          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='' />
+          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='/ComprimirPDF' />
           <BotaoMenuToolbar conteudo='CONVERTER PDF' url='' />
           <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
           <MenuIcon className="MenuIcon" style={{fontSize:30}}/>

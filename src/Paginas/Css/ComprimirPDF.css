@@ -1,0 +1,141 @@
+.LargeText{
+  padding-top: 25px;
+  font-weight: 500 !important;
+  color: #383e45;
+  font-size: 2.7em !important;
+}
+  
+.Text{
+  padding: 10px;
+  color: #555E69;
+}
+
+  
+.Centralizar{
+  text-align: center;
+}
+
+.InputFileArea {
+text-align: center;
+border-style: dashed;
+border-radius: 10px;
+border-color: #555E69;
+margin-left: 30%;
+margin-right: 30%;
+height: 200px;
+}
+
+.InputFileArea > p{
+margin-top: 80px;
+}  
+
+.Upload {
+display: none;
+}
+
+.Paper{
+width:200px;
+height: 250px;
+opacity: 0.6;
+padding: 5%;
+}
+
+.Paper:hover{
+opacity: 1.0;
+}
+
+.Pane{
+width:200px;
+height: 250px;
+opacity: 0.6;
+}
+
+.Panes {
+margin-top: 100px;
+margin-left: 30%;
+margin-right: auto;
+}
+
+.TitleDrawer {
+padding-top: 5px;
+padding-bottom: 5px;
+font-weight: 500 !important;
+color: #383e45;
+font-size: 2em !important;
+text-align: center;
+margin:  0;
+}
+
+.TextDrawer{
+margin: 10px;
+padding: 5px;
+color: #555E69;
+text-align: justify;
+background-color: rgb(186, 226, 231);
+border-radius: 10px;
+}
+
+.ButtonDrawerComprimirPDF{
+text-align: center;
+height: 2.8em ;
+background-color: #FA403A !important;
+color: white !important;
+font-size: 1em !important;
+position: fixed !important;
+bottom: 10px;
+right: 10px;
+width: 380px;
+transition: 1s !important;
+}
+
+.ButtonDrawerComprimirPDF:hover{
+width: 382px;
+height: 3em;
+}
+
+.ButtonDrawerDisabledComprimirPDF{
+  text-align: center;
+  height: 2.8em ;
+  background-color:rgb(224, 224, 224) !important;
+  color: white !important;
+  font-size: 1em !important;
+  position: fixed !important;
+  bottom: 10px;
+  right: 10px;
+  width: 380px;
+}
+
+.SelectCompression {
+}
+
+.SelectCompression > Button {
+    height: 75px;
+    display: inline-block;
+    padding: 10px;
+}
+
+.SelectCompression h6 {
+    color: #FA403A ;
+}
+  
+.BotaoFlutuanteComprimirPDF {
+    background-color: #FA403A !important;
+    position: absolute !important;
+    right: 410px;
+    color:white !important;
+  }
+
+.BotaoFlutuanteComprimirPDF:hover{
+  background-color:rgb(224, 224, 224) !important;
+}
+
+.Checked {
+    display: flex !important;
+    float: right;
+    color: green;
+    padding: 10px;
+}
+
+.IconComprimir {
+  color: white;
+}

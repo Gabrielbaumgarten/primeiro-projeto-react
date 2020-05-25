@@ -68,7 +68,7 @@
   border-radius: 10px;
 }
 
-.ButtonDrawer{
+.ButtonDrawerJuntarPDF{
   text-align: center;
   height: 2.8em ;
   background-color: #FA403A !important;
@@ -81,12 +81,12 @@
   transition: 2s;
 }
 
-.ButtonDrawer:hover{
+.ButtonDrawerJuntarPDF:hover{
   width: 222px;
   height: 3em;
 }
 
-.ButtonDrawerDisabled{
+.ButtonDrawerDisabledJuntarPDF{
   text-align: center;
   height: 2.8em ;
   background-color:rgb(224, 224, 224) !important;
@@ -103,14 +103,14 @@
   color: white;
 }
 
-.BotaoFlutuante {
+.BotaoFlutuanteJuntarPDF {
   background-color: #FA403A !important;
   position: absolute !important;
   right: 250px;
   color:white !important;
 }
 
-.BotaoFlutuante:hover{
+.BotaoFlutuanteJuntarPDF:hover{
   background-color:rgb(224, 224, 224) !important;
 }
 

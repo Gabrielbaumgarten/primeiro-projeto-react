@@ -124,7 +124,7 @@ function PainelLateral(props) {
           <p>Por favor, selecione mais arquivos PDF clicando novamente em 'Selecionar Arquivos PDF'.
               Selecione vários arquivos, mantendo apertado 'Ctrl'</p>
         </Box>
-        <Button className='ButtonDrawerDisabled' variant='contained' disabled>
+        <Button className='ButtonDrawerDisabledJuntarPDF' variant='contained' disabled>
           Juntar PDF
           <CallMergeRoundedIcon fontSize='large' className="IconJuntar"/>
         </Button>
@@ -139,7 +139,7 @@ function PainelLateral(props) {
         <Box className='TextDrawer'>
           <p>Para alterar a ordem dos seus PDFs, arraste e solte os arquivos como entender.</p>
         </Box>
-        <Button  variant='contained' className='ButtonDrawer' onClick={() => {props.executar(!props.exibir)}}>
+        <Button  variant='contained' className='ButtonDrawerJuntarPDF' onClick={() => {props.executar(!props.exibir)}}>
           Juntar PDF
           <CallMergeRoundedIcon fontSize='large' className="IconJuntar"/>
         </Button>
@@ -201,8 +201,9 @@ class JuntarPDFPage extends React.Component {
       isUpload: false,
       isButtonMergeClick: false,
       isUploadCompleted: false, 
-      fileInput: React.createRef(),
+      fileInputJuntarPDF: React.createRef(),
     };
+    this.addFilesInputJuntarPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleMerge = this.handleMerge.bind(this);
@@ -211,9 +212,9 @@ class JuntarPDFPage extends React.Component {
 
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
-    const historico =  this.state.fileInput;
+    const historico =  this.state.fileInputJuntarPDF;
     this.setState({
-      fileInput: historico,
+      fileInputJuntarPDF: this.addFilesInputJuntarPDF,
     })
   }
   
@@ -237,7 +238,7 @@ class JuntarPDFPage extends React.Component {
   
   onDrop = acceptedFiles => {
     this.setState({
-      fileInput: acceptedFiles,
+      fileInputJuntarPDF: acceptedFiles,
       isUpload: true,
     });
   };
@@ -272,22 +273,22 @@ class JuntarPDFPage extends React.Component {
       );
     } else if(this.state.isUpload) {
 
-      if(Array.isArray(this.state.fileInput)){
-        var aux = this.state.fileInput;
+      if(Array.isArray(this.state.fileInputJuntarPDF)){
+        var aux = this.state.fileInputJuntarPDF;
       } else {
-        // provisorio, verificar necessidade de manter o fileInput dessa maneira
-        var aux = Array.from(this.state.fileInput.current.files)
+        // provisorio, verificar necessidade de manter o fileInputJuntarPDF dessa maneira
+        var aux = Array.from(this.state.fileInputJuntarPDF.current.files)
       }
 
       return(
         <React.Fragment>
           <OrdemDosArquivos arquivos={aux}>
           </OrdemDosArquivos>
-          <Fab size='medium' className='BotaoFlutuante'>
+          <Fab size='medium' className='BotaoFlutuanteJuntarPDF'>
               <label for='file01' className='IconAdd'>
                 <AddIcon />
               </label>
-              <input id="file01" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleAdd} className='Upload' multiple/>
+              <input id="file01" type="file" accept='application/pdf' ref={this.addFilesInputJuntarPDF} onChange={this.handleAdd} className='Upload' multiple/>
           </Fab>
           <PainelLateral arquivos={aux} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>
@@ -313,7 +314,7 @@ class JuntarPDFPage extends React.Component {
                 <label for="files">
                   Selecionar arquivos PDF
                 </label>
-                <input id="files" type="file" accept='application/pdf' ref={this.state.fileInput} onChange={this.handleOnChange} className='Upload' multiple/>
+                <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputJuntarPDF} onChange={this.handleOnChange} className='Upload' multiple/>
               </Button>
           </div> 
         </div>
