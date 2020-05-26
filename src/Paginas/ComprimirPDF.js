@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Zoom from '@material-ui/core/Zoom';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 //Icons
 import ImageIcon from '@material-ui/icons/Image';
@@ -19,6 +20,8 @@ import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import AddIcon from '@material-ui/icons/Add';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 
 const drawerWidth = 400;
 const useStyles = makeStyles(theme => ({
@@ -45,7 +48,7 @@ function PainelLateral(props) {
           <h2 className='TitleDrawer'>Nível de Compressão</h2>
           <Divider/>
           <ButtonGroup orientation='vertical' className='SelectCompression'>
-            <Button onClick={props.selecionarCompressao.bind(this,'alta')}>
+            <Button onClick={() => props.selecionarCompressao('alta')}>
                 <Zoom in='true' className='Checked'>
                     <CheckCircleRoundedIcon fontSize='large' />
                 </Zoom>
@@ -56,7 +59,7 @@ function PainelLateral(props) {
                  Menos qualidade, alta compressão.
              </Typography>
             </Button>
-            <Button onClick={props.selecionarCompressao.bind(this,'normal')}>
+            <Button onClick={() => props.selecionarCompressao('normal')}>
              <Typography variant='h6' align='left'>
                 Compressão Recomendada
              </Typography>
@@ -64,7 +67,7 @@ function PainelLateral(props) {
                  Boa qualidade, boa compressão.
              </Typography>
             </Button>
-            <Button onClick={props.selecionarCompressao.bind(this,'baixa')}>
+            <Button onClick={() => props.selecionarCompressao('baixa')}>
              <Typography variant='h6' align='left'>
                 Baixa Compressão
              </Typography>
@@ -74,7 +77,7 @@ function PainelLateral(props) {
             </Button>
           </ButtonGroup>
 
-          <Button className='ButtonDrawerComprimirPDF' variant='contained'>
+          <Button className='ButtonDrawerComprimirPDF' variant='contained'  onClick={() => {props.executar(!props.exibir)}}>
             Comprimir PDF
             <CompareArrowsRoundedIcon fontSize='large' className="IconComprimir"/>
           </Button>
@@ -86,7 +89,7 @@ function PainelLateral(props) {
               <h2 className='TitleDrawer'>Nível de Compressão</h2>
               <Divider/>
               <ButtonGroup orientation='vertical' className='SelectCompression'>
-                <Button onClick={props.selecionarCompressao.bind(this,'alta')}>
+                <Button onClick={() => props.selecionarCompressao('alta')}>
                  <Typography variant='h6' align='left'>
                     Extrema Compressão
                  </Typography>
@@ -94,7 +97,7 @@ function PainelLateral(props) {
                      Menos qualidade, alta compressão.
                  </Typography>
                 </Button>
-                <Button onClick={props.selecionarCompressao.bind(this,'normal')}>
+                <Button onClick={() => props.selecionarCompressao('normal')}>
                  <Zoom in='true' className='Checked'>
                     <CheckCircleRoundedIcon fontSize='large' />
                  </Zoom>
@@ -105,7 +108,7 @@ function PainelLateral(props) {
                      Boa qualidade, boa compressão.
                  </Typography>
                 </Button>
-                <Button onClick={props.selecionarCompressao.bind(this,'baixa')}>
+                <Button onClick={() => props.selecionarCompressao('baixa')}>
                  <Typography variant='h6' align='left'>
                     Baixa Compressão
                  </Typography>
@@ -115,7 +118,7 @@ function PainelLateral(props) {
                 </Button>
               </ButtonGroup>
     
-              <Button className='ButtonDrawerComprimirPDF' variant='contained'>
+              <Button className='ButtonDrawerComprimirPDF' variant='contained'  onClick={() => {props.executar(!props.exibir)}}>
                 Comprimir PDF
                 <CompareArrowsRoundedIcon fontSize='large' className="IconComprimir"/>
               </Button>
@@ -127,7 +130,7 @@ function PainelLateral(props) {
               <h2 className='TitleDrawer'>Nível de Compressão</h2>
               <Divider/>
               <ButtonGroup orientation='vertical' className='SelectCompression'>
-                <Button onClick={props.selecionarCompressao.bind(this,'alta')}>
+                <Button onClick={() => props.selecionarCompressao('alta')}>
                  <Typography variant='h6' align='left'>
                     Extrema Compressão
                  </Typography>
@@ -135,7 +138,7 @@ function PainelLateral(props) {
                      Menos qualidade, alta compressão.
                  </Typography>
                 </Button>
-                <Button onClick={props.selecionarCompressao.bind(this,'normal')}>
+                <Button onClick={() => props.selecionarCompressao('normal')}>
                  <Typography variant='h6' align='left'>
                     Compressão Recomendada
                  </Typography>
@@ -143,7 +146,7 @@ function PainelLateral(props) {
                      Boa qualidade, boa compressão.
                  </Typography>
                 </Button>
-                <Button onClick={props.selecionarCompressao.bind(this,'baixa')}>
+                <Button onClick={() => props.selecionarCompressao('baixa')}>
                  <Zoom in='true' className='Checked'>
                    <CheckCircleRoundedIcon fontSize='large' />
                  </Zoom>
@@ -156,7 +159,7 @@ function PainelLateral(props) {
                 </Button>
               </ButtonGroup>
     
-              <Button className='ButtonDrawerComprimirPDF' variant='contained'>
+              <Button className='ButtonDrawerComprimirPDF' variant='contained'  onClick={() => {props.executar(!props.exibir)}}>
                 Comprimir PDF
                 <CompareArrowsRoundedIcon fontSize='large' className="IconComprimir"/>
               </Button>
@@ -170,7 +173,7 @@ function PainelLateral(props) {
           <Divider/>
           <ButtonGroup orientation='vertical' className='SelectCompression'>
             {/* <Button > */}
-            <Button onClick={props.selecionarCompressao.bind(this,'alta')}>
+            <Button onClick={() => props.selecionarCompressao('alta')}>
              <Typography variant='h6' align='left'>
                 Extrema Compressão
              </Typography>
@@ -178,7 +181,7 @@ function PainelLateral(props) {
                  Menos qualidade, alta compressão.
              </Typography>
             </Button>
-            <Button onClick={props.selecionarCompressao.bind(this,'normal')}> 
+            <Button onClick={() => props.selecionarCompressao('normal')}> 
              <Typography variant='h6' align='left'>
                 Compressão Recomendada
              </Typography>
@@ -186,7 +189,7 @@ function PainelLateral(props) {
                  Boa qualidade, boa compressão.
              </Typography>
             </Button>
-            <Button onClick={props.selecionarCompressao.bind(this,'baixa')}>
+            <Button onClick={() => props.selecionarCompressao('baixa')}>
              <Typography variant='h6' align='left'>
                 Baixa Compressão
              </Typography>
@@ -265,6 +268,45 @@ function Texto() {
 }
 
 
+function BarraProgresso(props) {
+
+  const [completed, setCompleted] = React.useState(0);
+  const classes = useStyles();
+
+  /* 
+    Efeito que faz com que a barra de progresso se mova.
+    Ao chegar no valor de 100% é feita a transição para a página de concluído
+  */
+  React.useEffect(() => {
+    function progress() {
+      setCompleted((oldCompleted) => {
+        if (oldCompleted === 100) {
+          const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
+          return () => clearTimeout(time);
+        }
+        // Aqui é gerado o valor da porcentagem
+        // TODO:Acertar esse valor quando for feita a junção com o lina PDF
+        const diff = Math.floor(Math.random() * 10);
+        return Math.min(oldCompleted + diff, 100);
+      });
+    }
+
+    const timer = setInterval(progress, 500);
+    return () => { clearInterval(timer);  };
+  }, []);
+
+
+  return(
+      <React.Fragment>
+          <LinearProgress variant="determinate" value={completed} onCompositionEnd={() => {props.executar(!props.exibir)}} classes={{ barColorPrimary: classes.barColorPrimary }} className='BarraProgresso' />
+          <Typography variant='h4' className='Text'>
+            {completed}%
+          </Typography>
+      </React.Fragment>
+  );
+}
+
+
 class ComprimirPDF extends React.Component {
 
   constructor(props) {
@@ -272,9 +314,9 @@ class ComprimirPDF extends React.Component {
       this.state = {
           // mudar para false
           isUpload: false,
-          isButtonMergeClick: false,
+          isButtonCompressClick: false,
           isUploadCompleted: false, 
-          fileInput: React.createRef(),
+          fileInputComprimirPDF: React.createRef(),
           nivelCompressao: null,
       };
       this.addFilesInputComprimirPDF = React.createRef();
@@ -294,7 +336,7 @@ class ComprimirPDF extends React.Component {
 
   onClickCompress(){
       this.setState({
-          isButtonMergeClick: true,
+          isButtonCompressClick: true,
         })
   }
 
@@ -305,8 +347,10 @@ class ComprimirPDF extends React.Component {
     }
   
   handleOnChange() {
+    var aux = Array.from(this.state.fileInputComprimirPDF.current.files)
       this.setState({
       isUpload: true,
+      fileInputComprimirPDF: aux,
       })
   } 
 
@@ -317,8 +361,41 @@ class ComprimirPDF extends React.Component {
       });
 };
 
+  handleUploadCompleted(){
+    this.setState({
+      isUploadCompleted: true,
+    })
+  }
+
   render() {
-    if(this.state.isUpload){
+    if(this.state.isUploadCompleted) {
+      return (
+        <div className='Centralizar'>
+          <Typography variant='h2' className='LargeText'>
+            Os PDFs foram comprimidos!
+          </Typography>
+          <IconButton href='/' className='BotaoVoltar'>
+            <ArrowBackRoundedIcon fontSize='Large' />
+          </IconButton>
+          {/* TODO: alterar o arquivo de download */}
+          <a href='/hipopotamo.png' className="RemoveUnderline" download>
+            <Button variant='contained'>
+              <GetAppRoundedIcon className='IconDownload'/>
+              Baixar o PDF combinado
+            </Button>
+          </a>
+        </div>
+      );
+    } else if(this.state.isButtonCompressClick){
+      return (
+        <div className='Centralizar'>
+          <Typography variant='h1' className='LargeText'>
+              Carregando os arquivos
+          </Typography>
+          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
+       </div>
+      );
+   } else if(this.state.isUpload){
         if(Array.isArray(this.state.fileInputComprimirPDF)){
             var aux = this.state.fileInputComprimirPDF;
           } else {
@@ -336,7 +413,7 @@ class ComprimirPDF extends React.Component {
                   </label>
                   <input id="file01" type="file" accept='application/pdf' ref={this.addFilesInputComprimirPDF} onChange={this.handleAdd} className='Upload' multiple/>
               </Fab>
-              <PainelLateral arquivos={aux} exibir={this.state.isButtonMergeClick} executar={this.onClickCompress.bind(this)} 
+              <PainelLateral arquivos={aux} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
               nivelCompressao={this.state.nivelCompressao} selecionarCompressao={this.handleCompress.bind(this)} />
             </React.Fragment>
           );
