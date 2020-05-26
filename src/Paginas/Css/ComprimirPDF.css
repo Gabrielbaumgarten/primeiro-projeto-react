@@ -1,59 +1,9 @@
-.LargeText{
-  padding-top: 25px;
-  font-weight: 500 !important;
-  color: #383e45;
-  font-size: 2.7em !important;
-}
-  
-.Text{
-  padding: 10px;
-  color: #555E69;
-}
-
-  
 .Centralizar{
   text-align: center;
 }
 
-.InputFileArea {
-text-align: center;
-border-style: dashed;
-border-radius: 10px;
-border-color: #555E69;
-margin-left: 30%;
-margin-right: 30%;
-height: 200px;
-}
-
-.InputFileArea > p{
-margin-top: 80px;
-}  
-
 .Upload {
 display: none;
-}
-
-.Paper{
-width:200px;
-height: 250px;
-opacity: 0.6;
-padding: 5%;
-}
-
-.Paper:hover{
-opacity: 1.0;
-}
-
-.Pane{
-width:200px;
-height: 250px;
-opacity: 0.6;
-}
-
-.Panes {
-margin-top: 100px;
-margin-left: 30%;
-margin-right: auto;
 }
 
 .TitleDrawer {
@@ -118,17 +68,6 @@ height: 3em;
     color: #FA403A ;
 }
   
-.BotaoFlutuanteComprimirPDF {
-    background-color: #FA403A !important;
-    position: absolute !important;
-    right: 410px;
-    color:white !important;
-  }
-
-.BotaoFlutuanteComprimirPDF:hover{
-  background-color:rgb(224, 224, 224) !important;
-}
-
 .Checked {
     display: flex !important;
     float: right;
@@ -138,4 +77,10 @@ height: 3em;
 
 .IconComprimir {
   color: white;
+}
+
+.AlinhamentoComprimirPDF{
+  display: block;
+  float: right;
+  width: 460px;
 }

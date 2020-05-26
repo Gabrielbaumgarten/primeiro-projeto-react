@@ -1,25 +1,20 @@
 import React from 'react';
 import './Css/JuntarPDF.css';
-import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
-import Paper from "@material-ui/core/Paper"
-import { SortablePane, Pane } from 'react-sortable-pane';
 import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Dropzone from "react-dropzone";
+import TextoPrincipal from '../Components/TextoPrincipal.js'
+import BarraProgresso from '../Components/BarraProgresso.js'
+import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
+import InputFileArea from '../Components/InputFileArea.js'
+import TelaConclusao from '../Components/TelaConclusao.js'
+import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
-import AddIcon from '@material-ui/icons/Add';
-import ImageIcon from '@material-ui/icons/Image';
-import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
-import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 
 /* 
   Sobeescrevendo o style do drawer paper
@@ -31,79 +26,8 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     marginTop: 62,
     boxShadow: '0px 0px 3px 0px #9E9E9E',
-  },
-  barColorPrimary: {
-    backgroundColor: '#FA403A',
   }
 }));
-
-/*
-  Função que permite ordernar os arquivos de forma diferente
-  Ela utliza o pacote react-sortable-pane externo ao react, encontrado no github
-  TODO: Verificar como o LinaPDF receberá esses arquivos
-*/
-function OrdemDosArquivos(props) {
-  if (Array.isArray(props.arquivos)){
-    
-    // transformando os arquivos em um novo array
-    const key = Array.from(Array(props.arquivos.length).keys());
-
-    function handleDelete(index, arquivos) {
-      // TODO: Implementar o botão de remover arquivos
-      /* delete arquivos[index];
-      const aux = 1;
-      alert(index); */
-    }
-    
-    // Utilizando o array acima para criar vários paineis que irão simbolizar os arquivos
-    const panes = key.map(key => (
-      <Pane key={key} className='Pane'>
-        <Paper elevation='3' className="Paper">
-          <IconButton onClick={handleDelete.bind(this, key, props.arquivos)} className='IconDelete'> 
-            <HighlightOffRoundedIcon />
-          </IconButton>
-          <ImageIcon fontSize="large" className='Centralizar'/>
-          <p>{props.arquivos[key].name}</p>
-        </Paper>
-      </Pane>
-    ));
-  
-    return (
-      <React.Fragment>
-        <SortablePane direction="horizontal" margin={30} className='Panes'>
-          {panes}
-        </SortablePane>
-      </React.Fragment>
-    );
-  }
-  else {
-    return (
-      <React.Fragment>
-          <p className='Centralizar'>
-            Nenhum arquivo selecionado
-          </p>
-      </React.Fragment>
-    );
-  }
-}
-
-
-/* 
-  Função que retorna os textos padrões presentes na página ao inicia-lá pela primeira vez
-*/
-function TextosPadrao (){
-  return (
-    <React.Fragment>
-      <Typography variant='h4' align='center' className='LargeText'>
-        Juntar arquivos PDF
-      </Typography>
-      <Typography variant='h5' align='center' className="Text">
-        Mesclar e juntar PDFs e colocá-los em qualquer ordem que desejar.<br/>É tudo muito fácil e rápido!
-      </Typography>
-      <br/><br/>
-    </React.Fragment>
-  );
-}
 
 
 /* 
@@ -148,46 +72,6 @@ function PainelLateral(props) {
   }
 }
 
-/* 
-  Função que entrega a barra de progresso e faz a transição de tela quando carregado
-*/
-function BarraProgresso(props) {
-
-  const [completed, setCompleted] = React.useState(0);
-  const classes = useStyles();
-
-  /* 
-    Efeito que faz com que a barra de progresso se mova.
-    Ao chegar no valor de 100% é feita a transição para a página de concluído
-  */
-  React.useEffect(() => {
-    function progress() {
-      setCompleted((oldCompleted) => {
-        if (oldCompleted === 100) {
-          const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
-          return () => clearTimeout(time);
-        }
-        // Aqui é gerado o valor da porcentagem
-        // TODO:Acertar esse valor quando for feita a junção com o lina PDF
-        const diff = Math.floor(Math.random() * 10);
-        return Math.min(oldCompleted + diff, 100);
-      });
-    }
-
-    const timer = setInterval(progress, 500);
-    return () => { clearInterval(timer);  };
-  }, []);
-
-
-  return(
-      <React.Fragment>
-          <LinearProgress variant="determinate" value={completed} onCompositionEnd={() => {props.executar(!props.exibir)}} classes={{ barColorPrimary: classes.barColorPrimary }} className='BarraProgresso' />
-          <Typography variant='h4' className='Text'>
-            {completed}%
-          </Typography>
-      </React.Fragment>
-  );
-}
 
 /* 
   Classe que será exportada,
@@ -246,28 +130,11 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-        <div className='Centralizar'>
-          <Typography variant='h2' className='LargeText'>
-            Os PDFs foram combinados
-          </Typography>
-          <IconButton href='/' className='BotaoVoltar'>
-            <ArrowBackRoundedIcon fontSize='Large' />
-          </IconButton>
-          {/* TODO: alterar o arquivo de download */}
-          <a href='/hipopotamo.png' className="RemoveUnderline" download>
-            <Button variant='contained'>
-              <GetAppRoundedIcon className='IconDownload'/>
-              Baixar o PDF combinado
-            </Button>
-          </a>
-        </div>
+          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
         <div className='Centralizar'>
-          <Typography variant='h1' className='LargeText'>
-              Carregando os arquivos
-          </Typography>
           <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
        </div>
       );
@@ -282,33 +149,22 @@ class JuntarPDFPage extends React.Component {
 
       return(
         <React.Fragment>
-          <OrdemDosArquivos arquivos={aux}>
-          </OrdemDosArquivos>
-          <Fab size='medium' className='BotaoFlutuanteJuntarPDF'>
-              <label for='file01' className='IconAdd'>
-                <AddIcon />
-              </label>
-              <input id="file01" type="file" accept='application/pdf' ref={this.addFilesInputJuntarPDF} onChange={this.handleAdd} className='Upload' multiple/>
-          </Fab>
+          <PaineisDeArquivos arquivos={aux} />
+          <div className='AlinhamentoJuntarPDF'>
+            <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+          </div>
           <PainelLateral arquivos={aux} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>
       );
     } else {
       return (
         <div>
-          <TextosPadrao/>
+          <TextoPrincipal title='Juntar arquivos PDF' 
+              subTitle1=' Mesclar e juntar PDFs e colocá-los em qualquer ordem que desejar.'
+              subTitle2='É tudo muito fácil e rápido!' />
            <div className='Centralizar'>
               <div>
-                {/* Função de Dropzone de arquivos utilizando o react-drop */}
-                <Dropzone onDrop={this.onDrop} accept="application/pdf" multiple >
-                  {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
-                    <div {...getRootProps()} className="InputFileArea">
-                      <input {...getInputProps()} />
-                      {!isDragActive && (<Typography variant='body2' className='Text'>Arraste e solte os PDFs aqui</Typography>)}
-                      {isDragActive && !isDragReject && (<Typography variant='body2' className='Text'>Por favor, apenas PDF</Typography>)}
-                    </div>
-                  )}
-                </Dropzone>
+                <InputFileArea onDrop={this.onDrop.bind(this)} />
               </div>
               <Button variant='contained'>
                 <label for="files">
