@@ -1,0 +1,94 @@
+.Centralizar{
+    text-align: center;
+}
+
+.Upload {
+    display: none;
+}
+
+.TitleDrawer {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500 !important;
+    color: #383e45;
+    font-size: 2em !important;
+    text-align: center;
+    margin:  0;
+}
+
+.TextDrawer{
+    margin: 10px;
+    padding: 5px;
+    color: #555E69;
+    text-align: justify;
+    background-color: rgb(186, 226, 231);
+    border-radius: 10px;
+}
+
+.ButtonDrawerPDFtoJPG{
+    text-align: center;
+    height: 2.8em ;
+    background-color: #FA403A !important;
+    color: white !important;
+    font-size: 1em !important;
+    position: fixed !important;
+    bottom: 10px;
+    right: 10px;
+    width: 390px;
+    transition: 1s !important;
+}
+
+.ButtonDrawerPDFtoJPG:hover{
+    width: 392px;
+    height: 3em;
+}
+
+.ButtonDrawerDisabledPDFtoJPG{
+    text-align: center;
+    height: 2.8em ;
+    background-color:rgb(224, 224, 224) !important;
+    color: white !important;
+    font-size: 1em !important;
+    position: fixed !important;
+    bottom: 10px;
+    right: 10px;
+    width: 380px;
+}
+
+.SelectCompression {
+}
+
+.SelectCompression > Button {
+    height: 100px;
+    display: inline-block;
+    padding: 10px;
+}
+
+.SelectCompression h6 {
+    color: #FA403A ;
+}
+
+.Checked {
+    display: flex !important;
+    float: right;
+    color: green;
+    padding: 10px;
+}
+
+.IconDrawer {
+    color: #383e45;
+    float: left;
+    margin-right: 10px;
+    padding-top: 20px;
+}
+
+.IconPDFtoJPG {
+    color: white;
+    margin-left: 5px;
+}
+
+.AlinhamentoPDFtoJPG{
+    display: block;
+    float: right;
+    width: 480px;
+}

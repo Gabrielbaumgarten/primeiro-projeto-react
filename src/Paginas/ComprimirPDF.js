@@ -193,7 +193,7 @@ function PainelLateral(props) {
           </ButtonGroup>
 
           <Button className='ButtonDrawerDisabledComprimirPDF' variant='contained' disabled>
-            Comprimirs PDF
+            Comprimir PDF
             <CompareArrowsRoundedIcon fontSize='large' className="IconComprimir"/>
           </Button>
         </Drawer>
@@ -203,7 +203,7 @@ function PainelLateral(props) {
 
 
 
-class ComprimirPDF extends React.Component {
+class ComprimirPDFPage extends React.Component {
 
   constructor(props) {
       super(props);
@@ -215,6 +215,7 @@ class ComprimirPDF extends React.Component {
           fileInputComprimirPDF: React.createRef(),
           nivelCompressao: null,
       };
+      // this.state.data
       this.addFilesInputComprimirPDF = React.createRef();
       this.handleOnChange = this.handleOnChange.bind(this);
       this.handleCompress = this.handleCompress.bind(this);
@@ -222,7 +223,7 @@ class ComprimirPDF extends React.Component {
       this.handleAdd = this.handleAdd.bind(this);
   }
 
-  // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
+  // TODO: melhorar essa função quando descobrir como serão passados os arquivos
   handleAdd() {
     const historico =  this.state.fileInputComprimirPDF;
     this.setState({
@@ -315,4 +316,4 @@ class ComprimirPDF extends React.Component {
     }
 }
 
-export default ComprimirPDF;
+export default ComprimirPDFPage;

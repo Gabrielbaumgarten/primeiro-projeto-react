@@ -22,7 +22,10 @@ function App() {
 
 export default App;
 
+// TODO: Estudar isso
 //react router dom
 //export no index.js
-//rocketseat tutoriais
-//inputArea
+// formulario multipart enc type
+// https://stackoverflow.com/questions/41025078/react-dropzone-how-to-upload-image
+// Escolher a lingua no pesquisar
+// filereader api

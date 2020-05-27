@@ -92,16 +92,16 @@ const MainPage = () => (
         icon='JUNTAR' url='/JuntarPDF'/>
         <BotaoMenuPrincipal conteudo="DIVIDIR PDF"
         descricao="Selecione um intervalo de páginas, separe uma página, ou converta cada página do documento em um arquivo PDF independente."
-        icon='DIVIDIR'  />
+        icon='DIVIDIR' url='/DividirPDF' />
         <BotaoMenuPrincipal conteudo="COMPRIMIR PDF"
         descricao="Diminua o tamanho do seu arquivo PDF, mantendo a melhor qualidade possível. Otimize seus arquivos PDF."
         icon='COMPRIMIR' url='/ComprimirPDF' />
         <BotaoMenuPrincipal conteudo="PDF PARA JPG"
         descricao="Extraia todas as imagens contidas em um arquivo PDF ou converta cada página em um arquivo JPG."
-        icon='PDJtoJPG'  />
+        icon='PDJtoJPG' url='/PDFtoJPG' />
         <BotaoMenuPrincipal conteudo="PESQUISAR NO PDF"
         descricao="Torne o PDF um arquivo pesquisável para encontrar mais facilmente as palavras chaves."
-        icon='OCR'  />
+        icon='OCR' url='/PesquisarPDF' />
     </Container>
   </div>
 );
