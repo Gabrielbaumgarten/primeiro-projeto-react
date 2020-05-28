@@ -166,8 +166,9 @@ class PDFtoJPGPage extends React.Component {
             isUploadCompleted: false, 
             fileInputPesquisarPDF: React.createRef(),
             modoExtracao: null,
+            data: {files: null, path: null}
         };
-        this.addFilesInputComprimirPDF = React.createRef();
+        this.addFilesInputPDFtoJPG = React.createRef();
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleExtract = this.handleExtract.bind(this);
         this.onClickCompress = this.onClickCompress.bind(this);
@@ -176,10 +177,17 @@ class PDFtoJPGPage extends React.Component {
   
     // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
     handleAdd() {
-      const historico =  this.state.fileInputPesquisarPDF;
-      this.setState({
-        fileInputPesquisarPDF: this.addFilesInputComprimirPDF,
-      })
+        if(this.state.data.files === null){
+            const { data } = this.state;
+            data.files = Array.from(this.addFilesInputPDFtoJPG.current.files);
+            // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+            data.path = [this.addFilesInputPDFtoJPG.current.value];
+        } else {
+            const { data } = this.state;
+            data.files = data.files.concat(Array.from(this.addFilesInputPDFtoJPG.current.files));
+            // data.path = data.path.concat([this.addFilesInputPDFtoJPG.current.value]);
+            this.forceUpdate();
+        }
     }
   
     onClickCompress(){
@@ -195,18 +203,28 @@ class PDFtoJPGPage extends React.Component {
       }
     
     handleOnChange() {
-      var aux = Array.from(this.state.fileInputPesquisarPDF.current.files)
+        if(this.state.data.files === null){
+            const { data } = this.state;
+            data.files = Array.from(this.state.fileInputPesquisarPDF.current.files);
+            // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+            data.path = [this.state.fileInputPesquisarPDF.current.value];
+        }
         this.setState({
-        isUpload: true,
-        fileInputPesquisarPDF: aux,
-        })
+            isUpload: true,
+        });
     } 
   
     onDrop = acceptedFiles => {
-        this.setState({
-        fileInputPesquisarPDF: acceptedFiles,
-        isUpload: true,
-        });
+        if(this.state.data.files === null){
+            const { data } = this.state;
+            data.files = acceptedFiles;
+            // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
+            // data.path = [this.state.fileInputJuntarPDF.current.value];
+          }
+          this.setState({
+            fileInputPesquisarPDF: acceptedFiles,
+            isUpload: true,
+          });
   };
   
     handleUploadCompleted(){
@@ -227,20 +245,13 @@ class PDFtoJPGPage extends React.Component {
          </div>
         );
      } else if(this.state.isUpload){
-          if(Array.isArray(this.state.fileInputPesquisarPDF)){
-              var aux = this.state.fileInputPesquisarPDF;
-            } else {
-              // provisorio, verificar necessidade de manter o fileInputPesquisarPDF dessa maneira
-              var aux = Array.from(this.state.fileInputPesquisarPDF.current.files)
-            }
-      
             return(
               <React.Fragment>
-                <PaineisDeArquivos arquivos={aux} />
+                <PaineisDeArquivos arquivos={this.state.data.files} />
                 <div className='AlinhamentoPDFtoJPG'>
                   <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
                 </div>
-                <PainelLateral arquivos={aux} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
+                <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
                   modoExtracao={this.state.modoExtracao} selecionarExtracao={this.handleExtract.bind(this)}/>
               </React.Fragment>
             );

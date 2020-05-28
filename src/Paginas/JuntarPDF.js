@@ -5,7 +5,6 @@ import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
-import Fab from '@material-ui/core/Fab';
 import TextoPrincipal from '../Components/TextoPrincipal.js'
 import BarraProgresso from '../Components/BarraProgresso.js'
 import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
@@ -86,26 +85,50 @@ class JuntarPDFPage extends React.Component {
       isButtonMergeClick: false,
       isUploadCompleted: false, 
       fileInputJuntarPDF: React.createRef(),
+      data: {files: null, path: null}
     };
     this.addFilesInputJuntarPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleMerge = this.handleMerge.bind(this);
     this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
   }
 
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
-    const historico =  this.state.fileInputJuntarPDF;
-    this.setState({
-      fileInputJuntarPDF: this.addFilesInputJuntarPDF,
-    })
+    if(this.state.data.files === null){
+      const { data } = this.state;
+      data.files = Array.from(this.addFilesInputJuntarPDF.current.files);
+      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+      data.path = [this.addFilesInputJuntarPDF.current.value];
+    } else {
+      const { data } = this.state;
+      data.files = data.files.concat(Array.from(this.addFilesInputJuntarPDF.current.files));
+      // TODO: Ajustar os path em todas as páginas
+      // data.path = data.path.concat([this.addFilesInputJuntarPDF.current.value]);
+      this.forceUpdate();
+    }
+  }
+
+  handleDelete(index){
+    const { data } = this.state;
+    delete data.files[index];   
+    // TODO:Ajustar isso ao corrigir o problema do path
+    // delete data.path[index];  
+    this.forceUpdate()
   }
   
   handleOnChange() {
+    if(this.state.data.files === null){
+      const { data } = this.state;
+      data.files = Array.from(this.state.fileInputJuntarPDF.current.files);
+      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+      data.path = [this.state.fileInputJuntarPDF.current.value];
+    }
     this.setState({
       isUpload: true,
-    })
+    });
   }
 
   handleMerge(){
@@ -121,6 +144,12 @@ class JuntarPDFPage extends React.Component {
   }
   
   onDrop = acceptedFiles => {
+    if(this.state.data.files === null){
+      const { data } = this.state;
+      data.files = acceptedFiles;
+      // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
+      // data.path = [this.state.fileInputJuntarPDF.current.value];
+    }
     this.setState({
       fileInputJuntarPDF: acceptedFiles,
       isUpload: true,
@@ -139,21 +168,13 @@ class JuntarPDFPage extends React.Component {
        </div>
       );
     } else if(this.state.isUpload) {
-
-      if(Array.isArray(this.state.fileInputJuntarPDF)){
-        var aux = this.state.fileInputJuntarPDF;
-      } else {
-        // provisorio, verificar necessidade de manter o fileInputJuntarPDF dessa maneira
-        var aux = Array.from(this.state.fileInputJuntarPDF.current.files)
-      }
-
       return(
         <React.Fragment>
-          <PaineisDeArquivos arquivos={aux} />
+          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} />
           <div className='AlinhamentoJuntarPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
-          <PainelLateral arquivos={aux} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
+          <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>
       );
     } else {

@@ -6,31 +6,26 @@ import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
+// TODO: Verificar se está mudando a ordem do arquivo no array
 function PaineisDeArquivos(props) {
     if (Array.isArray(props.arquivos)){
       
-      // transformando os arquivos em um novo array
-      const key = Array.from(Array(props.arquivos.length).keys());
-  
-      function handleDelete(index, arquivos) {
-        // TODO: Implementar o botão de remover arquivos
-        /* delete arquivos[index];
-        const aux = 1;
-        alert(index); */
+      function test(arquivo,index) {
+        return(
+          <Pane key={index} className='Pane'>
+           <Paper elevation='3' className="Paper">
+             <IconButton onClick={props.removerArquivo.bind(this,index)} className='IconDelete'> 
+               <HighlightOffRoundedIcon />
+             </IconButton>
+             <ImageIcon fontSize="large" className='Centralizar'/>
+             <p>{arquivo.name}</p>
+           </Paper>
+         </Pane>
+        );
       }
       
       // Utilizando o array acima para criar vários paineis que irão simbolizar os arquivos
-      const panes = key.map(key => (
-        <Pane key={key} className='Pane'>
-          <Paper elevation='3' className="Paper">
-            <IconButton onClick={handleDelete.bind(this, key, props.arquivos)} className='IconDelete'> 
-              <HighlightOffRoundedIcon />
-            </IconButton>
-            <ImageIcon fontSize="large" className='Centralizar'/>
-            <p>{props.arquivos[key].name}</p>
-          </Paper>
-        </Pane>
-      ));
+      const panes = props.arquivos.map(arquivo => test(arquivo, props.arquivos.indexOf(arquivo)));
     
       return (
         <React.Fragment>

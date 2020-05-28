@@ -12,6 +12,9 @@ import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
 import InputFileArea from '../Components/InputFileArea.js'
 import TelaConclusao from '../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 
 // Icons
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
@@ -25,9 +28,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const linguas = ['Africâner', 'Albanês', "Alemão", 'Árabe', 'Azerbaijano', 'Basco', 'Bielorrusso', 'Bengali',
+      "Búlgaro", "Catalão", "Cherokee", "Chinês (simplificado)", "Chinês (tradicional)", "Croata", 'Coreano',
+       "Dinamarquês", 'Eslovaco', 'Esloveno', 'Espanhol',"Esperanto", "Estoniano", "Finlandês", "Franco", "Francês",
+       "Galego",  "Grego", "Hebraico", "Holandês", 'Hindi', 'Húngaro', 'Islandês', 'Indonésio', 'Italiano', 'Italiano (Antigo)',
+        'Japonês', 'Kannada', 'Letão', 'Lituano', 'Macedônio', 'Malaio', 'Malaiala', 'Maltês', 'Norueguês', 'Polonês', 'Português',
+         'Romeno','Sérvio (latino)', 'Suaíli', 'Sueco', 'Tagalo', 'Tamil', 'Telugu',"Tcheco"]
+
 function PainelLateral(props) {
     const classes = useStyles();
-  
+    var chaves = Array.from(Array(linguas.length).keys());
+    const opcoesLinguas = chaves.map(chaves => (
+      <option>{linguas[chaves]}</option>
+    ))  
+
     // TODO: Verificar a necessidade desse null
     if(props.arquivos == null){
       return(
@@ -53,8 +67,20 @@ function PainelLateral(props) {
           <h2 className='TitleDrawer'>Pesquisar no PDF</h2>
           <Divider/>
           <Box className='TextDrawer'>
-            <p>Tornar um arquivo PDF pesquisável ajuda muito quando se deseja encontrar rapidamente alguma palavra chave. </p>
+            <p>Tornar um arquivo PDF pesquisável ajuda muito quando se deseja encontrar rapidamente alguma palavra chave.<br/> 
+                <br/>
+                Selecione a lingua que deseja para a pesquisa no documento.
+            </p>
           </Box>
+          {/* TODO: Adicionar Value nas linguas */}
+          <FormControl variant="outlined" className='SelectLanguage'>
+            <InputLabel htmlFor="outlined-age-native-simple">Língua da pesquisa</InputLabel>
+            <Select native label="Língua da pesquisa" value='Português'>
+              <option aria-label="None" value="" />
+              {opcoesLinguas}
+            </Select>
+          </FormControl>
+
           <Button  variant='contained' className='ButtonDrawerPesquisarPDF' onClick={() => {props.executar(!props.exibir)}}>
             Pesquisar no PDF
             <FindInPageRoundedIcon fontSize="large" className='IconPesquisar'/>
@@ -75,9 +101,9 @@ class PesquisarPDFPage extends React.Component {
             isButtonCompressClick: false,
             isUploadCompleted: false, 
             fileInputPesquisarPDF: React.createRef(),
-            // nivelCompressao: null,
+            data: {files: null, path: null}
         };
-        this.addFilesInputComprimirPDF = React.createRef();
+        this.addFilesInputPesquisarPDF = React.createRef();
         this.handleOnChange = this.handleOnChange.bind(this);
         this.handleCompress = this.handleCompress.bind(this);
         this.onClickCompress = this.onClickCompress.bind(this);
@@ -86,10 +112,17 @@ class PesquisarPDFPage extends React.Component {
   
     // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
     handleAdd() {
-      const historico =  this.state.fileInputPesquisarPDF;
-      this.setState({
-        fileInputPesquisarPDF: this.addFilesInputComprimirPDF,
-      })
+      if(this.state.data.files === null){
+        const { data } = this.state;
+        data.files = Array.from(this.addFilesInputPesquisarPDF.current.files);
+        // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+        data.path = [this.addFilesInputPesquisarPDF.current.value];
+      } else {
+        const { data } = this.state;
+        data.files = data.files.concat(Array.from(this.addFilesInputPesquisarPDF.current.files));
+        // data.path = data.path.concat([this.addFilesInputPesquisarPDF.current.value]);
+        this.forceUpdate();
+      }
     }
   
     onClickCompress(){
@@ -105,18 +138,28 @@ class PesquisarPDFPage extends React.Component {
       }
     
     handleOnChange() {
-      var aux = Array.from(this.state.fileInputPesquisarPDF.current.files)
-        this.setState({
-        isUpload: true,
-        fileInputPesquisarPDF: aux,
-        })
+      if(this.state.data.files === null){
+        const { data } = this.state;
+        data.files = Array.from(this.state.fileInputPesquisarPDF.current.files);
+        // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+        data.path = [this.state.fileInputPesquisarPDF.current.value];
+      }
+      this.setState({
+      isUpload: true,
+      })
     } 
   
     onDrop = acceptedFiles => {
-        this.setState({
+      if(this.state.data.files === null){
+        const { data } = this.state;
+        data.files = acceptedFiles;
+        // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
+        // data.path = [this.state.fileInputJuntarPDF.current.value];
+      }
+      this.setState({
         fileInputPesquisarPDF: acceptedFiles,
         isUpload: true,
-        });
+      });
   };
   
     handleUploadCompleted(){
@@ -136,42 +179,35 @@ class PesquisarPDFPage extends React.Component {
             <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
          </div>
         );
-     } else if(this.state.isUpload){
-          if(Array.isArray(this.state.fileInputPesquisarPDF)){
-              var aux = this.state.fileInputPesquisarPDF;
-            } else {
-              // provisorio, verificar necessidade de manter o fileInputPesquisarPDF dessa maneira
-              var aux = Array.from(this.state.fileInputPesquisarPDF.current.files)
-            }
-      
-            return(
-              <React.Fragment>
-                <PaineisDeArquivos arquivos={aux} />
-                <div className='AlinhamentoPesquisarPDF'>
-                  <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
-                </div>
-                <PainelLateral arquivos={aux} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} />
-              </React.Fragment>
-            );
+     } else if(this.state.isUpload){      
+          return(
+            <React.Fragment>
+              <PaineisDeArquivos arquivos={this.state.data.files} />
+              <div className='AlinhamentoPesquisarPDF'>
+                <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+              </div>
+              <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} />
+            </React.Fragment>
+          );
         }else{
-            return(
-                <div>
-                <TextoPrincipal title='Pesquisar em um arquivo PDF' 
-                    subTitle1='Torne arquivos PDF pesquisáveis para deixar sua busca mais fácil e rápida.'
-                    subTitle2='Otimize suas buscas em seus arquivos PDF.' />
-                <div className='Centralizar'>
-                    <div>
-                        <InputFileArea onDrop={this.onDrop.bind(this)} />
-                    </div>
-                    <Button variant='contained'>
-                        <label for="files">
-                        Selecionar arquivos PDF
-                        </label>
-                        <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputPesquisarPDF} onChange={this.handleOnChange} className='Upload' multiple/>
-                    </Button>
-                </div> 
-            </div>
-            );
+          return(
+              <div>
+              <TextoPrincipal title='Pesquisar em um arquivo PDF' 
+                  subTitle1='Torne arquivos PDF pesquisáveis para deixar sua busca mais fácil e rápida.'
+                  subTitle2='Otimize suas buscas em seus arquivos PDF.' />
+              <div className='Centralizar'>
+                  <div>
+                      <InputFileArea onDrop={this.onDrop.bind(this)} />
+                  </div>
+                  <Button variant='contained'>
+                      <label for="files">
+                      Selecionar arquivos PDF
+                      </label>
+                      <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputPesquisarPDF} onChange={this.handleOnChange} className='Upload' multiple/>
+                  </Button>
+              </div> 
+          </div>
+          );
         }
       }
   }
