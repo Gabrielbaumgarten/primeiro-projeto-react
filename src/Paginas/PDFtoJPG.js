@@ -173,6 +173,7 @@ class PDFtoJPGPage extends React.Component {
         this.handleExtract = this.handleExtract.bind(this);
         this.onClickCompress = this.onClickCompress.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
   
     // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
@@ -189,6 +190,17 @@ class PDFtoJPGPage extends React.Component {
             this.forceUpdate();
         }
     }
+
+    handleDelete(index){
+        const { data } = this.state;
+        if((data.files.length - 1) != index){
+         data.files[index] = data.files[data.files.length - 1];
+        }
+        // TODO:Ajustar isso ao corrigir o problema do path
+        // delete data.path[index];  
+        data.files.pop();
+        this.forceUpdate()
+      }
   
     onClickCompress(){
         this.setState({
@@ -247,9 +259,9 @@ class PDFtoJPGPage extends React.Component {
      } else if(this.state.isUpload){
             return(
               <React.Fragment>
-                <PaineisDeArquivos arquivos={this.state.data.files} />
+                <PaineisDeArquivos arquivos={this.state.data.files}  removerArquivo={this.handleDelete.bind(this)}/>
                 <div className='AlinhamentoPDFtoJPG'>
-                  <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+                  <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputPDFtoJPG} adicionarArquivos={this.handleAdd.bind(this)} />
                 </div>
                 <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
                   modoExtracao={this.state.modoExtracao} selecionarExtracao={this.handleExtract.bind(this)}/>

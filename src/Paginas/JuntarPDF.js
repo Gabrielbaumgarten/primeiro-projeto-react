@@ -113,9 +113,12 @@ class JuntarPDFPage extends React.Component {
 
   handleDelete(index){
     const { data } = this.state;
-    delete data.files[index];   
+    if((data.files.length - 1) != index){
+     data.files[index] = data.files[data.files.length - 1];
+    }
     // TODO:Ajustar isso ao corrigir o problema do path
     // delete data.path[index];  
+    data.files.pop();
     this.forceUpdate()
   }
   

@@ -221,6 +221,7 @@ class ComprimirPDFPage extends React.Component {
       this.handleCompress = this.handleCompress.bind(this);
       this.onClickCompress = this.onClickCompress.bind(this);
       this.handleAdd = this.handleAdd.bind(this);
+      this.handleDelete = this.handleDelete.bind(this);
   }
 
   // TODO: melhorar essa função quando descobrir como serão passados os arquivos
@@ -236,6 +237,17 @@ class ComprimirPDFPage extends React.Component {
       // data.path = data.path.concat([this.addFilesInputComprimirPDF.current.value]);
       this.forceUpdate();
     }
+  }
+
+  handleDelete(index){
+    const { data } = this.state;
+    if((data.files.length - 1) != index){
+     data.files[index] = data.files[data.files.length - 1];
+    }
+    // TODO:Ajustar isso ao corrigir o problema do path
+    // delete data.path[index];  
+    data.files.pop();
+    this.forceUpdate()
   }
 
   onClickCompress(){
@@ -295,9 +307,9 @@ class ComprimirPDFPage extends React.Component {
    } else if(this.state.isUpload){    
           return(
             <React.Fragment>
-              <PaineisDeArquivos arquivos={this.state.data.files} />
+              <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} />
               <div className='AlinhamentoComprimirPDF'>
-                <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+                <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputComprimirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
               </div>
               <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
               nivelCompressao={this.state.nivelCompressao} selecionarCompressao={this.handleCompress.bind(this)} />

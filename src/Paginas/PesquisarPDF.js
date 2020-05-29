@@ -105,9 +105,9 @@ class PesquisarPDFPage extends React.Component {
         };
         this.addFilesInputPesquisarPDF = React.createRef();
         this.handleOnChange = this.handleOnChange.bind(this);
-        this.handleCompress = this.handleCompress.bind(this);
         this.onClickCompress = this.onClickCompress.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
   
     // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
@@ -124,18 +124,23 @@ class PesquisarPDFPage extends React.Component {
         this.forceUpdate();
       }
     }
+
+    handleDelete(index){
+      const { data } = this.state;
+      if((data.files.length - 1) != index){
+       data.files[index] = data.files[data.files.length - 1];
+      }
+      // TODO:Ajustar isso ao corrigir o problema do path
+      // delete data.path[index];  
+      data.files.pop();
+      this.forceUpdate()
+    }
   
     onClickCompress(){
         this.setState({
             isButtonCompressClick: true,
           })
     }
-  
-    handleCompress(nivel){
-        this.setState({
-            nivelCompressao: nivel,
-          })
-      }
     
     handleOnChange() {
       if(this.state.data.files === null){
@@ -182,9 +187,9 @@ class PesquisarPDFPage extends React.Component {
      } else if(this.state.isUpload){      
           return(
             <React.Fragment>
-              <PaineisDeArquivos arquivos={this.state.data.files} />
+              <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} />
               <div className='AlinhamentoPesquisarPDF'>
-                <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+                <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputPesquisarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
               </div>
               <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} />
             </React.Fragment>
