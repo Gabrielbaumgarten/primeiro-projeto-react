@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ComprimirPDFPage from './Paginas/ComprimirPDF.js';
 import PesquisarPDFPage from './Paginas/PesquisarPDF.js';
 import PDFtoJPGPage from './Paginas/PDFtoJPG.js';
+import DividirPDFPage from './Paginas/DividirPDF.js';
 
 /* 
   Aqui são definadas as rotas para as outra páginas junto com suas urls
@@ -19,6 +20,7 @@ const Routes = () => (
       <Route exact path='/ComprimirPDF' component = {ComprimirPDFPage} />
       <Route exact path='/PesquisarPDF' component = {PesquisarPDFPage} />
       <Route exact path='/PDFtoJPG' component = {PDFtoJPGPage} />
+      <Route exact path='/DividirPDF' component = {DividirPDFPage} />
     </Switch>
   </BrowserRouter>
 );
