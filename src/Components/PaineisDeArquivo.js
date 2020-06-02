@@ -12,12 +12,19 @@ function PaineisDeArquivos(props) {
     if (Array.isArray(props.arquivos)){
       
       function test(arquivo,index) {
+        var reader = new FileReader();
+        reader.onloadend = (arquivo) =>{
+          
+        }
+        reader.readAsDataURL(arquivo);
+
         return(
           <Pane key={index} className='Pane'>
            <Paper elevation='3' className="Paper">
              <IconButton onClick={props.removerArquivo.bind(this,index)} className='IconDelete'> 
                <HighlightOffRoundedIcon />
              </IconButton>
+             {/* <PDFViewer document={{url: 'VPN Patriarca.pdf'}} css='Pdf' scale={0.25} hideNavbar/> */}
              <PDFViewer document={{url: 'VPN Patriarca.pdf'}} css='Pdf' scale={0.25} hideNavbar/>
              {/* <ImageIcon fontSize="large" className='Centralizar'/> */}
              <p>{arquivo.name}</p>
