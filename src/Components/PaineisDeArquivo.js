@@ -5,6 +5,7 @@ import { SortablePane, Pane } from 'react-sortable-pane';
 import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import PDFViewer from 'pdf-viewer-reactjs'
 
 // TODO: Verificar se está mudando a ordem do arquivo no array
 function PaineisDeArquivos(props) {
@@ -17,7 +18,8 @@ function PaineisDeArquivos(props) {
              <IconButton onClick={props.removerArquivo.bind(this,index)} className='IconDelete'> 
                <HighlightOffRoundedIcon />
              </IconButton>
-             <ImageIcon fontSize="large" className='Centralizar'/>
+             <PDFViewer document={{url: 'VPN Patriarca.pdf'}} css='Pdf' scale={0.25} hideNavbar/>
+             {/* <ImageIcon fontSize="large" className='Centralizar'/> */}
              <p>{arquivo.name}</p>
            </Paper>
          </Pane>

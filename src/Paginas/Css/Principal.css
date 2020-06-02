@@ -24,6 +24,7 @@
   float: left;
   color: red;
   padding-bottom:  25px;
+  font-size: 4rem !important;
 }
 
 .IconMenuPrincipal{
@@ -31,15 +32,15 @@
   color: red;
   padding-left: 25px;
   padding-top: 12px;
-  font-size: 2.6em !important;
+  font-size: 4rem !important;
 }
 
 .IconMenuPrincipalConverter{
   float: left;
   color: red;
   padding-left: 0px;
-  padding-top: 12px;
-  font-size: 2.6em !important;
+  padding-top: 17px;
+  font-size: 3rem !important;
 }
 
 .Titulo {
