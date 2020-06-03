@@ -214,7 +214,7 @@ class ComprimirPDFPage extends React.Component {
           isUploadCompleted: false, 
           fileInputComprimirPDF: React.createRef(),
           nivelCompressao: null,
-          data: {files: null, path: null}
+          data: {files: null, path: null, pdf64: []},
       };
       this.addFilesInputComprimirPDF = React.createRef();
       this.handleOnChange = this.handleOnChange.bind(this);
@@ -222,6 +222,8 @@ class ComprimirPDFPage extends React.Component {
       this.onClickCompress = this.onClickCompress.bind(this);
       this.handleAdd = this.handleAdd.bind(this);
       this.handleDelete = this.handleDelete.bind(this);
+      this.handleChangeFile = this.handleChangeFile.bind(this);
+      this.handleFile = this.handleFile.bind(this)
   }
 
   // TODO: melhorar essa função quando descobrir como serão passados os arquivos
@@ -269,9 +271,7 @@ class ComprimirPDFPage extends React.Component {
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.state.fileInputComprimirPDF.current.value];
     }
-    this.setState({
-      isUpload: true,
-    });
+    this.state.data.files.forEach(this.handleChangeFile);
   } 
 
   onDrop = acceptedFiles => {
@@ -281,11 +281,29 @@ class ComprimirPDFPage extends React.Component {
       // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
       // data.path = [this.state.fileInputJuntarPDF.current.value];
     }
+    this.state.data.files.forEach(this.handleChangeFile);
     this.setState({
-      fileInputComprimirPDF: acceptedFiles,
-      isUpload: true,
+      fileInputDividirPDF: acceptedFiles,
     });
-};
+  };
+
+  handleFile = (e) => {
+    const content = e.target.result;
+    this.state.data.pdf64.push(content.split(',')[1]);
+
+    if(this.state.data.pdf64.length === this.state.data.files.length){
+        this.setState({
+        isUpload: true,
+      });
+    }
+  }
+
+  handleChangeFile = (file) => {
+    let fileData = new FileReader();
+    fileData.onload = this.handleFile;
+    fileData.readAsDataURL(file);
+    this.forceUpdate();
+  }
 
   handleUploadCompleted(){
     this.setState({
@@ -307,7 +325,7 @@ class ComprimirPDFPage extends React.Component {
    } else if(this.state.isUpload){    
           return(
             <React.Fragment>
-              <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} />
+              <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
               <div className='AlinhamentoComprimirPDF'>
                 <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputComprimirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
               </div>

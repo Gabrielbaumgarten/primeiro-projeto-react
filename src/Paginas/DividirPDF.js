@@ -15,7 +15,6 @@ import TelaConclusao from '../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PDFViewer from 'pdf-viewer-reactjs'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';

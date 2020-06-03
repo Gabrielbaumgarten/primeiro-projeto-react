@@ -24,8 +24,8 @@
 }
 
 .Paper{
-  width:200px;
-  height: 270px;
+  width:235px;
+  height: 350px;
   opacity: 0.6;
   padding: 5%;
 }
@@ -35,8 +35,8 @@
 }
 
 .Pane{
-  width:200px;
-  height: 270px;
+  width:235px;
+  height: 350px;
   opacity: 0.6;
 }
 
@@ -91,5 +91,5 @@
 }
 
 .Pdf{
-  height: 220px;
+  height: 252px;
 }

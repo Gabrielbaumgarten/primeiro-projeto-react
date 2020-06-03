@@ -85,7 +85,7 @@ class JuntarPDFPage extends React.Component {
       isButtonMergeClick: false,
       isUploadCompleted: false, 
       fileInputJuntarPDF: React.createRef(),
-      data: {files: null, path: null}
+      data: {files: null, path: null, pdf64: []},
     };
     this.addFilesInputJuntarPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -93,6 +93,8 @@ class JuntarPDFPage extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMerge = this.handleMerge.bind(this);
     this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
+    this.handleChangeFile = this.handleChangeFile.bind(this);
+    this.handleFile = this.handleFile.bind(this)
   }
 
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
@@ -129,9 +131,7 @@ class JuntarPDFPage extends React.Component {
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.state.fileInputJuntarPDF.current.value];
     }
-    this.setState({
-      isUpload: true,
-    });
+    this.state.data.files.forEach(this.handleChangeFile);
   }
 
   handleMerge(){
@@ -153,11 +153,29 @@ class JuntarPDFPage extends React.Component {
       // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
       // data.path = [this.state.fileInputJuntarPDF.current.value];
     }
+    this.state.data.files.forEach(this.handleChangeFile);
     this.setState({
-      fileInputJuntarPDF: acceptedFiles,
-      isUpload: true,
+      fileInputDividirPDF: acceptedFiles,
     });
   };
+
+  handleFile = (e) => {
+    const content = e.target.result;
+    this.state.data.pdf64.push(content.split(',')[1]);
+
+    if(this.state.data.pdf64.length === this.state.data.files.length){
+        this.setState({
+        isUpload: true,
+      });
+    }
+  }
+
+  handleChangeFile = (file) => {
+    let fileData = new FileReader();
+    fileData.onload = this.handleFile;
+    fileData.readAsDataURL(file);
+    this.forceUpdate();
+  }
 
   render() {
     if(this.state.isUploadCompleted){
@@ -173,7 +191,7 @@ class JuntarPDFPage extends React.Component {
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} />
+          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
           <div className='AlinhamentoJuntarPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
