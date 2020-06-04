@@ -26,8 +26,9 @@ import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 const drawerWidth = 480;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
-    width: drawerWidth,
-    marginTop: 62,
+    width: '35w',
+    marginTop: '9.6vh',
+    height: '90.4vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
   },
   abas : {
@@ -231,7 +232,7 @@ class DividirPDFPage extends React.Component {
       return(
         <React.Fragment>
           <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64} />
-          <div className='AlinhamentoJuntarPDF'>
+          <div className='AlinhamentoDividirPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputDividirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
           <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleDivide.bind(this)} />

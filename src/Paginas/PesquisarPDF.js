@@ -22,8 +22,9 @@ import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
 const drawerWidth = 400;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
-    width: drawerWidth,
-    marginTop: 62,
+    width: '30vw',
+    marginTop: '9.6vh',
+    height: '90.4vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
   }
 }));
@@ -42,10 +43,8 @@ function PainelLateral(props) {
       <option>{linguas[chaves]}</option>
     ))  
 
-    // TODO: Verificar a necessidade desse null
-    if(props.arquivos == null){
+    if(props.arquivos.length === 0){
       return(
-  
         // Utilizando classes podemos utlizar o userStyle para sobreescrever styles já presentes do componente 
         <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }}>
           <h2 className='TitleDrawer'>Pesquisar no PDF</h2>

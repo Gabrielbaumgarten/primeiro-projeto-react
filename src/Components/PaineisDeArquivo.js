@@ -8,7 +8,6 @@ import PDFViewer from 'pdf-viewer-reactjs'
 
 // TODO: Verificar se está mudando a ordem do arquivo no array
 // TODO: Ajustar a margin left para que os paineis fiquem no centro
-// function PaineisDeArquivos(props) {
 class PaineisDeArquivos extends React.Component{
   constructor(props) {
     super(props);
@@ -22,7 +21,7 @@ class PaineisDeArquivos extends React.Component{
           <IconButton onClick={this.props.removerArquivo.bind(this,index)} className='IconDelete'> 
             <HighlightOffRoundedIcon />
           </IconButton>
-          <PDFViewer document={{ base64: pdf[index] }} css='Pdf' scale={0.3} hideNavbar/>
+          <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} hideNavbar/>
           <p>{arquivo.name}</p>
         </Paper>
       </Pane>

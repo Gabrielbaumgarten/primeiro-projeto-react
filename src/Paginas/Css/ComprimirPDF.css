@@ -26,21 +26,21 @@ border-radius: 10px;
 }
 
 .ButtonDrawerComprimirPDF{
-text-align: center;
-height: 2.8em ;
-background-color: #FA403A !important;
-color: white !important;
-font-size: 1em !important;
-position: fixed !important;
-bottom: 10px;
-right: 10px;
-width: 380px;
-transition: 1s !important;
+  text-align: center;
+  height: 2.8em ;
+  background-color: #FA403A !important;
+  color: white !important;
+  font-size: 1em !important;
+  position: fixed !important;
+  bottom: 10px;
+  right: 10px;
+  width: 28vw;
+  transition: 1s !important;
 }
 
 .ButtonDrawerComprimirPDF:hover{
-width: 382px;
-height: 3em;
+  width: 28.5vw;
+  height: 3em;
 }
 
 .ButtonDrawerDisabledComprimirPDF{
@@ -52,7 +52,7 @@ height: 3em;
   position: fixed !important;
   bottom: 10px;
   right: 10px;
-  width: 380px;
+  width: 28vw;
 }
 
 .SelectCompression {
@@ -80,7 +80,6 @@ height: 3em;
 }
 
 .AlinhamentoComprimirPDF{
-  display: block;
-  float: right;
-  width: 460px;
+  right: 32vw;
+  position: fixed;
 }

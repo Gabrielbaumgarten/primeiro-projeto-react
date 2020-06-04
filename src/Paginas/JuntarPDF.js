@@ -22,8 +22,9 @@ import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
-    width: drawerWidth,
-    marginTop: 62,
+    width: '20vw',
+    marginTop: '9.6vh',
+    height: '90.4vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
   }
 }));
@@ -35,8 +36,7 @@ const useStyles = makeStyles(theme => ({
 function PainelLateral(props) {
   const classes = useStyles();
 
-  // TODO: Verificar a necessidade desse null
-  if(props.arquivos == null || props.arquivos.length < 2){
+  if(props.arquivos.length < 2){
     return(
 
       // Utilizando classes podemos utlizar o userStyle para sobreescrever styles já presentes do componente 
@@ -191,9 +191,11 @@ class JuntarPDFPage extends React.Component {
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
+          <div className='Conteudo'>
+            <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
           <div className='AlinhamentoJuntarPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+          </div>
           </div>
           <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>

@@ -26,8 +26,9 @@ import ImageIcon from '@material-ui/icons/Image';
 const drawerWidth = 410;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
-    width: drawerWidth,
-    marginTop: 62,
+    width: '30vw',
+    marginTop: '9.6vh',
+    height: '90.4vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
   }
 }));

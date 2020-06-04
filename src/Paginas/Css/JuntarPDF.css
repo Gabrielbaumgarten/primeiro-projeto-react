@@ -42,12 +42,12 @@
   position: fixed !important;
   bottom: 10px;
   right: 10px;
-  width: 220px;
+  width: 18vw;
   transition: 2s;
 }
 
 .ButtonDrawerJuntarPDF:hover{
-  width: 222px;
+  width: 19vw;
   height: 3em;
 }
 
@@ -60,7 +60,7 @@
   position: fixed !important;
   bottom: 10px;
   right: 10px;
-  width: 220px;
+  width: 18vw;
 }
 
 .IconJuntar {
@@ -70,7 +70,15 @@
 
 
 .AlinhamentoJuntarPDF{
-  display: block;
-  float: right;
-  width: 300px;
+  right: 22vw;
+  position: fixed;
+}
+
+.Conteudo{
+  width: 78.7vw;
+  height: 90.5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }

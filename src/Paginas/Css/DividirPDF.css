@@ -42,12 +42,12 @@
     position: fixed !important;
     bottom: 10px;
     right: 10px;
-    width: 220px;
+    width: 33vw;
     transition: 2s;
 }
 
 .ButtonDrawerDividirPDF:hover{
-    width: 222px;
+    width: 33.5vw;
     height: 3em;
 }
 
@@ -60,7 +60,7 @@
     position: fixed !important;
     bottom: 10px;
     right: 10px;
-    width: 220px;
+    width: 37vw;
 }
 
 .IconJuntar {
@@ -69,13 +69,9 @@
 }
 
 
-.AlinhamentoJuntarPDF{
-    display: block;
-    float: right;
-    width: 300px;
-}
-
-.Abas {
+.AlinhamentoDividirPDF{
+    right: 37vw;
+    position: fixed;
 }
 
 body{
