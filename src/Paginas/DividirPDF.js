@@ -1,5 +1,7 @@
 import React from 'react';
 import './Css/DividirPDF.css';
+import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from "@material-ui/core/styles";
@@ -15,6 +17,8 @@ import TelaConclusao from '../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Slider from '@material-ui/core/Slider'
+import Input from '@material-ui/core/Input';
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
@@ -23,7 +27,6 @@ import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
   Sobeescrevendo o style do drawer paper
   Por algum motivo de hierarquia o drawer não se altera utilizando css 
 */
-const drawerWidth = 480;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: '35w',
@@ -50,16 +53,32 @@ const theme = createMuiTheme({
     },
   });
 
-
 /* 
   Função que retorna o painel lateral após selecionar alguns arquivos
 */
 function PainelLateral(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [slideValue, setSlideValue] = React.useState(30);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setSlideValue(newValue);
+  };
+
+  const handleInputChange = (event) => {
+    setSlideValue(event.target.value === '' ? '' : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
   };
 
   // TODO: Verificar a necessidade desse null
@@ -97,7 +116,43 @@ function PainelLateral(props) {
             <Tab label="Dividir por intervalo" classes={{ root: classes.abas }} />
             <Tab label="Dividir por tamanho" classes={{ root: classes.abas }} />
             <Tab label="Extrair páginas" classes={{ root: classes.abas }} />
-        </Tabs>
+          </Tabs>
+
+          <TabPanel value={value} index={0}>
+          Page One
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Typography variant='h6' className="TextAba"> Defina o tamanho máximo</Typography>
+            <Slider
+              value={slideValue}
+              onChange={handleSliderChange}
+              aria-labelledby="input-slider"
+              valueLabelDisplay="auto"
+              className='SliderDividirPDF'
+            />
+            <Input
+            className={classes.input}
+            value={slideValue}
+            margin="none"
+            onChange={handleInputChange}
+            onBlur={handleBlur}
+            color="primary"
+            endAdornment='MB'
+          variant="outlined"
+            inputProps={{
+              step: 10,
+              min: 0,
+              max: 100,
+              type: 'number',
+              'aria-labelledby': 'input-slider',
+            }}
+            className="InputSlider"
+          />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Page Three
+          </TabPanel>
+
         </ThemeProvider>
         <Button  variant='contained' className='ButtonDrawerDividirPDF' onClick={() => {props.executar(!props.exibir)}}>
           Dividir PDF
@@ -108,7 +163,31 @@ function PainelLateral(props) {
   }
 }
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`nav-tabpanel-${index}`}
+      aria-labelledby={`nav-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 /* 
   Classe que será exportada,
   Aqui contém todos os componentes que serão renderizados na página

@@ -69,11 +69,26 @@
 }
 
 
-.AlinhamentoDividirPDF{
+.AlinhamentoDividirPDF {
     right: 37vw;
     position: fixed;
 }
 
-body{
-    background-color: #f3f0ec !important;
+.SliderDividirPDF {
+    width: 20vw !important;
+    margin-top: 20px;
+    margin-right: 30px;
+}
+
+.TextAba{
+    margin: 10px;
+    padding: 5px;
+    color: #555E69;
+    text-align: justify;
+}
+
+.InputSlider{
+    position: absolute !important;
+    margin-top: 5px;
+    color:#555E69 !important; 
 }
