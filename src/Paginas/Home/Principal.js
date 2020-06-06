@@ -1,5 +1,5 @@
 import React from 'react';
-import './Css/Principal.css';
+import './Principal.css';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'

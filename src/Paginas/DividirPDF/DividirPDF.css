@@ -90,5 +90,22 @@
 .InputSlider{
     position: absolute !important;
     margin-top: 5px;
-    color:#555E69 !important; 
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: #555E69;
+    height: 40px;
+}
+
+.Intervalo{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.IntervaloInput{
+    margin-right: 50px;
+    border:1px solid;
+    border-radius: 5px;
+    border-color: #555E69;
+    height: 40px;
 }

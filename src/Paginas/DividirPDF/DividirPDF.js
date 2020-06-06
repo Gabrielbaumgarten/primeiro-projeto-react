@@ -1,5 +1,5 @@
 import React from 'react';
-import './Css/DividirPDF.css';
+import './DividirPDF.css';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
@@ -9,12 +9,12 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
-import TextoPrincipal from '../Components/TextoPrincipal.js'
-import BarraProgresso from '../Components/BarraProgresso.js'
-import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
-import InputFileArea from '../Components/InputFileArea.js'
-import TelaConclusao from '../Components/TelaConclusao.js'
-import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
+import TextoPrincipal from '../../Components/TextoPrincipal.js'
+import BarraProgresso from '../../Components/BarraProgresso.js'
+import PaineisDeArquivosDividir from '../../Components/PaineisDeArquivosDivididos/index.js'
+import InputFileArea from '../../Components/InputFileArea.js'
+import TelaConclusao from '../../Components/TelaConclusao.js'
+import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Slider from '@material-ui/core/Slider'
@@ -60,6 +60,9 @@ function PainelLateral(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [slideValue, setSlideValue] = React.useState(30);
+  // const [inicio, setInicio] = React.useState(1);
+  // const [fim, setFim] = React.useState(2);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,6 +83,14 @@ function PainelLateral(props) {
       setValue(100);
     }
   };
+
+  // const handleInicioIntervalo = (event) => {
+  //   setInicio((event.target.value === '' ? '' : Number(event.target.value)));
+  // }
+
+  // const handleFimIntervalo = (event) => {
+  //   setFim((event.target.value === '' ? '' : Number(event.target.value)));
+  // }
 
   // TODO: Verificar a necessidade desse null
   if(props.arquivos == null){
@@ -119,35 +130,36 @@ function PainelLateral(props) {
           </Tabs>
 
           <TabPanel value={value} index={0}>
-          Page One
+            <Typography variant='h6' className="TextAba"> Modo por intervalo</Typography>
+            <Box className='TextDrawer'>
+              <p>Na divisão por intervalo, o seu PDF será divido de acordo<br/>
+              com o intevalo de páginas que você desejar.</p>
+            </Box>
+            <Typography variant='subtitle1' className="TextAba"> Defina o intervalo:</Typography>
+            <div className='Intervalo'>
+              <Input value={props.inicio} margin="none" onChange={props.handleInicioIntervalo}
+              color="primary" startAdornment='De:' variant="outlined" 
+              inputProps={{ step: 1, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+              className='IntervaloInput'/>
+              <Input value={props.fim} margin="none" onChange={props.handleFimIntervalo}
+              color="primary" startAdornment='Até:' variant="outlined"
+              inputProps={{ step: 1, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+              className='IntervaloInput'/>
+             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Typography variant='h6' className="TextAba"> Defina o tamanho máximo</Typography>
-            <Slider
-              value={slideValue}
-              onChange={handleSliderChange}
-              aria-labelledby="input-slider"
-              valueLabelDisplay="auto"
-              className='SliderDividirPDF'
-            />
-            <Input
-            className={classes.input}
-            value={slideValue}
-            margin="none"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
-            color="primary"
-            endAdornment='MB'
-          variant="outlined"
-            inputProps={{
-              step: 10,
-              min: 0,
-              max: 100,
-              type: 'number',
-              'aria-labelledby': 'input-slider',
-            }}
-            className="InputSlider"
-          />
+          <Typography variant='h6' className="TextAba"> Modo por tamanho</Typography>
+            <Box className='TextDrawer'>
+              <p>Na divisão por tamanho, o seu PDF será divido em vários<br/> arquivos PDF
+              com o tamanho máximo que você desejar.</p>
+            </Box>
+            <Typography variant='subtitle1' className="TextAba"> Defina o tamanho máximo:</Typography>
+            <Slider value={slideValue} onChange={handleSliderChange} aria-labelledby="input-slider"
+              valueLabelDisplay="auto" className='SliderDividirPDF'/>
+            <Input value={slideValue} margin="none" onChange={handleInputChange}
+            onBlur={handleBlur} color="primary" endAdornment='MB' variant="outlined"
+            inputProps={{ step: 10, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+            className="InputSlider" />
           </TabPanel>
           <TabPanel value={value} index={2}>
             Page Three
@@ -201,7 +213,7 @@ class DividirPDFPage extends React.Component {
       isButtonMergeClick: false,
       isUploadCompleted: false, 
       fileInputDividirPDF: React.createRef(),
-      data: {files: null, path: null, pdf64: []},
+      data: {files: null, path: null, pdf64: [], startPage:1, endPage:5},
     };
     this.addFilesInputDividirPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -212,6 +224,8 @@ class DividirPDFPage extends React.Component {
 
     this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleFile = this.handleFile.bind(this);
+    this.handleStartPage = this.handleStartPage.bind(this);
+    this.handleEndPage = this.handleEndPage.bind(this);
   }
 
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
@@ -295,6 +309,18 @@ class DividirPDFPage extends React.Component {
     this.forceUpdate();
   }
 
+  handleStartPage(event) {
+    const { data } = this.state;
+    data.startPage = (event.target.value === '' ? '' : Number(event.target.value));
+    this.forceUpdate();
+  }
+
+  handleEndPage(event) {
+    const { data } = this.state;
+    data.endPage = (event.target.value === '' ? '' : Number(event.target.value));
+    this.forceUpdate();
+  }
+
 
   render() {
     if(this.state.isUploadCompleted){
@@ -310,11 +336,14 @@ class DividirPDFPage extends React.Component {
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64} />
+          <PaineisDeArquivosDividir arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)}
+           pdf64={this.state.data.pdf64} inicio={this.state.data.startPage} fim={this.state.data.endPage} />
           <div className='AlinhamentoDividirPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputDividirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
-          <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleDivide.bind(this)} />
+          <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleDivide.bind(this)}
+           inicio={this.state.data.startPage} fim={this.state.data.endPage} handleInicioIntervalo={this.handleStartPage.bind(this)}
+           handleFimIntervalo={this.handleEndPage.bind(this)} />
         </React.Fragment>
       );
     } else { 

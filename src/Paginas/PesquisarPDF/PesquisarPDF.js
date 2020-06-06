@@ -1,17 +1,17 @@
 import React from 'react';
-import './Css/PesquisarPDF.css';
+import './PesquisarPDF.css';
 import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Drawer from '@material-ui/core/Drawer';
 import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import { Box } from '@material-ui/core';
-import TextoPrincipal from '../Components/TextoPrincipal.js'
-import BarraProgresso from '../Components/BarraProgresso.js'
-import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
-import InputFileArea from '../Components/InputFileArea.js'
-import TelaConclusao from '../Components/TelaConclusao.js'
-import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
+import TextoPrincipal from '../../Components/TextoPrincipal.js'
+import BarraProgresso from '../../Components/BarraProgresso.js'
+import PaineisDeArquivos from '../../Components/PaineisDeArquivo.js'
+import InputFileArea from '../../Components/InputFileArea.js'
+import TelaConclusao from '../../Components/TelaConclusao.js'
+import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';

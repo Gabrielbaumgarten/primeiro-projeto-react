@@ -5,12 +5,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ILovePdf from './assets/ilovepdf.svg'
 
 
 function Logo(props) {
   return(
     <a href='/'>
-      <img src="ilovepdf.svg" className="Logo" />
+      <img src={ILovePdf} className="Logo" />
     </a>
   )
 }

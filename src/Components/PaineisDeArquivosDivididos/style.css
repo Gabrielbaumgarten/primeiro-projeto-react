@@ -1,0 +1,28 @@
+.Paper{
+    width:500px;
+    height: 350px;
+    opacity: 1;
+    padding: 5%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .Paper:hover{
+    opacity: 2.0;
+  }
+  
+  .Pane{
+    width:300px;
+    height: 350px;
+    opacity: 0.6;
+    margin-left: 10vw;
+  }
+  
+  .Panes {
+    margin-top: 100px;
+  }
+
+  .GIF{
+      width: 100px;
+      height: 50px;
+  }

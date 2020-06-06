@@ -1,11 +1,11 @@
 import React from 'react';
-import MainPage from'./Paginas/Principal.js'
-import JuntarPDFPage from './Paginas/JuntarPDF.js'
+import MainPage from'./Paginas/Home/Principal.js'
+import JuntarPDFPage from './Paginas/JuntarPDF/JuntarPDF.js'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import ComprimirPDFPage from './Paginas/ComprimirPDF.js';
-import PesquisarPDFPage from './Paginas/PesquisarPDF.js';
-import PDFtoJPGPage from './Paginas/PDFtoJPG.js';
-import DividirPDFPage from './Paginas/DividirPDF.js';
+import ComprimirPDFPage from './Paginas/ComprimirPDF/ComprimirPDF.js';
+import PesquisarPDFPage from './Paginas/PesquisarPDF/PesquisarPDF.js';
+import PDFtoJPGPage from './Paginas/PDFtoJPG/PDFtoJPG.js';
+import DividirPDFPage from './Paginas/DividirPDF/DividirPDF.js';
 
 /* 
   Aqui são definadas as rotas para as outra páginas junto com suas urls

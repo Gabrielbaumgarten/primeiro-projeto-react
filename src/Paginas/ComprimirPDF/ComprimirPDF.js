@@ -1,5 +1,5 @@
 import React from 'react';
-import './Css/ComprimirPDF.css';
+import './ComprimirPDF.css';
 import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Drawer from '@material-ui/core/Drawer';
@@ -7,12 +7,12 @@ import { makeStyles} from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Zoom from '@material-ui/core/Zoom';
-import TextoPrincipal from '../Components/TextoPrincipal.js'
-import BarraProgresso from '../Components/BarraProgresso.js'
-import PaineisDeArquivos from '../Components/PaineisDeArquivo.js'
-import InputFileArea from '../Components/InputFileArea.js'
-import TelaConclusao from '../Components/TelaConclusao.js'
-import BotaoFluanteAdd from '../Components/BotaoFlutuanteAdd.js'
+import TextoPrincipal from '../../Components/TextoPrincipal.js'
+import BarraProgresso from '../../Components/BarraProgresso.js'
+import PaineisDeArquivos from '../../Components/PaineisDeArquivo.js'
+import InputFileArea from '../../Components/InputFileArea.js'
+import TelaConclusao from '../../Components/TelaConclusao.js'
+import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 
 
 //Icons
