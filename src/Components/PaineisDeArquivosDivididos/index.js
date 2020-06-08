@@ -8,7 +8,8 @@ import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import PDFViewer from 'pdf-viewer-reactjs'
 import GIF from '../../assets/ellipses.gif'
 
-
+// TODO: ajustar as para mostrar as páginas no momento certo
+// Lembrando que o page utiliza a página no carregamento do arquivo
 class PaineisDeArquivosDividir extends React.Component{
     constructor(props) {
       super(props);
@@ -19,11 +20,13 @@ class PaineisDeArquivosDividir extends React.Component{
       return(
         <Pane key={index} className='Pane'>
           <Paper elevation='3' className="Paper">
-            <Paper variant="outlined" elevation='3' className='InsidePaper'>
+            <Paper variant="outlined" elevation='3' >
+            <h1>{this.props.inicio}</h1>
               <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={inicio} hideNavbar/>
             </Paper>
             <img src={GIF} alt="" className='GIF'/>
             <Paper variant="outlined" elevation='3' >
+            <h1>{this.props.fim}</h1>
               <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={fim} hideNavbar/>
             </Paper>
           </Paper>
@@ -33,8 +36,8 @@ class PaineisDeArquivosDividir extends React.Component{
   
     render() {
     if (Array.isArray(this.props.arquivos)){
-      // Utilizando o array acima para criar vários paineis que irão simbolizar os arquivos
-      const panes = this.Paineis(this.props.arquivos[0], 0, this.props.pdf64, this.props.inicio, this.props.fim);
+      
+      var panes = this.Paineis(this.props.arquivos[0], 0, this.props.pdf64, this.props.inicio, this.props.fim);
       
       return (
         <React.Fragment>

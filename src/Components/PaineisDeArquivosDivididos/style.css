@@ -26,3 +26,8 @@
       width: 100px;
       height: 50px;
   }
+
+  .InsidePaper{
+    background-color: white;
+    border: 2px solid;
+  }

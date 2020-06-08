@@ -6,12 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ILovePdf from './assets/ilovepdf.svg'
+import GIFLina from './assets/GIFLina(2).gif'
 
 
 function Logo(props) {
   return(
     <a href='/'>
-      <img src={ILovePdf} className="Logo" />
+      {/* <img src={ILovePdf} className="Logo" /> */}
+      <img src={GIFLina} className="Logo" />
     </a>
   )
 }

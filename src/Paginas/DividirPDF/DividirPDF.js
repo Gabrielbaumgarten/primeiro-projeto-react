@@ -19,6 +19,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Slider from '@material-ui/core/Slider'
 import Input from '@material-ui/core/Input';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
@@ -37,17 +39,23 @@ const useStyles = makeStyles(theme => ({
   abas : {
       fontSize: '0.72rem',
       height: 60,
-  }
+  },
+  selected: {
+    backgroundColor: '#FA403A !important',
+    color: '#FFFF !important',
+  },
+  nonSelected:{
+    backgroundColor: '#FFF' ,
+    color: '#555E69' ,
+  },
 }));
 
 const theme = createMuiTheme({
     palette: {
       primary: {
-        // Purple and green play nicely together.
         main: '#FA403A',
       },
       secondary: {
-        // This is green.A700 as hex.
         main: '#555E69',
       },
     },
@@ -60,9 +68,12 @@ function PainelLateral(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [slideValue, setSlideValue] = React.useState(30);
-  // const [inicio, setInicio] = React.useState(1);
-  // const [fim, setFim] = React.useState(2);
+  const tamArquivo = props.arquivos[0].size/1000;
+  const [extract, setExtract] = React.useState('all');
 
+  const handleExtract = (event, newAlignment) => {
+    setExtract(newAlignment);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -79,33 +90,85 @@ function PainelLateral(props) {
   const handleBlur = () => {
     if (value < 0) {
       setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    } else if (value > tamArquivo) {
+      setValue(tamArquivo);
     }
   };
 
-  // const handleInicioIntervalo = (event) => {
-  //   setInicio((event.target.value === '' ? '' : Number(event.target.value)));
-  // }
-
-  // const handleFimIntervalo = (event) => {
-  //   setFim((event.target.value === '' ? '' : Number(event.target.value)));
-  // }
-
   // TODO: Verificar a necessidade desse null
-  if(props.arquivos == null){
+  if(extract === 'all'){
     return(
-
-      // Utilizando classes podemos utlizar o userStyle para sobreescrever styles já presentes do componente 
       <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }}>
         <h2 className='TitleDrawer'>Dividir PDF</h2>
         <Divider/>
-        <Box className='TextDrawer'>
-          <p>Por favor, selecione mais arquivos PDF clicando novamente em 'Selecionar Arquivos PDF'.
-              Selecione vários arquivos, mantendo apertado 'Ctrl'</p>
-        </Box>
-        <Button className='ButtonDrawerDisabledDividirPDF' variant='contained' disabled>
-          Juntar PDF
+        <ThemeProvider theme={theme}>
+            <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            indicatorColor="primary"
+            textColor="secondary"
+            >
+            <Tab label="Dividir por intervalo" classes={{ root: classes.abas }} />
+            <Tab label="Dividir por tamanho" classes={{ root: classes.abas }} />
+            <Tab label="Extrair páginas" classes={{ root: classes.abas }} />
+          </Tabs>
+
+          <TabPanel value={value} index={0}>
+            <Typography variant='h6' className="TextAba"> Modo por intervalo</Typography>
+            <Box className='TextDrawer'>
+              <p>Na divisão por intervalo, o seu PDF será divido de acordo<br/>
+              com o intevalo de páginas que você desejar.</p>
+            </Box>
+            <Typography variant='subtitle1' className="TextAba"> Defina o intervalo:</Typography>
+            <div className='Intervalo'>
+              <Input value={props.inicio} margin="none" onChange={props.handleInicioIntervalo}
+              color="primary" startAdornment='De:' variant="outlined" 
+              inputProps={{ step: 1, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+              className='IntervaloInput'/>
+              <Input value={props.fim} margin="none" onChange={props.handleFimIntervalo}
+              color="primary" startAdornment='Até:' variant="outlined"
+              inputProps={{ step: 1, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+              className='IntervaloInput'/>
+             </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+          <Typography variant='h6' className="TextAba"> Modo por tamanho</Typography>
+            <Box className='TextDrawer'>
+              <p>Na divisão por tamanho, o seu PDF será divido em vários<br/> arquivos PDF
+              com o tamanho máximo que você desejar.</p>
+            </Box>
+            <Typography variant='subtitle1' className="TextAba"> Defina o tamanho máximo:</Typography>
+            <Slider value={slideValue} onChange={handleSliderChange} max={tamArquivo}aria-labelledby="input-slider"
+              valueLabelDisplay="auto" className='SliderDividirPDF'/>
+            <Input value={slideValue} margin="none" onChange={handleInputChange}
+            onBlur={handleBlur} color="primary" endAdornment='KB' variant="outlined"
+            inputProps={{ step: 10, min: 0, max: tamArquivo,
+             type: 'number', 'aria-labelledby': 'input-slider', }}
+            className="InputSlider" />
+            <Box className='TextDrawer'>
+              <Typography variant='button'>
+                Serão divididos em {Math.ceil(tamArquivo/slideValue)} arquivos PDF.
+              </Typography>
+            </Box> 
+          </TabPanel>
+          
+          <TabPanel value={value} index={2}>
+          <Typography variant='h6' className="TextAba"> Modo de Extração</Typography>
+            <ToggleButtonGroup value={extract} exclusive onChange={handleExtract} className='ToggleButton' >
+              <ToggleButton value="all" classes={{ root: classes.nonSelected, selected: classes.selected }}>
+                <Typography>Extrair todas as páginas</Typography>
+              </ToggleButton>
+              <ToggleButton value="select" classes={{ root: classes.nonSelected, selected: classes.selected }}>
+                <Typography>Selecionar as páginas</Typography>
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <h1>ALL</h1>
+          </TabPanel>
+
+        </ThemeProvider>
+        <Button  variant='contained' className='ButtonDrawerDividirPDF' onClick={() => {props.executar(!props.exibir)}}>
+          Dividir PDF
           <CallMergeRoundedIcon fontSize='large' className="IconJuntar"/>
         </Button>
       </Drawer>
@@ -154,15 +217,31 @@ function PainelLateral(props) {
               com o tamanho máximo que você desejar.</p>
             </Box>
             <Typography variant='subtitle1' className="TextAba"> Defina o tamanho máximo:</Typography>
-            <Slider value={slideValue} onChange={handleSliderChange} aria-labelledby="input-slider"
+            <Slider value={slideValue} onChange={handleSliderChange} max={tamArquivo}aria-labelledby="input-slider"
               valueLabelDisplay="auto" className='SliderDividirPDF'/>
             <Input value={slideValue} margin="none" onChange={handleInputChange}
-            onBlur={handleBlur} color="primary" endAdornment='MB' variant="outlined"
-            inputProps={{ step: 10, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
+            onBlur={handleBlur} color="primary" endAdornment='KB' variant="outlined"
+            inputProps={{ step: 10, min: 0, max: tamArquivo,
+             type: 'number', 'aria-labelledby': 'input-slider', }}
             className="InputSlider" />
+            <Box className='TextDrawer'>
+              <Typography variant='button'>
+                Serão divididos em {Math.ceil(tamArquivo/slideValue)} arquivos PDF.
+              </Typography>
+            </Box> 
           </TabPanel>
+          
           <TabPanel value={value} index={2}>
-            Page Three
+          <Typography variant='h6' className="TextAba"> Modo de Extração</Typography>
+            <ToggleButtonGroup value={extract} exclusive onChange={handleExtract} className='ToggleButton' >
+              <ToggleButton value="all" classes={{ root: classes.nonSelected, selected: classes.selected }}>
+                <Typography>Extrair todas as páginas</Typography>
+              </ToggleButton>
+              <ToggleButton value="select" classes={{ root: classes.nonSelected, selected: classes.selected }}>
+                <Typography>Selecionar as páginas</Typography>
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <h1>Select</h1>
           </TabPanel>
 
         </ThemeProvider>
@@ -213,7 +292,7 @@ class DividirPDFPage extends React.Component {
       isButtonMergeClick: false,
       isUploadCompleted: false, 
       fileInputDividirPDF: React.createRef(),
-      data: {files: null, path: null, pdf64: [], startPage:1, endPage:5},
+      data: {files: null, path: null, pdf64: [], startPage:1, endPage:2},
     };
     this.addFilesInputDividirPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -240,7 +319,7 @@ class DividirPDFPage extends React.Component {
       data.files = data.files.concat(Array.from(this.addFilesInputDividirPDF.current.files));
       // TODO: Ajustar os path em todas as páginas
       // data.path = data.path.concat([this.addFilesInputDividirPDF.current.value]);
-      this.forceUpdate();
+      this.setState({});
     }
   }
 
@@ -295,6 +374,7 @@ class DividirPDFPage extends React.Component {
     const content = e.target.result;
     this.state.data.pdf64.push(content.split(',')[1]);
 
+    
     if(this.state.data.pdf64.length === this.state.data.files.length){
         this.setState({
         isUpload: true,
@@ -306,19 +386,20 @@ class DividirPDFPage extends React.Component {
     let fileData = new FileReader();
     fileData.onload = this.handleFile;
     fileData.readAsDataURL(file);
-    this.forceUpdate();
+    this.setState({});
   }
 
   handleStartPage(event) {
     const { data } = this.state;
     data.startPage = (event.target.value === '' ? '' : Number(event.target.value));
-    this.forceUpdate();
+    this.setState({});
   }
 
   handleEndPage(event) {
     const { data } = this.state;
     data.endPage = (event.target.value === '' ? '' : Number(event.target.value));
-    this.forceUpdate();
+    this.setState({});
+    // this.setState({});
   }
 
 

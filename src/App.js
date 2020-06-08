@@ -1,8 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
 import './App.css';
 import 'typeface-roboto'
 import Routes from './routes'
 import Toolbar from './Toolbar.js'
+import Lina from './assets/VideoLina.mp4'
+import GIFLina from './assets/GIFLinaFundoBranco.gif'
 
 /* 
   Função que representa a página,
@@ -11,13 +14,36 @@ import Toolbar from './Toolbar.js'
   Cada página é um arquivo JS externo que é chamado pela tag Routes
 */
 function App() {
+  const [playVideo,setPlay] = React.useState(false);
+
+  React.useEffect(() => {
+          const time = setTimeout(() => {setPlay(false)}, 6025);
+          return () => clearTimeout(time);
+      });
+    
+
+  if(playVideo){
+    return(
+      <div>
+        {/* <video width="100%" height="100%" autoPlay='true'>
+          <source src={Lina} type="video/mp4"/>
+        </video> */}
+        <img src={GIFLina} alt="" className='Animacao' />
+        <Toolbar />
+        <Routes />
+      </div>
+    );
+  }
+  else{
   return (
     <div className="App">
+    {/* <img src={GIFLina} alt=""  /> */}
       <Toolbar />
       <Routes />
     </div>
 
   );
+  }
 }
 
 export default App;
