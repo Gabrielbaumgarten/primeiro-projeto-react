@@ -1,4 +1,4 @@
-.Paper{
+.PaperDividir{
     width:500px;
     height: 350px;
     opacity: 1;
@@ -7,18 +7,18 @@
     align-items: center;
   }
   
-  .Paper:hover{
+  .PaperDividir:hover{
     opacity: 2.0;
   }
   
-  .Pane{
-    width:300px;
+  .PaneDividir{
+    width:500px;
     height: 350px;
     opacity: 0.6;
     margin-left: 10vw;
   }
   
-  .Panes {
+  .PanesDividir {
     margin-top: 100px;
   }
 

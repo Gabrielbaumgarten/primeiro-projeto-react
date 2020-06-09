@@ -35,7 +35,7 @@
 }
 
 .Pane{
-  width:235px;
+  width:235px !important;
   height: 350px;
   opacity: 0.6;
   margin-left: 10vw;

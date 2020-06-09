@@ -18,8 +18,8 @@ class PaineisDeArquivosDividir extends React.Component{
   
     Paineis(arquivo,index,pdf, inicio, fim) {
       return(
-        <Pane key={index} className='Pane'>
-          <Paper elevation='3' className="Paper">
+        <Pane key={index} className='PaneDividir'>
+          <Paper elevation='3' className="PaperDividir">
             <Paper variant="outlined" elevation='3' >
             <h1>{this.props.inicio}</h1>
               <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={inicio} hideNavbar/>
@@ -41,7 +41,7 @@ class PaineisDeArquivosDividir extends React.Component{
       
       return (
         <React.Fragment>
-          <SortablePane direction="horizontal" margin={30} className='Panes'>
+          <SortablePane direction="horizontal" margin={30} className='PanesDividir'>
             <h1></h1>
             {panes}
           </SortablePane>

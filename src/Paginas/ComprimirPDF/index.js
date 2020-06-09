@@ -1,5 +1,5 @@
 import React from 'react';
-import './ComprimirPDF.css';
+import './style.css';
 import Typography from '@material-ui/core/Typography'
 import Button from "@material-ui/core/Button"
 import Drawer from '@material-ui/core/Drawer';

@@ -31,6 +31,7 @@
     text-align: justify;
     background-color: rgb(186, 226, 231);
     border-radius: 10px;
+    max-width: 30vw;
 }
 
 .ButtonDrawerDividirPDF{
@@ -60,7 +61,7 @@
     position: fixed !important;
     bottom: 10px;
     right: 10px;
-    width: 37vw;
+    width: 33vw;
 }
 
 .IconJuntar {
@@ -116,4 +117,8 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.TextField {
+    width: 30vw;
 }
