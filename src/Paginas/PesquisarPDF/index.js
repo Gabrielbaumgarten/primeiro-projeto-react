@@ -15,6 +15,7 @@ import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // Icons
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
@@ -99,6 +100,7 @@ class PesquisarPDFPage extends React.Component {
           isUpload: false,
           isButtonCompressClick: false,
           isUploadCompleted: false, 
+          ready: false, 
           fileInputPesquisarPDF: React.createRef(),
           data: {files: null, path: null, pdf64: []},
       };
@@ -113,17 +115,26 @@ class PesquisarPDFPage extends React.Component {
 
   // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
   handleAdd() {
+    
     if(this.state.data.files === null){
       const { data } = this.state;
-      data.files = Array.from(this.addFilesInputPesquisarPDF.current.files);
+      const array = Array.from(this.addFilesInputPesquisarPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = array;
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.addFilesInputPesquisarPDF.current.value];
     } else {
       const { data } = this.state;
-      data.files = data.files.concat(Array.from(this.addFilesInputPesquisarPDF.current.files));
-      // data.path = data.path.concat([this.addFilesInputPesquisarPDF.current.value]);
-      this.forceUpdate();
+      const array = Array.from(this.addFilesInputPesquisarPDF.current.files);
+      array.forEach(this.handleChangeFile);
+      data.files = data.files.concat(array);
+      // TODO: Ajustar os path em todas as páginas
+      // data.path = data.path.concat([this.addFilesInputDividirPDF.current.value]);
     }
+    this.setState({
+      isUpload: false,
+      ready: true,
+    });
   }
 
   handleDelete(index){
@@ -211,7 +222,14 @@ class PesquisarPDFPage extends React.Component {
             <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} />
           </React.Fragment>
         );
-      }else{
+      }else if (this.state.ready){
+        return(
+          <React.Fragment>
+            <CircularProgress className='CircularProgress' />
+            <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} />
+          </React.Fragment>
+        );
+      } else{
         return(
             <div>
             <TextoPrincipal title='Pesquisar em um arquivo PDF' 

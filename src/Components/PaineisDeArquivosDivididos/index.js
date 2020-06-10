@@ -16,28 +16,42 @@ class PaineisDeArquivosDividir extends React.Component{
       this.Paineis = this.Paineis.bind(this);
     }
   
-    Paineis(arquivo,index,pdf, inicio, fim) {
-      return(
-        <Pane key={index} className='PaneDividir'>
-          <Paper elevation='3' className="PaperDividir">
-            <Paper variant="outlined" elevation='3' >
-            <h1>{this.props.inicio}</h1>
-              <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={inicio} hideNavbar/>
+    Paineis(arquivo,index,pdf, inicio, fim, modo) {
+      if(modo === 1){
+        return(
+          <Pane key={index} className='Pane'>
+            <Paper elevation={3} className="Paper">
+              <Paper variant="outlined" elevation={3} >
+                <h1>{this.props.inicio}</h1>
+                <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={inicio} hideNavbar/>
+              </Paper>
             </Paper>
-            <img src={GIF} alt="" className='GIF'/>
-            <Paper variant="outlined" elevation='3' >
-            <h1>{this.props.fim}</h1>
-              <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={fim} hideNavbar/>
+          </Pane>
+        );
+      }else{
+        return(
+          <Pane key={index} className='PaneDividir'>
+            <Paper elevation='3' className="PaperDividir">
+              <Paper variant="outlined" elevation='3' >
+              <h1>{this.props.inicio}</h1>
+                <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={inicio} hideNavbar/>
+              </Paper>
+              <img src={GIF} alt="" className='GIF'/>
+              <Paper variant="outlined" elevation='3' >
+              <h1>{this.props.fim}</h1>
+                <PDFViewer document={{ base64: pdf[index] }} css='Pdf' canvasCss='Canvas' scale={0.3} page={fim} hideNavbar/>
+              </Paper>
             </Paper>
-          </Paper>
-        </Pane>
-      );
+          </Pane>
+        );
+      }
     }
   
     render() {
-    if (Array.isArray(this.props.arquivos)){
+    if (Array.isArray(this.props.data.files)){
       
-      var panes = this.Paineis(this.props.arquivos[0], 0, this.props.pdf64, this.props.inicio, this.props.fim);
+      var panes = this.Paineis(this.props.data.files[0], 0, this.props.data.pdf64,
+                     this.props.data.startPage, this.props.data.endPage, this.props.data.modo);
       
       return (
         <React.Fragment>

@@ -17,7 +17,7 @@ class PaineisDeArquivos extends React.Component{
   Paineis(arquivo,index,pdf) {
     return(
       <Pane key={index} className='Pane'>
-        <Paper elevation='3' className="Paper">
+        <Paper elevation={3} className="Paper">
           <IconButton onClick={this.props.removerArquivo.bind(this,index)} className='IconDelete'> 
             <HighlightOffRoundedIcon />
           </IconButton>

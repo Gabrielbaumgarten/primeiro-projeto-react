@@ -11,6 +11,7 @@ import PaineisDeArquivos from '../../Components/PaineisDeArquivo.js'
 import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
@@ -38,7 +39,6 @@ function PainelLateral(props) {
 
   if(props.arquivos.length < 2){
     return(
-
       // Utilizando classes podemos utlizar o userStyle para sobreescrever styles já presentes do componente 
       <Drawer variant='permanent' anchor='right' classes={{ paper: classes.drawerPaper }}>
         <h2 className='TitleDrawer'>Juntar PDF</h2>
@@ -83,7 +83,8 @@ class JuntarPDFPage extends React.Component {
     this.state = {
       isUpload: false,
       isButtonMergeClick: false,
-      isUploadCompleted: false, 
+      isUploadCompleted: false,
+      ready: false, 
       fileInputJuntarPDF: React.createRef(),
       data: {files: null, path: null, pdf64: []},
     };
@@ -101,16 +102,23 @@ class JuntarPDFPage extends React.Component {
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
-      data.files = Array.from(this.addFilesInputJuntarPDF.current.files);
+      const array = Array.from(this.addFilesInputJuntarPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = array;
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.addFilesInputJuntarPDF.current.value];
     } else {
       const { data } = this.state;
-      data.files = data.files.concat(Array.from(this.addFilesInputJuntarPDF.current.files));
+      const array = Array.from(this.addFilesInputJuntarPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = data.files.concat(array);
       // TODO: Ajustar os path em todas as páginas
       // data.path = data.path.concat([this.addFilesInputJuntarPDF.current.value]);
-      this.forceUpdate();
     }
+    this.setState({
+      isUpload: false,
+      ready: true,
+    });
   }
 
   handleDelete(index){
@@ -121,7 +129,7 @@ class JuntarPDFPage extends React.Component {
     // TODO:Ajustar isso ao corrigir o problema do path
     // delete data.path[index];  
     data.files.pop();
-    this.forceUpdate()
+    this.setState({});
   }
   
   handleOnChange() {
@@ -166,15 +174,16 @@ class JuntarPDFPage extends React.Component {
     if(this.state.data.pdf64.length === this.state.data.files.length){
         this.setState({
         isUpload: true,
+        ready: false,
       });
     }
   }
 
-  handleChangeFile = (file) => {
+   handleChangeFile = (file) => {
     let fileData = new FileReader();
     fileData.onload = this.handleFile;
     fileData.readAsDataURL(file);
-    this.forceUpdate();
+    this.setState({});
   }
 
   render() {
@@ -193,10 +202,17 @@ class JuntarPDFPage extends React.Component {
         <React.Fragment>
           <div className='Conteudo'>
             <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
-          <div className='AlinhamentoJuntarPDF'>
-            <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+            <div className='AlinhamentoJuntarPDF'>
+              <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
+            </div>
           </div>
-          </div>
+            <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
+        </React.Fragment>
+      );
+    } else if (this.state.ready){
+      return(
+        <React.Fragment>
+          <CircularProgress className='CircularProgress' />
           <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonMergeClick} executar={this.handleMerge.bind(this)} />
         </React.Fragment>
       );

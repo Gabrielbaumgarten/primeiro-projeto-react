@@ -8,6 +8,7 @@ import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import PainelLateral from './DrawerDividirPDF.js'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 /* 
   Classe que será exportada,
@@ -21,6 +22,7 @@ class DividirPDFPage extends React.Component {
       isUpload: false,
       isButtonMergeClick: false,
       isUploadCompleted: false, 
+      ready: false, 
       fileInputDividirPDF: React.createRef(),
       data: {files: null, path: null, pdf64: [], pages: [],
              modo: 0, tipoExtracao: 'all', size: null, startPage:1, endPage:2},
@@ -45,16 +47,23 @@ class DividirPDFPage extends React.Component {
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
-      data.files = Array.from(this.addFilesInputDividirPDF.current.files);
+      const array = Array.from(this.addFilesInputDividirPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = array;
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.addFilesInputDividirPDF.current.value];
     } else {
       const { data } = this.state;
-      data.files = data.files.concat(Array.from(this.addFilesInputDividirPDF.current.files));
+      const array = Array.from(this.addFilesInputDividirPDF.current.files);
+      array.forEach(this.handleChangeFile);
+      data.files = data.files.concat(array);
       // TODO: Ajustar os path em todas as páginas
       // data.path = data.path.concat([this.addFilesInputDividirPDF.current.value]);
-      this.setState({});
     }
+    this.setState({
+      isUpload: false,
+      ready: true,
+    });
   }
 
   handleDelete(index){
@@ -180,8 +189,7 @@ class DividirPDFPage extends React.Component {
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivosDividir arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)}
-           pdf64={this.state.data.pdf64} inicio={this.state.data.startPage} fim={this.state.data.endPage} />
+          <PaineisDeArquivosDividir data={this.state.data} removerArquivo={this.handleDelete.bind(this)} />
           <div className='AlinhamentoDividirPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputDividirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
@@ -191,7 +199,17 @@ class DividirPDFPage extends React.Component {
            data={this.state.data} definirTamanho={this.handleSize.bind(this)} definirTamanhoInput={this.handleInputSize.bind(this)} />
         </React.Fragment>
       );
-    } else { 
+    }else if (this.state.ready){
+      return(
+        <React.Fragment>
+          <CircularProgress className='CircularProgress' />
+          <PainelLateral exibir={this.state.isButtonMergeClick} executar={this.handleDivide.bind(this)}
+           inicio={this.state.data.startPage} fim={this.state.data.endPage} handleInicioIntervalo={this.handleStartPage.bind(this)}
+           handleFimIntervalo={this.handleEndPage.bind(this)} mudarModo={this.handleModo.bind(this)} mudarExtracao={this.handleExtracao.bind(this)}
+           data={this.state.data} definirTamanho={this.handleSize.bind(this)} definirTamanhoInput={this.handleInputSize.bind(this)} />
+        </React.Fragment>
+      );
+    }  else { 
       return (
         <div>
           <TextoPrincipal title='Dividir arquivo PDF' 

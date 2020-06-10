@@ -14,6 +14,7 @@ import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Zoom from '@material-ui/core/Zoom';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // Icons
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
@@ -167,6 +168,7 @@ class PDFtoJPGPage extends React.Component {
           isUploadCompleted: false, 
           fileInputPesquisarPDF: React.createRef(),
           modoExtracao: null,
+          ready: false, 
           data: {files: null, path: null, pdf64: []},
       };
       this.addFilesInputPDFtoJPG = React.createRef();
@@ -181,17 +183,25 @@ class PDFtoJPGPage extends React.Component {
 
   // TODO: melhorar essa função quando desccobrir como serão passados os arquivos
   handleAdd() {
-      if(this.state.data.files === null){
-          const { data } = this.state;
-          data.files = Array.from(this.addFilesInputPDFtoJPG.current.files);
-          // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
-          data.path = [this.addFilesInputPDFtoJPG.current.value];
-      } else {
-          const { data } = this.state;
-          data.files = data.files.concat(Array.from(this.addFilesInputPDFtoJPG.current.files));
-          // data.path = data.path.concat([this.addFilesInputPDFtoJPG.current.value]);
-          this.forceUpdate();
-      }
+    if(this.state.data.files === null){
+      const { data } = this.state;
+      const array = Array.from(this.addFilesInputPDFtoJPG.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = array;
+      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
+      data.path = [this.addFilesInputPDFtoJPG.current.value];
+    } else {
+      const { data } = this.state;
+      const array = Array.from(this.addFilesInputPDFtoJPG.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = data.files.concat(array);
+      // TODO: Ajustar os path em todas as páginas
+      // data.path = data.path.concat([this.addFilesInputPDFtoJPG.current.value]);
+    }
+    this.setState({
+      isUpload: false,
+      ready: true,
+    });
   }
 
   handleDelete(index){
@@ -286,7 +296,15 @@ handleChangeFile = (file) => {
                 modoExtracao={this.state.modoExtracao} selecionarExtracao={this.handleExtract.bind(this)}/>
             </React.Fragment>
           );
-      }else{
+      }else if (this.state.ready){
+        return(
+          <React.Fragment>
+            <CircularProgress className='CircularProgress' />
+            <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
+                modoExtracao={this.state.modoExtracao} selecionarExtracao={this.handleExtract.bind(this)}/>
+            </React.Fragment>
+        );
+      } else{
           return(
               <div>
               <TextoPrincipal title='PDF para JPG' 

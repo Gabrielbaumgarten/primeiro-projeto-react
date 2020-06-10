@@ -13,7 +13,7 @@ import PaineisDeArquivos from '../../Components/PaineisDeArquivo.js'
 import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
-
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 //Icons
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
@@ -215,6 +215,7 @@ class ComprimirPDFPage extends React.Component {
           isUploadCompleted: false, 
           fileInputComprimirPDF: React.createRef(),
           nivelCompressao: null,
+          ready: false, 
           data: {files: null, path: null, pdf64: []},
       };
       this.addFilesInputComprimirPDF = React.createRef();
@@ -231,15 +232,23 @@ class ComprimirPDFPage extends React.Component {
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
-      data.files = Array.from(this.addFilesInputComprimirPDF.current.files);
+      const array = Array.from(this.addFilesInputComprimirPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = array;
       // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
       data.path = [this.addFilesInputComprimirPDF.current.value];
     } else {
       const { data } = this.state;
-      data.files = data.files.concat(Array.from(this.addFilesInputComprimirPDF.current.files));
+      const array = Array.from(this.addFilesInputComprimirPDF.current.files)
+      array.forEach(this.handleChangeFile);
+      data.files = data.files.concat(array);
+      // TODO: Ajustar os path em todas as páginas
       // data.path = data.path.concat([this.addFilesInputComprimirPDF.current.value]);
-      this.forceUpdate();
     }
+    this.setState({
+      isUpload: false,
+      ready: true,
+    });
   }
 
   handleDelete(index){
@@ -334,7 +343,15 @@ class ComprimirPDFPage extends React.Component {
               nivelCompressao={this.state.nivelCompressao} selecionarCompressao={this.handleCompress.bind(this)} />
             </React.Fragment>
           );
-      }else{
+      }else if (this.state.ready){
+        return(
+          <React.Fragment>
+            <CircularProgress className='CircularProgress' />
+            <PainelLateral arquivos={this.state.data.files} exibir={this.state.isButtonCompressClick} executar={this.onClickCompress.bind(this)} 
+              nivelCompressao={this.state.nivelCompressao} selecionarCompressao={this.handleCompress.bind(this)} />
+            </React.Fragment>
+        );
+      } else{
           return(
               <div>
               <TextoPrincipal title='Comprimir arquivo PDF' 
