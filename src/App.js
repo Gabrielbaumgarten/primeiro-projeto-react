@@ -51,5 +51,6 @@ export default App;
 // TODO: Estudar isso
 // formulario multipart enc type
 // https://stackoverflow.com/questions/41025078/react-dropzone-how-to-upload-image
-// dividir em páginas e tamanho
 // Pedir ajuda para ajustar os panes quando eles ultrapassarem a div
+// Verificar a necessidade do adicionar mais arquivos no dividir
+// otimizar as paginas comprimir e pdf to jpg para togglebuttom
