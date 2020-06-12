@@ -1,7 +1,7 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MainPage from'./Paginas/Home/index.js'
 import JuntarPDFPage from './Paginas/JuntarPDF/index.js'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import ComprimirPDFPage from './Paginas/ComprimirPDF/index.js';
 import PesquisarPDFPage from './Paginas/PesquisarPDF/index.js';
 import PDFtoJPGPage from './Paginas/PDFtoJPG/index.js';
