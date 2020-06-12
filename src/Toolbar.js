@@ -10,14 +10,31 @@ import GIFLina from './assets/GIFLina(2).gif'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles} from "@material-ui/core/styles";
+import { useState } from 'react';
 
+
+import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
+import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
+import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
+import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
+import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
+import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
+import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
 const useStyles = makeStyles(theme => ({
   Menu: {
     width: '100%',
-    marginTop: '9.6vh',
+    marginTop: '9.5vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
-  }
+    maxWidth: 'calc(100% - 17px)',
+    borderTop: '3px solid #ce140e',
+    borderBottomLeftRadius: '10px',
+    borderTopRightRadius: '0px',
+    borderBottomRightRadius: '10px',
+    borderTopRightRadius: '0px',
+    position: 'initial',
+    columns: 2,
+  },
 }));
 
 function Logo(props) {
@@ -29,59 +46,116 @@ function Logo(props) {
   )
 }
 
-class BotaoAllMenuToolbar extends React.Component {
+const BotaoAllMenuToolbar = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      conteudo: props.conteudo,
-      submenuOpen: false,
-      anchorEl: null,
-    }
-    this.mouseOut = this.mouseOut.bind(this);
-    this.mouseOver = this.mouseOver.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  handleClick (event) {
-    this.setState({ anchorEl: event.currentTarget });
+
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget);
   };
 
-  handleClose() {
-    this.setState({ anchorEl: null });
+  function handleClose() {
+    setAnchorEl(null);
   };
 
-  mouseOut() {
-    this.setState({
-    });
+  function mouseOver(event) {
+    setAnchorEl(event.currentTarget);
   }
 
-  mouseOver(event) {
-    this.setState({
-      submenuOpen: true,
-      anchorEl: event.currentTarget,
-    });
+  const classes = useStyles();
+  
+  return(
+      <React.Fragment>
+        <Button onMouseOver={mouseOver} onClick={handleClick}>
+          <Typography variant="button" align="center" className="MenuText">
+            {props.conteudo}
+          </Typography>
+          <ArrowDropDownIcon className='IconDropdown'/>
+        </Button>
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
+            onClose={handleClose} classes={{ paper: classes.Menu }} >
+          <ItensMenu icon='JUNTAR' url='/JuntarPDF' label='Juntar PDF' />
+          <ItensMenu icon='DIVIDIR' url='/DividirPDF' label='Dividir PDF' />
+          <ItensMenu icon='COMPRIMIR' url='/ComprimirPDF' label='Comprimir PDF' />
+          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
+          <ItensMenu icon='OCR' url='/PesquisarPDF' label='Pesquisar no PDF' />
+        </Menu>
+    </React.Fragment>
+    );
+    
+}
+
+const BotaoConverterToolbar = (props) => {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget);
+  };
+
+  function handleClose() {
+    setAnchorEl(null);
+  };
+
+  function mouseOver(event) {
+    setAnchorEl(event.currentTarget);
   }
 
-  render(){
-    return(
+  const classes = useStyles();
+  
+  return(
+      <React.Fragment>
+        <Button onMouseOver={mouseOver} onClick={handleClick}>
+          <Typography variant="button" align="center" className="MenuText">
+            {props.conteudo}
+          </Typography>
+          <ArrowDropDownIcon className='IconDropdown'/>
+        </Button>
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
+            onClose={handleClose} classes={{ paper: classes.Menu }} >
+          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
+        </Menu>
+    </React.Fragment>
+    );
+    
+}
+
+function ItensMenu(props){
+  return(
+    <MenuItem component='button' className='AjusteMenu' href={props.url}>
+    <SelectIcon icon={props.icon} />
+    {props.label}
+    </MenuItem>
+  );
+}
+
+function SelectIcon(props) {
+  var icon
+  switch (props.icon) {
+    case "JUNTAR":
+      icon = <CallMergeRoundedIcon  className="IconToolBarRotate90"/>
+      break;
+    case "DIVIDIR":
+      icon = <CallSplitRoundedIcon  className="IconToolBarRotate90"/>
+      break;
+    case "COMPRIMIR":
+      icon = <CompareArrowsRoundedIcon className="IconsToolBar"/>
+      break;
+    case "OCR":
+      icon = <FindInPageRoundedIcon className='IconsToolBar'/>
+      break;
+    case "PDJtoJPG":
+      icon = (
         <React.Fragment>
-          <Button onMouseOut={this.mouseOut} onMouseOver={this.mouseOver} onClick={this.handleClick}>
-            <Typography variant="button" align="center" className="MenuText">
-              {this.state.conteudo}
-            </Typography>
-            <ArrowDropDownIcon className='IconDropdown'/>
-          </Button>
-          <Menu anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} variant='menu'
-             onClose={this.handleClose} >
-            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-          </Menu>
-      </React.Fragment>
+        <PictureAsPdfRoundedIcon className='IconsToolBarConverte'/>
+        </React.Fragment>
       )
-    }
+      break;
+    default:  icon= null;
+  }
+  return icon;
 }
 
 function BotaoMenuToolbar(props) {
@@ -101,9 +175,8 @@ const Toolbar = () => (
           <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
           <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='/DividirPDF' />
           <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='/ComprimirPDF' />
-          <BotaoMenuToolbar conteudo='CONVERTER PDF' url='' />
+          <BotaoConverterToolbar conteudo='CONVERTER PDF' />
           <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
-          <MenuIcon className="MenuIcon" style={{fontSize:30}}/>
       </div>
 );
 

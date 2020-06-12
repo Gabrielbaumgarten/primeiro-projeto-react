@@ -35,6 +35,26 @@
   padding-top: 15px;
 }
 
-.Batata {
-  width: 100%;
+.IconToolBarRotate90 {
+  transform: rotate(90deg);
+  float: left;
+  color: #FA403A;
+  font-size: 1.5rem !important;
+}
+
+.IconsToolBar{
+  float: left;
+  color: #FA403A;
+  font-size: 1.5rem !important;
+}
+
+.IconsToolBarConverte{
+  float: left;
+  color: #FA403A;
+  font-size: 1.5rem !important;
+}
+
+.AjusteMenu{
+  margin-left: 10px !important;
+  width: fit-content !important;
 }

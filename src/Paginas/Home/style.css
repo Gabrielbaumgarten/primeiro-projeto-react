@@ -22,14 +22,14 @@
 .IconMenuPrincipalRotate90 {
   transform: rotate(90deg);
   float: left;
-  color: red;
+  color: #FA403A;
   padding-bottom:  25px;
   font-size: 4rem !important;
 }
 
 .IconMenuPrincipal{
   float: left;
-  color: red;
+  color: #FA403A;
   padding-left: 25px;
   padding-top: 12px;
   font-size: 4rem !important;
@@ -37,7 +37,7 @@
 
 .IconMenuPrincipalConverter{
   float: left;
-  color: red;
+  color: #FA403A;
   padding-left: 0px;
   padding-top: 17px;
   font-size: 3rem !important;
