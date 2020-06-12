@@ -9,8 +9,16 @@ import ILovePdf from './assets/ilovepdf.svg'
 import GIFLina from './assets/GIFLina(2).gif'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useState } from 'react'
+import { makeStyles} from "@material-ui/core/styles";
 
+
+const useStyles = makeStyles(theme => ({
+  Menu: {
+    width: '100%',
+    marginTop: '9.6vh',
+    boxShadow: '0px 0px 3px 0px #9E9E9E',
+  }
+}));
 
 function Logo(props) {
   return(
@@ -46,20 +54,18 @@ class BotaoAllMenuToolbar extends React.Component {
 
   mouseOut() {
     this.setState({
-      conteudo: "hello",
     });
   }
 
   mouseOver(event) {
     this.setState({
-      conteudo: "world",
       submenuOpen: true,
       anchorEl: event.currentTarget,
     });
   }
 
   render(){
-      return(
+    return(
         <React.Fragment>
           <Button onMouseOut={this.mouseOut} onMouseOver={this.mouseOver} onClick={this.handleClick}>
             <Typography variant="button" align="center" className="MenuText">
@@ -68,7 +74,7 @@ class BotaoAllMenuToolbar extends React.Component {
             <ArrowDropDownIcon className='IconDropdown'/>
           </Button>
           <Menu anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} variant='menu'
-             onClose={this.handleClose}>
+             onClose={this.handleClose} >
             <MenuItem onClick={this.handleClose}>Profile</MenuItem>
             <MenuItem onClick={this.handleClose}>My account</MenuItem>
             <MenuItem onClick={this.handleClose}>Logout</MenuItem>
