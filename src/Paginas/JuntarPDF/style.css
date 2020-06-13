@@ -1,5 +1,8 @@
 .Centralizar{
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .Centralizar Button{
@@ -75,7 +78,7 @@
 }
 
 .Conteudo{
-  width: 78.7vw;
+  width: calc(100% - 20vw);;
   height: 90.5vh;
   display: flex;
   flex-direction: column;

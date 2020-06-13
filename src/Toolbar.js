@@ -11,8 +11,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles} from "@material-ui/core/styles";
 import { useState } from 'react';
+import Hidden from '@material-ui/core/Hidden'
 
-
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
@@ -23,10 +24,9 @@ import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
 const useStyles = makeStyles(theme => ({
   Menu: {
-    width: '100%',
+    maxWidth: '100%',
     marginTop: '9.5vh',
     boxShadow: '0px 0px 3px 0px #9E9E9E',
-    maxWidth: 'calc(100% - 17px)',
     borderTop: '3px solid #ce140e',
     borderBottomLeftRadius: '10px',
     borderTopRightRadius: '0px',
@@ -34,6 +34,17 @@ const useStyles = makeStyles(theme => ({
     borderTopRightRadius: '0px',
     position: 'initial',
     columns: 2,
+  },
+  MenuResposivo: {
+    maxWidth: '100%',
+    marginTop: '9.5vh',
+    boxShadow: '0px 0px 3px 0px #9E9E9E',
+    borderTop: '3px solid #ce140e',
+    borderBottomLeftRadius: '10px',
+    borderTopRightRadius: '0px',
+    borderBottomRightRadius: '10px',
+    borderTopRightRadius: '0px',
+    position: 'initial',
   },
 }));
 
@@ -121,6 +132,40 @@ const BotaoConverterToolbar = (props) => {
     );
     
 }
+const BotaoMenuResposivo = (props) => {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget);
+  };
+
+  function handleClose() {
+    setAnchorEl(null);
+  };
+
+  function mouseOver(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  const classes = useStyles();
+  
+  return(
+      <React.Fragment>
+        <MenuRoundedIcon fontSize='Large' className='MenuIcon' onClick={handleClick} />
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
+            onClose={handleClose} classes={{ paper: classes.MenuResposivo }} >
+          <ItensMenu icon='JUNTAR' url='/JuntarPDF' label='Juntar PDF' />
+          <ItensMenu icon='DIVIDIR' url='/DividirPDF' label='Dividir PDF' />
+          <ItensMenu icon='COMPRIMIR' url='/ComprimirPDF' label='Comprimir PDF' />
+          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
+          <ItensMenu icon='OCR' url='/PesquisarPDF' label='Pesquisar no PDF' />
+        </Menu>
+    </React.Fragment>
+    );
+    
+}
 
 function ItensMenu(props){
   return(
@@ -172,11 +217,16 @@ function BotaoMenuToolbar(props) {
 const Toolbar = () => (
       <div className='Toolbar'>
           <Logo />
+          <Hidden smDown>
           <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
           <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='/DividirPDF' />
           <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='/ComprimirPDF' />
           <BotaoConverterToolbar conteudo='CONVERTER PDF' />
           <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
+          </Hidden>
+          <Hidden mdUp>
+            <BotaoMenuResposivo/>
+          </Hidden>
       </div>
 );
 
