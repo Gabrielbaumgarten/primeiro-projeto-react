@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-function BarraProgresso(props) {
+const BarraProgresso = (props) => {
 
     const [completed, setCompleted] = React.useState(0);
     const classes = useStyles();

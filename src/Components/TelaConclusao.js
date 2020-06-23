@@ -13,7 +13,7 @@ function TelaConclusao(props) {
             {props.title}
           </Typography>
           <IconButton href='/' className='BotaoVoltar'>
-            <ArrowBackRoundedIcon fontSize='Large' />
+            <ArrowBackRoundedIcon fontSize='large' />
           </IconButton>
           {/* TODO: alterar o arquivo de download */}
           <a href='/hipopotamo.png' className="RemoveUnderline" download>

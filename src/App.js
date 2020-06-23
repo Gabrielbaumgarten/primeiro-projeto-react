@@ -54,3 +54,4 @@ export default App;
 // Pedir ajuda para ajustar os panes quando eles ultrapassarem a div
 // Verificar a necessidade do adicionar mais arquivos no dividir
 // otimizar as paginas comprimir e pdf to jpg para togglebuttom
+// deixar as páginas responsívas para celular

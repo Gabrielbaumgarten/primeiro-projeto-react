@@ -18,9 +18,7 @@ import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
 import CompareArrowsRoundedIcon from '@material-ui/icons/CompareArrowsRounded';
 import FindInPageRoundedIcon from '@material-ui/icons/FindInPageRounded';
-import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
 import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
-import ArrowRightAltRoundedIcon from '@material-ui/icons/ArrowRightAltRounded';
 
 const useStyles = makeStyles(theme => ({
   Menu: {

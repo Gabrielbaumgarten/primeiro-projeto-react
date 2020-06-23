@@ -12,15 +12,15 @@ import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { getDataAxios, postDataAxios } from '../../Components/HTTPmethods'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
 
 /* 
-  Sobeescrevendo o style do drawer paper
-  Por algum motivo de hierarquia o drawer não se altera utilizando css 
+Sobeescrevendo o style do drawer paper
+Por algum motivo de hierarquia o drawer não se altera utilizando css 
 */
-const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
     width: '20vw',
@@ -71,7 +71,6 @@ function PainelLateral(props) {
   }
 }
 
-
 /* 
   Classe que será exportada,
   Aqui contém todos os componentes que serão renderizados na página
@@ -98,6 +97,7 @@ class JuntarPDFPage extends React.Component {
     this.handleFile = this.handleFile.bind(this)
   }
 
+
 // TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
     if(this.state.data.files === null){
@@ -123,7 +123,7 @@ class JuntarPDFPage extends React.Component {
 
   handleDelete(index){
     const { data } = this.state;
-    if((data.files.length - 1) != index){
+    if((data.files.length - 1) !== index){
      data.files[index] = data.files[data.files.length - 1];
     }
     // TODO:Ajustar isso ao corrigir o problema do path
@@ -146,6 +146,9 @@ class JuntarPDFPage extends React.Component {
     this.setState({
       isButtonMergeClick: true,
     })
+
+    postDataAxios(this.state.data.files, 'juntar');
+
   }
   
   handleUploadCompleted(){
@@ -227,7 +230,7 @@ class JuntarPDFPage extends React.Component {
                 <InputFileArea onDrop={this.onDrop.bind(this)} />
               </div>
               <Button variant='contained'>
-                <label for="files">
+                <label htmlFor="files">
                   Selecionar arquivos PDF
                 </label>
                 <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputJuntarPDF} onChange={this.handleOnChange} className='Upload' multiple/>
