@@ -2,6 +2,7 @@ import React from 'react';
 import './Css/Padrao.css';
 import Dropzone from "react-dropzone";
 import  Typography from '@material-ui/core/Typography';
+import CloudUploadRoundedIcon from '@material-ui/icons/CloudUploadRounded';
 
 function InputFileArea(props) {
     return(
@@ -10,9 +11,10 @@ function InputFileArea(props) {
             <Dropzone onDrop={props.onDrop} accept="application/pdf" multiple >
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
                 <div {...getRootProps()} className="InputFileArea">
-                <input {...getInputProps()} />
-                {!isDragActive && (<Typography variant='body2' className='Text'>Arraste e solte os PDFs aqui</Typography>)}
-                {isDragActive && !isDragReject && (<Typography variant='body2' className='Text'>Por favor, apenas PDF</Typography>)}
+                    <input {...getInputProps()} />
+                    <CloudUploadRoundedIcon fontSize='large' className='IconUpload'/>
+                    {!isDragActive && (<Typography variant='body2' className='Text'>Arraste e solte os PDFs aqui</Typography>)}
+                    {isDragActive && !isDragReject && (<Typography variant='body2' className='Text'>Por favor, apenas PDF</Typography>)}
                 </div>
             )}
             </Dropzone>

@@ -3,10 +3,16 @@ import './Css/Padrao.css';
 import Typography from '@material-ui/core/Typography'
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
-import  IconButton  from '@material-ui/core/IconButton';
-import  Button  from '@material-ui/core/Button';
+import IconButton  from '@material-ui/core/IconButton';
+import Button  from '@material-ui/core/Button';
+import download from 'downloadjs'
 
 function TelaConclusao(props) {
+
+  function download(){
+    download(props.arquivo, "resposta.pdf", 'application/pdf')
+  }
+
     return (
         <div className='Centralizar'>
           <Typography variant='h2' className='LargeText'>
@@ -16,12 +22,12 @@ function TelaConclusao(props) {
             <ArrowBackRoundedIcon fontSize='large' />
           </IconButton>
           {/* TODO: alterar o arquivo de download */}
-          <a href='/hipopotamo.png' className="RemoveUnderline" download>
-            <Button variant='contained'>
+          {/* <a href={props.arquivo} className="RemoveUnderline" download> */}
+            <Button variant='contained' onClick={download}>
               <GetAppRoundedIcon className='IconDownload'/>
               Baixar o PDF {props.modo}
             </Button>
-          </a>
+          {/* </a> */}
         </div>
       );
 }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import download from 'downloadjs'
 
 
     function BuscarURL(action){
@@ -37,7 +38,7 @@ import axios from 'axios'
         console.log(response.data)
     }
 
-    async function postDataAxios(arquivos, acao){
+    async function postDataAxios(arquivos, acao, funcao, progresso){
 
         var url = BuscarURL(acao)
 
@@ -47,17 +48,32 @@ import axios from 'axios'
         nomes = nomes.toString()
 
         var data = new FormData()
-        data.set('username', 'Chris')
-        data.append('arquivo', arquivos)
-        for (var key of data.entries()) {
-            console.log(key[0] + ', ' + key[1]);
-        }
+        data.append('nomesArquivos', nomes)
+        data.append('metodo', acao)
+        var index = 1
+        arquivos.forEach(element => {
+            data.append('arquivo' + index, element)
+            index += 1
+        });
 
         const response = await axios.post( url,
-            data,
-            { headers: { 'Content-Type': 'multipart/form-data' } }
-        )
-        console.log(response.data)
+            data, 
+            { 
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: progressEvent => {
+                    progresso(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
+                  },
+                responseType: 'blob',
+            }
+        ).then(response => {
+            const content = response.headers['content-type'];
+            const aux = download(response.data, "resposta.pdf", content)
+         })
+
+        funcao(response.data)
+
+        
+        return response.data
     }
 
 export{getDataAxios, postDataAxios}

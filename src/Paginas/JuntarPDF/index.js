@@ -86,6 +86,8 @@ class JuntarPDFPage extends React.Component {
       ready: false, 
       fileInputJuntarPDF: React.createRef(),
       data: {files: null, path: null, pdf64: []},
+      resposta: null,
+      uploadProgress: 0,
     };
     this.addFilesInputJuntarPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -95,6 +97,8 @@ class JuntarPDFPage extends React.Component {
     this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
     this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleFile = this.handleFile.bind(this)
+    this.handleResposta = this.handleResposta.bind(this)
+    this.uploadProgress = this.uploadProgress.bind(this)
   }
 
 
@@ -143,14 +147,25 @@ class JuntarPDFPage extends React.Component {
   }
 
   handleMerge(){
+    postDataAxios(this.state.data.files, 'juntar', this.handleResposta.bind(this), this.uploadProgress.bind(this))
     this.setState({
       isButtonMergeClick: true,
     })
+  }
 
-    postDataAxios(this.state.data.files, 'juntar');
+  handleResposta(resp){
 
+    this.setState({
+      resposta: resp,
+    })
   }
   
+  uploadProgress(progress){
+    this.setState({
+      uploadProgress: progress,
+    })
+  }
+
   handleUploadCompleted(){
     this.setState({
       isUploadCompleted: true,
@@ -192,12 +207,12 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' />
+          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
         <div className='Centralizar'>
-          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
+          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} porcentagem={this.state.uploadProgress} />
        </div>
       );
     } else if(this.state.isUpload) {

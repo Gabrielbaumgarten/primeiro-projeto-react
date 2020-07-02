@@ -57,11 +57,11 @@
   margin-left: 30%;
   margin-right: 30%;
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   }
-  
-.InputFileArea > p{
-  margin-top: 80px;
-}  
+   
 
 .BotaoVoltar {
   margin: 5px !important;
@@ -97,4 +97,9 @@
 
 .Canvas{
   height: auto;
+}
+
+.IconUpload{
+  display: flex;
+  align-items: center;
 }

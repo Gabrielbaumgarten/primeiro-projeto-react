@@ -59,7 +59,6 @@ const BotaoAllMenuToolbar = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-
   function handleClick (event) {
     setAnchorEl(event.currentTarget);
   };
@@ -73,7 +72,6 @@ const BotaoAllMenuToolbar = (props) => {
   }
 
   const classes = useStyles();
-  
   return(
       <React.Fragment>
         <Button onMouseOver={mouseOver} onClick={handleClick}>
@@ -84,16 +82,33 @@ const BotaoAllMenuToolbar = (props) => {
         </Button>
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
             onClose={handleClose} classes={{ paper: classes.Menu }} >
-          <ItensMenu icon='JUNTAR' url='/JuntarPDF' label='Juntar PDF' />
-          <ItensMenu icon='DIVIDIR' url='/DividirPDF' label='Dividir PDF' />
-          <ItensMenu icon='COMPRIMIR' url='/ComprimirPDF' label='Comprimir PDF' />
-          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
-          <ItensMenu icon='OCR' url='/PesquisarPDF' label='Pesquisar no PDF' />
+          <MenuItem component='button' className='AjusteMenu' href='/JuntarPDF'>
+            <SelectIcon icon={'JUNTAR'} />
+            Juntar PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/DividirPDF'>
+            <SelectIcon icon={'DIVIDIR'} />
+            Dividir PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/ComprimirPDF'>
+            <SelectIcon icon={'COMPRIMIR'} />
+            Comprimir PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/PDFtoJPG'>
+            <SelectIcon icon={'PDFtoJPG'} />
+            Converter PDF para JPG
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/PesquisarPDF'>
+            <SelectIcon icon={'OCR'} />
+            Pesquisar no PDF
+          </MenuItem>
         </Menu>
     </React.Fragment>
     );
     
 }
+
+
 
 const BotaoConverterToolbar = (props) => {
 
@@ -124,7 +139,10 @@ const BotaoConverterToolbar = (props) => {
         </Button>
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
             onClose={handleClose} classes={{ paper: classes.Menu }} >
-          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
+          <MenuItem component='button' className='AjusteMenu' href='/ComprimirPDF'>
+            <SelectIcon icon={'COMPRIMIR'} />
+            Comprimir PDF
+          </MenuItem>
         </Menu>
     </React.Fragment>
     );
@@ -133,7 +151,6 @@ const BotaoConverterToolbar = (props) => {
 const BotaoMenuResposivo = (props) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
-
 
   function handleClick (event) {
     setAnchorEl(event.currentTarget);
@@ -154,25 +171,32 @@ const BotaoMenuResposivo = (props) => {
         <MenuRoundedIcon fontSize='Large' className='MenuIcon' onClick={handleClick} />
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
             onClose={handleClose} classes={{ paper: classes.MenuResposivo }} >
-          <ItensMenu icon='JUNTAR' url='/JuntarPDF' label='Juntar PDF' />
-          <ItensMenu icon='DIVIDIR' url='/DividirPDF' label='Dividir PDF' />
-          <ItensMenu icon='COMPRIMIR' url='/ComprimirPDF' label='Comprimir PDF' />
-          <ItensMenu icon='PDJtoJPG' url='/PDFtoJPG' label='Converter PDF para JPG' />
-          <ItensMenu icon='OCR' url='/PesquisarPDF' label='Pesquisar no PDF' />
+          <MenuItem component='button' className='AjusteMenu' href='/JuntarPDF'>
+            <SelectIcon icon={'JUNTAR'} />
+            Juntar PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/DividirPDF'>
+            <SelectIcon icon={'DIVIDIR'} />
+            Dividir PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/ComprimirPDF'>
+            <SelectIcon icon={'COMPRIMIR'} />
+            Comprimir PDF
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/PDFtoJPG'>
+            <SelectIcon icon={'PDFtoJPG'} />
+            Converter PDF para JPG
+          </MenuItem>
+          <MenuItem component='button' className='AjusteMenu' href='/PesquisarPDF'>
+            <SelectIcon icon={'OCR'} />
+            Pesquisar no PDF
+          </MenuItem>  
         </Menu>
     </React.Fragment>
     );
     
 }
 
-function ItensMenu(props){
-  return(
-    <MenuItem component='button' className='AjusteMenu' href={props.url}>
-    <SelectIcon icon={props.icon} />
-    {props.label}
-    </MenuItem>
-  );
-}
 
 function SelectIcon(props) {
   var icon
@@ -189,7 +213,7 @@ function SelectIcon(props) {
     case "OCR":
       icon = <FindInPageRoundedIcon className='IconsToolBar'/>
       break;
-    case "PDJtoJPG":
+    case "PDFtoJPG":
       icon = (
         <React.Fragment>
         <PictureAsPdfRoundedIcon className='IconsToolBarConverte'/>
@@ -212,20 +236,21 @@ function BotaoMenuToolbar(props) {
 }
 
 
-const Toolbar = () => (
+function Toolbar() {
+  return(
       <div className='Toolbar'>
           <Logo />
           <Hidden smDown>
-          <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
-          <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='/DividirPDF' />
-          <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='/ComprimirPDF' />
-          <BotaoConverterToolbar conteudo='CONVERTER PDF' />
-          <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
+            <BotaoMenuToolbar conteudo='JUNTAR PDF' url='/JuntarPDF' />
+            <BotaoMenuToolbar conteudo='DIVIDIR PDF' url='/DividirPDF' />
+            <BotaoMenuToolbar conteudo='COMPRIMIR PDF' url='/ComprimirPDF' />
+            <BotaoConverterToolbar conteudo='CONVERTER PDF' />
+            <BotaoAllMenuToolbar conteudo='TODAS AS FERRAMENTAS PDF' />
           </Hidden>
           <Hidden mdUp>
             <BotaoMenuResposivo/>
           </Hidden>
       </div>
-);
+  )};
 
 export default Toolbar;

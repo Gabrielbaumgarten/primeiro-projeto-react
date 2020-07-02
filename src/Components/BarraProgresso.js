@@ -19,23 +19,29 @@ const BarraProgresso = (props) => {
       Efeito que faz com que a barra de progresso se mova.
       Ao chegar no valor de 100% é feita a transição para a página de concluído
     */
-    React.useEffect(() => {
-      function progress() {
-        setCompleted((oldCompleted) => {
-          if (oldCompleted === 100) {
-            const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
-            return () => clearTimeout(time);
-          }
-          // Aqui é gerado o valor da porcentagem
-          // TODO:Acertar esse valor quando for feita a junção com o lina PDF
-          const diff = Math.floor(Math.random() * 10);
-          return Math.min(oldCompleted + diff, 100);
-        });
-      }
+    React.useEffect(
+      () => {
+    //   function progress() {
+    //     setCompleted((oldCompleted) => {
+    //       if (oldCompleted === 100) {
+    //         const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
+    //         return () => clearTimeout(time);
+    //       }
+    //       // Aqui é gerado o valor da porcentagem
+    //       // TODO:Acertar esse valor quando for feita a junção com o lina PDF
+    //       const diff = Math.floor(Math.random() * 10);
+    //       return Math.min(oldCompleted + diff, 100);
+    //     });
+    //   }
   
-      const timer = setInterval(progress, 500);
-      return () => { clearInterval(timer);  };
-    }, []);
+    //   const timer = setInterval(progress, 500);
+    //   return () => { clearInterval(timer);  };
+    // }, []
+      if(props.porcentagem === 100){
+        const time = setTimeout(() => {props.executar(!props.exibir)}, 1000);
+        const timeout = () => clearTimeout(time);
+      }
+    });
   
   
     return(
@@ -43,9 +49,9 @@ const BarraProgresso = (props) => {
             <Typography variant='h1' className='LargeText'>
               Carregando os arquivos
             </Typography>
-            <LinearProgress variant="determinate" value={completed} onCompositionEnd={() => {props.executar(!props.exibir)}} classes={{ barColorPrimary: classes.barColorPrimary }} className='BarraProgresso' />
+            <LinearProgress variant="determinate" value={props.porcentagem} onCompositionEnd={() => {props.executar(!props.exibir)}} classes={{ barColorPrimary: classes.barColorPrimary }} className='BarraProgresso' />
             <Typography variant='h4' className='Text'>
-              {completed}%
+              {props.porcentagem}%
             </Typography>
         </React.Fragment>
     );
