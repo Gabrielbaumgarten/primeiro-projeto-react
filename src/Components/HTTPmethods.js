@@ -65,10 +65,7 @@ import download from 'downloadjs'
                   },
                 responseType: 'blob',
             }
-        ).then(response => {
-            const content = response.headers['content-type'];
-            const aux = download(response.data, "resposta.pdf", content)
-         })
+        )
 
         funcao(response.data)
 

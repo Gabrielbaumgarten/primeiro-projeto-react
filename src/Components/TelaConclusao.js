@@ -8,11 +8,11 @@ import Button  from '@material-ui/core/Button';
 import download from 'downloadjs'
 
 function TelaConclusao(props) {
-
-  function download(){
-    download(props.arquivo, "resposta.pdf", 'application/pdf')
-  }
-
+  var nome ='LinaPDF_Juntar'
+  props.nomes.forEach(file => {
+    nome += '_' + file.name.split('.pdf')[0]
+  })
+  nome += '.pdf'
     return (
         <div className='Centralizar'>
           <Typography variant='h2' className='LargeText'>
@@ -21,13 +21,12 @@ function TelaConclusao(props) {
           <IconButton href='/' className='BotaoVoltar'>
             <ArrowBackRoundedIcon fontSize='large' />
           </IconButton>
-          {/* TODO: alterar o arquivo de download */}
-          {/* <a href={props.arquivo} className="RemoveUnderline" download> */}
-            <Button variant='contained' onClick={download}>
+          <a href={props.arquivo} className="RemoveUnderline" download={nome}>
+            <Button variant='contained'>
               <GetAppRoundedIcon className='IconDownload'/>
               Baixar o PDF {props.modo}
             </Button>
-          {/* </a> */}
+          </a>
         </div>
       );
 }

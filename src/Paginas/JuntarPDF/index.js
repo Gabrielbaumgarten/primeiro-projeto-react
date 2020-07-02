@@ -154,9 +154,8 @@ class JuntarPDFPage extends React.Component {
   }
 
   handleResposta(resp){
-
     this.setState({
-      resposta: resp,
+      resposta: window.URL.createObjectURL(resp),
     })
   }
   
@@ -207,7 +206,7 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} />
+          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} nomes={this.state.data.files} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
