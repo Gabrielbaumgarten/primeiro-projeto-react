@@ -13,6 +13,7 @@ import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { getDataAxios, postDataAxios } from '../../Components/HTTPmethods'
+import Typography from '@material-ui/core/Typography'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
@@ -36,6 +37,12 @@ const useStyles = makeStyles(theme => ({
 */
 function PainelLateral(props) {
   const classes = useStyles();
+  var tamanho = 0
+  props.arquivos.forEach(arquivo =>{
+    tamanho += arquivo.size
+  }) 
+
+  tamanho = Math.floor(tamanho/1000)
 
   if(props.arquivos.length < 2){
     return(
@@ -62,6 +69,7 @@ function PainelLateral(props) {
         <Box className='TextDrawer'>
           <p>Para alterar a ordem dos seus PDFs, arraste e solte os arquivos como entender.</p>
         </Box>
+        <Typography variant='subtitle1' className=""> Tamanho do arquivo final: <b>{tamanho}</b> KB</Typography>
         <Button  variant='contained' className='ButtonDrawerJuntarPDF' onClick={() => {props.executar(!props.exibir)}}>
           Juntar PDF
           <CallMergeRoundedIcon fontSize='large' className="IconJuntar"/>

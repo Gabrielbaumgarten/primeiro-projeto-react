@@ -48,9 +48,7 @@ import download from 'downloadjs'
         nomes = nomes.toString()
 
         var data = new FormData()
-        data.append('nomesArquivos', nomes)
-        data.append('metodo', acao)
-        var index = 1
+        var index = 0
         arquivos.forEach(element => {
             data.append('arquivo' + index, element)
             index += 1
