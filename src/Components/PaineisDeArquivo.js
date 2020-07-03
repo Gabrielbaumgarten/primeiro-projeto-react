@@ -11,7 +11,11 @@ import PDFViewer from 'pdf-viewer-reactjs'
 class PaineisDeArquivos extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      order: [1,2,3]
+    }
     this.Paineis = this.Paineis.bind(this);
+    
   }
 
   Paineis(arquivo,index,pdf) {
@@ -35,7 +39,7 @@ class PaineisDeArquivos extends React.Component{
 
     return (
       <React.Fragment>
-        <SortablePane direction="horizontal" margin={30} className='Panes'>
+        <SortablePane direction="horizontal" margin={30} className='Panes' onOrderChange={order => this.props.ordemDosArquivos(order) } >
           {panes}
         </SortablePane>
       </React.Fragment>

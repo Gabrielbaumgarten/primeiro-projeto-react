@@ -38,7 +38,7 @@ import download from 'downloadjs'
         console.log(response.data)
     }
 
-    async function postDataAxios(arquivos, acao, funcao, progresso){
+    async function postDataAxios(arquivos, acao, funcao, progresso, ordem){
 
         var url = BuscarURL(acao)
 
@@ -49,10 +49,10 @@ import download from 'downloadjs'
 
         var data = new FormData()
         var index = 0
-        arquivos.forEach(element => {
-            data.append('arquivo' + index, element)
+        ordem.forEach(aux => {
+            data.append('arquivo'+ index, arquivos[aux])
             index += 1
-        });
+        })
 
         const response = await axios.post( url,
             data, 

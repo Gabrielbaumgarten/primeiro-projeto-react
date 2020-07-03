@@ -8,9 +8,9 @@ import Button  from '@material-ui/core/Button';
 import download from 'downloadjs'
 
 function TelaConclusao(props) {
-  var nome ='LinaPDF_Juntar'
-  props.nomes.forEach(file => {
-    nome += '_' + file.name.split('.pdf')[0]
+  var nome ='LinaPDF_' + props.acao
+  props.data.order.forEach(aux => {
+    nome += '_' + props.data.files[aux].name.split('.pdf')[0]
   })
   nome += '.pdf'
     return (

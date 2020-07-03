@@ -12,7 +12,7 @@ import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { getDataAxios, postDataAxios } from '../../Components/HTTPmethods'
+import { postDataAxios } from '../../Components/HTTPmethods'
 import Typography from '@material-ui/core/Typography'
 
 // icons
@@ -93,7 +93,7 @@ class JuntarPDFPage extends React.Component {
       isUploadCompleted: false,
       ready: false, 
       fileInputJuntarPDF: React.createRef(),
-      data: {files: null, path: null, pdf64: []},
+      data: {files: null, pdf64: [], order: []},
       resposta: null,
       uploadProgress: 0,
     };
@@ -107,25 +107,28 @@ class JuntarPDFPage extends React.Component {
     this.handleFile = this.handleFile.bind(this)
     this.handleResposta = this.handleResposta.bind(this)
     this.uploadProgress = this.uploadProgress.bind(this)
+    this.handleOrder = this.handleOrder.bind(this)
+  }
+
+  handleOrder(order){
+    const { data } = this.state
+    data.order = order
   }
 
 
-// TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
       array.forEach(this.handleChangeFile);
       data.files = array;
-      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
-      data.path = [this.addFilesInputJuntarPDF.current.value];
+      data.order.push('0')
     } else {
       const { data } = this.state;
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
       array.forEach(this.handleChangeFile);
       data.files = data.files.concat(array);
-      // TODO: Ajustar os path em todas as páginas
-      // data.path = data.path.concat([this.addFilesInputJuntarPDF.current.value]);
+      data.order.push(data.files.length)
     }
     this.setState({
       isUpload: false,
@@ -138,8 +141,6 @@ class JuntarPDFPage extends React.Component {
     if((data.files.length - 1) !== index){
      data.files[index] = data.files[data.files.length - 1];
     }
-    // TODO:Ajustar isso ao corrigir o problema do path
-    // delete data.path[index];  
     data.files.pop();
     this.setState({});
   }
@@ -148,14 +149,17 @@ class JuntarPDFPage extends React.Component {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = Array.from(this.state.fileInputJuntarPDF.current.files);
-      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
-      data.path = [this.state.fileInputJuntarPDF.current.value];
+      var i;
+      for(i= 0; i< data.files.length; i++){
+        data.order.push(i.toString())
+      }
     }
     this.state.data.files.forEach(this.handleChangeFile);
   }
 
   handleMerge(){
-    postDataAxios(this.state.data.files, 'juntar', this.handleResposta.bind(this), this.uploadProgress.bind(this))
+    postDataAxios(this.state.data.files, 'juntar', this.handleResposta.bind(this),
+                   this.uploadProgress.bind(this), this.state.data.order)
     this.setState({
       isButtonMergeClick: true,
     })
@@ -183,8 +187,10 @@ class JuntarPDFPage extends React.Component {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = acceptedFiles;
-      // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
-      // data.path = [this.state.fileInputJuntarPDF.current.value];
+      var i;
+      for(i= 0; i< acceptedFiles.length; i++){
+        data.order.push(i.toString())
+      }
     }
     this.state.data.files.forEach(this.handleChangeFile);
     this.setState({
@@ -214,7 +220,7 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} nomes={this.state.data.files} />
+          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} data={this.state.data} acao={'Juntar'} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
@@ -226,7 +232,7 @@ class JuntarPDFPage extends React.Component {
       return(
         <React.Fragment>
           <div className='Conteudo'>
-            <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64}/>
+            <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64} ordemDosArquivos={this.handleOrder.bind(this)} />
             <div className='AlinhamentoJuntarPDF'>
               <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />
             </div>
