@@ -12,7 +12,7 @@ import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { postDataAxios } from '../../Components/HTTPmethods'
+import { postJuntarPDF } from '../../Components/HTTPmethods'
 import Typography from '@material-ui/core/Typography'
 
 // icons
@@ -93,7 +93,9 @@ class JuntarPDFPage extends React.Component {
       isUploadCompleted: false,
       ready: false, 
       fileInputJuntarPDF: React.createRef(),
+      // adicionar order
       data: {files: null, pdf64: [], order: []},
+      // adicionar
       resposta: null,
       uploadProgress: 0,
     };
@@ -105,11 +107,13 @@ class JuntarPDFPage extends React.Component {
     this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
     this.handleChangeFile = this.handleChangeFile.bind(this);
     this.handleFile = this.handleFile.bind(this)
+    // adicionar
     this.handleResposta = this.handleResposta.bind(this)
     this.uploadProgress = this.uploadProgress.bind(this)
     this.handleOrder = this.handleOrder.bind(this)
   }
 
+  // adicionar
   handleOrder(order){
     const { data } = this.state
     data.order = order
@@ -122,12 +126,16 @@ class JuntarPDFPage extends React.Component {
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
       array.forEach(this.handleChangeFile);
       data.files = array;
+      
+  // adicionar
       data.order.push('0')
     } else {
       const { data } = this.state;
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
       array.forEach(this.handleChangeFile);
       data.files = data.files.concat(array);
+      
+  // adicionar
       data.order.push(data.files.length)
     }
     this.setState({
@@ -141,6 +149,7 @@ class JuntarPDFPage extends React.Component {
     if((data.files.length - 1) !== index){
      data.files[index] = data.files[data.files.length - 1];
     }
+    // Deletar
     data.files.pop();
     this.setState({});
   }
@@ -149,6 +158,7 @@ class JuntarPDFPage extends React.Component {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = Array.from(this.state.fileInputJuntarPDF.current.files);
+      // adicionar
       var i;
       for(i= 0; i< data.files.length; i++){
         data.order.push(i.toString())
@@ -158,19 +168,23 @@ class JuntarPDFPage extends React.Component {
   }
 
   handleMerge(){
-    postDataAxios(this.state.data.files, 'juntar', this.handleResposta.bind(this),
+    
+  // adicionar
+    postJuntarPDF(this.state.data.files, 'juntar', this.handleResposta.bind(this),
                    this.uploadProgress.bind(this), this.state.data.order)
     this.setState({
       isButtonMergeClick: true,
     })
   }
 
+  // adicionar
   handleResposta(resp){
     this.setState({
       resposta: window.URL.createObjectURL(resp),
     })
   }
   
+  // adicionar
   uploadProgress(progress){
     this.setState({
       uploadProgress: progress,
@@ -187,6 +201,8 @@ class JuntarPDFPage extends React.Component {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = acceptedFiles;
+      
+  // adicionar
       var i;
       for(i= 0; i< acceptedFiles.length; i++){
         data.order.push(i.toString())
@@ -220,11 +236,13 @@ class JuntarPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
+        // adicionar campos apos modo
           <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} data={this.state.data} acao={'Juntar'} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
         <div className='Centralizar'>
+          {/* adicionar campos apos exibir */}
           <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} porcentagem={this.state.uploadProgress} />
        </div>
       );
@@ -232,6 +250,7 @@ class JuntarPDFPage extends React.Component {
       return(
         <React.Fragment>
           <div className='Conteudo'>
+            {/* adicionar ordem dos arquivos */}
             <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64} ordemDosArquivos={this.handleOrder.bind(this)} />
             <div className='AlinhamentoJuntarPDF'>
               <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputJuntarPDF} adicionarArquivos={this.handleAdd.bind(this)} />

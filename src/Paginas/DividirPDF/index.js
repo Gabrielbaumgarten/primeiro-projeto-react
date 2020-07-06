@@ -9,6 +9,7 @@ import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import PainelLateral from './DrawerDividirPDF.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { postJuntarPDF, postGetInformation } from '../../Components/HTTPmethods'
 
 /* 
   Classe que será exportada,
@@ -24,8 +25,11 @@ class DividirPDFPage extends React.Component {
       isUploadCompleted: false, 
       ready: false, 
       fileInputDividirPDF: React.createRef(),
-      data: {files: null, path: null, pdf64: [], pages: [],
-             modo: 0, tipoExtracao: 'all', size: null, startPage:1, endPage:2},
+      resposta: null,
+      uploadProgress: 0,
+      data: {files: null, pdf64: [], pages: [], order: [],
+             modo: 0, tipoExtracao: 'all', size: 0, startPage:1, endPage:2},
+      numPage: 0,
     };
     this.addFilesInputDividirPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -41,24 +45,30 @@ class DividirPDFPage extends React.Component {
     this.handleInputSize = this.handleInputSize.bind(this);
     this.handleModo = this.handleModo.bind(this);
     this.handleExtracao = this.handleExtracao.bind(this);
+    this.handleResposta = this.handleResposta.bind(this)
+    this.uploadProgress = this.uploadProgress.bind(this)
+    this.handleOrder = this.handleOrder.bind(this)
+    this.handleInformation = this.handleInformation.bind(this)
   }
 
-// TODO: Ajustar essa função de adicionar arquivos, verificar como o linaPDF fará isso
+  handleOrder(order){
+    const { data } = this.state
+    data.order = order
+  }
+
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
       const array = Array.from(this.addFilesInputDividirPDF.current.files)
       array.forEach(this.handleChangeFile);
       data.files = array;
-      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
-      data.path = [this.addFilesInputDividirPDF.current.value];
+      data.order.push('0');
     } else {
       const { data } = this.state;
       const array = Array.from(this.addFilesInputDividirPDF.current.files);
       array.forEach(this.handleChangeFile);
       data.files = data.files.concat(array);
-      // TODO: Ajustar os path em todas as páginas
-      // data.path = data.path.concat([this.addFilesInputDividirPDF.current.value]);
+      data.order.push(data.files.length);
     }
     this.setState({
       isUpload: false,
@@ -71,25 +81,49 @@ class DividirPDFPage extends React.Component {
     if((data.files.length - 1) != index){
      data.files[index] = data.files[data.files.length - 1];
     }
-    // TODO:Ajustar isso ao corrigir o problema do path
-    // delete data.path[index];  
     data.files.pop();
-    this.forceUpdate()
+    this.setState({});
   }
   
   handleOnChange() {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = Array.from(this.state.fileInputDividirPDF.current.files);
-      // TODO:Corrigir para mais de um elemento, está pegando o valor de apenas 1
-      data.path = [this.state.fileInputDividirPDF.current.value];
+      var i;
+      for(i= 0; i< data.files.length; i++){
+        data.order.push(i.toString())
+      }    
     }
     this.state.data.files.forEach(this.handleChangeFile);
   }
 
   handleDivide(){
+    // postJuntarPDF(this.state.data.files, 'juntar', this.handleResposta.bind(this),
+    // this.uploadProgress.bind(this), this.state.data.order)
+
     this.setState({
       isButtonMergeClick: true,
+    })
+  }
+
+  handleResposta(resp){
+    this.setState({
+      resposta: window.URL.createObjectURL(resp),
+    })
+  }
+
+  handleInformation(info){
+    const { data } = this.state;
+    data.endPage = info.numPages
+    this.setState({
+      numPage: info.numPages,
+      isUpload: true,
+    })
+  }
+
+  uploadProgress(progress){
+    this.setState({
+      uploadProgress: progress,
     })
   }
   
@@ -103,8 +137,10 @@ class DividirPDFPage extends React.Component {
     if(this.state.data.files === null){
       const { data } = this.state;
       data.files = acceptedFiles;
-      // TODO: Verificar como passar o path que está dentro de cada arquivo para fora
-      // data.path = [this.state.fileInputDividirPDF.current.value];
+      var i;
+      for(i= 0; i< acceptedFiles.length; i++){
+        data.order.push(i.toString())
+      }
     }
     this.state.data.files.forEach(this.handleChangeFile);
     this.setState({
@@ -119,9 +155,11 @@ class DividirPDFPage extends React.Component {
 
     
     if(this.state.data.pdf64.length === this.state.data.files.length){
-        this.setState({
-        isUpload: true,
-      });
+        postGetInformation(this.state.data.files, 'dividir', this.handleInformation.bind(this),
+                            this.uploadProgress.bind(this), this.state.data.order)
+      //   this.setState({
+      //   isUpload: true,
+      // });
     }
   }
 
@@ -178,18 +216,18 @@ class DividirPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-          <TelaConclusao title='Os PDFs foram divididos' modo='dividido' />
+          <TelaConclusao title='Os PDFs foram divididos' modo='dividido' arquivo={this.state.resposta} data={this.state.data} acao={'Juntar'} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
         <div className='Centralizar'>
-          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} />
+          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} porcentagem={this.state.uploadProgress} />
        </div>
       );
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivosDividir data={this.state.data} removerArquivo={this.handleDelete.bind(this)} />
+          <PaineisDeArquivosDividir data={this.state.data} removerArquivo={this.handleDelete.bind(this)} ordemDosArquivos={this.handleOrder.bind(this)} />
           <div className='AlinhamentoDividirPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputDividirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>
