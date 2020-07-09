@@ -7,11 +7,6 @@ import IconButton  from '@material-ui/core/IconButton';
 import Button  from '@material-ui/core/Button';
 
 function TelaConclusao(props) {
-  var nome ='LinaPDF_' + props.acao
-  props.data.order.forEach(aux => {
-    nome += '_' + props.data.files[aux].name.split('.pdf')[0]
-  })
-  nome += '.pdf'
     return (
         <div className='Centralizar'>
           <Typography variant='h2' className='LargeText'>
@@ -20,7 +15,7 @@ function TelaConclusao(props) {
           <IconButton href='/' className='BotaoVoltar'>
             <ArrowBackRoundedIcon fontSize='large' />
           </IconButton>
-          <a href={props.arquivo} className="RemoveUnderline" download={nome}>
+          <a href={props.arquivo} className="RemoveUnderline" download={props.nome}>
             <Button variant='contained'>
               <GetAppRoundedIcon className='IconDownload'/>
               Baixar o PDF {props.modo}

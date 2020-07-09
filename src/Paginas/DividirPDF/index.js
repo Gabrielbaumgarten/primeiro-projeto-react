@@ -9,7 +9,7 @@ import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import PainelLateral from './DrawerDividirPDF.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { postJuntarPDF, postGetInformation } from '../../Components/HTTPmethods'
+import { postDividirPDF, postGetInformation } from '../../Components/HTTPmethods'
 
 /* 
   Classe que será exportada,
@@ -25,9 +25,14 @@ class DividirPDFPage extends React.Component {
       isUploadCompleted: false, 
       ready: false, 
       fileInputDividirPDF: React.createRef(),
+      respostaNome: '',
       resposta: null,
       uploadProgress: 0,
-      data: {files: null, pdf64: [], pages: [], order: [],
+      onlyOne: false,
+      // modo 0: Por intervalo
+      // modo 1: Por tamanho
+      // modo 2: Selecionar páginas
+      data: {files: null, pdf64: [], pages: null, order: [],
              modo: 0, tipoExtracao: 'all', size: 0, startPage:1, endPage:2},
       numPage: 0,
     };
@@ -49,6 +54,19 @@ class DividirPDFPage extends React.Component {
     this.uploadProgress = this.uploadProgress.bind(this)
     this.handleOrder = this.handleOrder.bind(this)
     this.handleInformation = this.handleInformation.bind(this)
+    this.handleOnlyOne = this.handleOnlyOne.bind(this)
+    this.handlePages = this.handlePages.bind(this)
+  }
+
+  handlePages(pages){
+    const { data } = this.state
+    data.pages = pages
+  }
+
+  handleOnlyOne(checked){
+    this.setState({
+      onlyOne: checked,
+    })
   }
 
   handleOrder(order){
@@ -98,8 +116,8 @@ class DividirPDFPage extends React.Component {
   }
 
   handleDivide(){
-    // postJuntarPDF(this.state.data.files, 'juntar', this.handleResposta.bind(this),
-    // this.uploadProgress.bind(this), this.state.data.order)
+    postDividirPDF(this.state.data, 'dividir', this.handleResposta.bind(this),
+                  this.uploadProgress.bind(this), this.state.onlyOne)
 
     this.setState({
       isButtonMergeClick: true,
@@ -107,7 +125,19 @@ class DividirPDFPage extends React.Component {
   }
 
   handleResposta(resp){
+    var nome ='LinaPDF_' + 'Dividir'
+    this.state.data.order.forEach(aux => {
+      nome += '_' + this.state.data.files[aux].name.split('.pdf')[0]
+    })
+
+    if(this.state.onlyOne){
+      nome += '.pdf'
+    } else {
+      nome += '.zip'
+    }
+
     this.setState({
+      respostaNome: nome,
       resposta: window.URL.createObjectURL(resp),
     })
   }
@@ -157,9 +187,6 @@ class DividirPDFPage extends React.Component {
     if(this.state.data.pdf64.length === this.state.data.files.length){
         postGetInformation(this.state.data.files, 'dividir', this.handleInformation.bind(this),
                             this.uploadProgress.bind(this), this.state.data.order)
-      //   this.setState({
-      //   isUpload: true,
-      // });
     }
   }
 
@@ -216,7 +243,7 @@ class DividirPDFPage extends React.Component {
   render() {
     if(this.state.isUploadCompleted){
       return (
-          <TelaConclusao title='Os PDFs foram divididos' modo='dividido' arquivo={this.state.resposta} data={this.state.data} acao={'Juntar'} />
+          <TelaConclusao title='Os PDFs foram divididos' modo='dividido' arquivo={this.state.resposta} nome={this.state.respostaNome} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(
@@ -234,7 +261,8 @@ class DividirPDFPage extends React.Component {
           <PainelLateral exibir={this.state.isButtonMergeClick} executar={this.handleDivide.bind(this)}
            inicio={this.state.data.startPage} fim={this.state.data.endPage} handleInicioIntervalo={this.handleStartPage.bind(this)}
            handleFimIntervalo={this.handleEndPage.bind(this)} mudarModo={this.handleModo.bind(this)} mudarExtracao={this.handleExtracao.bind(this)}
-           data={this.state.data} definirTamanho={this.handleSize.bind(this)} definirTamanhoInput={this.handleInputSize.bind(this)} />
+           data={this.state.data} definirTamanho={this.handleSize.bind(this)} definirTamanhoInput={this.handleInputSize.bind(this)}
+           handleCheck={this.handleOnlyOne.bind(this)} check={this.state.onlyOne} handlePages={this.handlePages.bind(this)} />
         </React.Fragment>
       );
     }else if (this.state.ready){

@@ -16,6 +16,8 @@ import Input from '@material-ui/core/Input';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 // icons
 import CallSplitRoundedIcon from '@material-ui/icons/CallSplitRounded';
@@ -78,8 +80,8 @@ const useStyles = makeStyles(theme => ({
           <React.Fragment>
             <form action="">
               <Typography variant='subtitle1' className="TextAba">Páginas para extrair:</Typography>
-              <TextField label="Páginas" placeholder='exemplo: 1,5-8' type='number'
-              className='TextField' margin="normal" variant="outlined"/>
+              <TextField label="Páginas" placeholder='exemplo: 1,5-8' value={props.pages} 
+                className='TextField' margin="normal" variant="outlined" onChange={(event) => props.handlePages(event.target.value)} />
             </form>
           </React.Fragment>
         );
@@ -106,7 +108,7 @@ const useStyles = makeStyles(theme => ({
           <TabPanel value={props.data.modo} index={0}>
             <Typography variant='h6' className="TextAba"> Modo por intervalo</Typography>
             <Box className='TextDrawer'>
-              <p>Na divisão por intervalo, o seu PDF será divido de acordo<br/>
+              <p>Na divisão por intervalo, o seu PDF será divido de acordo
               com o intevalo de páginas que você desejar.</p>
             </Box>
             <Typography variant='subtitle1' className="TextAba"> Defina o intervalo:</Typography>
@@ -120,11 +122,15 @@ const useStyles = makeStyles(theme => ({
               inputProps={{ step: 1, min: 0, max: 100, type: 'number', 'aria-labelledby': 'input-slider', }}
               className='IntervaloInput'/>
               </div>
+              <FormControlLabel
+                control={<Checkbox checked={props.check} onChange={(event)=> props.handleCheck(event.target.checked)} name="checkedA" color="primary"/>}
+                label="Enviar apenas o arquivo no intervalo."
+              />
           </TabPanel>
           <TabPanel value={props.data.modo} index={1}>
           <Typography variant='h6' className="TextAba"> Modo por tamanho</Typography>
             <Box className='TextDrawer'>
-              <p>Na divisão por tamanho, o seu PDF será divido em vários<br/> arquivos PDF
+              <p>Na divisão por tamanho, o seu PDF será divido em vários arquivos PDF
               com o tamanho máximo que você desejar.</p>
             </Box>
             <Typography variant='subtitle1' className="TextAba"> Defina o tamanho máximo:</Typography>
@@ -134,11 +140,6 @@ const useStyles = makeStyles(theme => ({
             color="primary" endAdornment='KB' variant="outlined" className="InputSlider"
             inputProps={{ step: 10, min: 0, max: tamArquivo,
               type: 'number', 'aria-labelledby': 'input-slider', }} />
-            <Box className='TextDrawer'>
-              <Typography variant='button'>
-                Serão divididos em {Math.ceil(tamArquivo/props.data.size)} arquivos PDF.
-              </Typography>
-            </Box> 
           </TabPanel>
           <TabPanel value={props.data.modo} index={2}>
           <Typography variant='h6' className="TextAba"> Modo de Extração</Typography>
@@ -150,7 +151,7 @@ const useStyles = makeStyles(theme => ({
                 <Typography>Selecionar as páginas</Typography>
               </ToggleButton>
             </ToggleButtonGroup>
-              <OptionsToggleButton option={props.data.tipoExtracao} />
+              <OptionsToggleButton option={props.data.tipoExtracao} handlePages={props.handlePages} pages={props.data.pages} />
           </TabPanel>
   
         </ThemeProvider>

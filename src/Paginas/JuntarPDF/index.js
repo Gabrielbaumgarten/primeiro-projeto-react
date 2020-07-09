@@ -97,6 +97,7 @@ class JuntarPDFPage extends React.Component {
       data: {files: null, pdf64: [], order: []},
       // adicionar
       resposta: null,
+      respostaNome: '',
       uploadProgress: 0,
     };
     this.addFilesInputJuntarPDF = React.createRef();
@@ -179,7 +180,13 @@ class JuntarPDFPage extends React.Component {
 
   // adicionar
   handleResposta(resp){
+    var nome ='LinaPDF_' + 'Juntar'
+    this.state.data.order.forEach(aux => {
+      nome += '_' + this.state.data.files[aux].name.split('.pdf')[0]
+    })
+    nome += '.pdf'
     this.setState({
+      respostaNome: nome,
       resposta: window.URL.createObjectURL(resp),
     })
   }
@@ -237,7 +244,7 @@ class JuntarPDFPage extends React.Component {
     if(this.state.isUploadCompleted){
       return (
         // adicionar campos apos modo
-          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} data={this.state.data} acao={'Juntar'} />
+          <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} nome={this.state.respostaNome} />
       );
     } else if(this.state.isButtonMergeClick) {
       return(

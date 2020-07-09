@@ -88,6 +88,38 @@ async function postGetInformation(arquivos, acao, funcao, progresso, ordem){
     return response.data
 }
 
-// postDividirPDF
+async function postDividirPDF(dados, acao, funcao, progresso, onlyOne){
 
-export{getDataAxios, postJuntarPDF, postGetInformation}
+    var url = BuscarURL(acao)
+
+    var data = new FormData()
+    var index = 0
+    dados.order.forEach(aux => {
+        data.append('arquivo'+ index, dados.files[aux])
+        index += 1
+    })
+    data.append('getInformation', false)
+    data.append('start', dados.startPage)
+    data.append('end', dados.endPage)
+    data.append('modo', dados.modo)
+    data.append('size', dados.size)
+    data.append('onlyOne', onlyOne)
+    data.append('tipoExtracao', dados.tipoExtracao)
+    data.append('pages', dados.pages)
+
+    const response = await axios.post( url,
+        data, 
+        { 
+            headers: { 'Content-Type': 'multipart/form-data' },
+            onUploadProgress: progressEvent => {
+                progresso(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
+                },
+            responseType: 'blob',
+        }
+    )
+    funcao(response.data)
+
+    return response.data
+}
+
+export{getDataAxios, postJuntarPDF, postGetInformation, postDividirPDF}
