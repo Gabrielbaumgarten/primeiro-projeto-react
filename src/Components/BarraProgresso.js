@@ -21,23 +21,7 @@ const BarraProgresso = (props) => {
     */
     React.useEffect(
       () => {
-    //   function progress() {
-    //     setCompleted((oldCompleted) => {
-    //       if (oldCompleted === 100) {
-    //         const time = setTimeout(() => {props.executar(!props.exibir)}, 100);
-    //         return () => clearTimeout(time);
-    //       }
-    //       // Aqui é gerado o valor da porcentagem
-    //       // TODO:Acertar esse valor quando for feita a junção com o lina PDF
-    //       const diff = Math.floor(Math.random() * 10);
-    //       return Math.min(oldCompleted + diff, 100);
-    //     });
-    //   }
-  
-    //   const timer = setInterval(progress, 500);
-    //   return () => { clearInterval(timer);  };
-    // }, []
-      if(props.porcentagem === 100){
+      if(props.porcentagem == 100){
         const time = setTimeout(() => {props.executar(!props.exibir)}, 1000);
         const timeout = () => clearTimeout(time);
       }

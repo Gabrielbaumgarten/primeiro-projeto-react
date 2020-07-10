@@ -103,3 +103,28 @@
   display: flex;
   align-items: center;
 }
+
+.ImageError {
+  width: 50%;
+}
+
+.errorPage{
+  display: flex;
+}
+
+.TitleError{
+  display: flex;
+  align-items: flex-end;
+  font-weight: 700 !important;
+}
+
+.TextError{
+  display: grid;
+  margin-right: 15% !important;
+}
+
+.MensageError{
+  display: flex;
+  align-items: flex-start;
+  padding-top: 10px;
+}

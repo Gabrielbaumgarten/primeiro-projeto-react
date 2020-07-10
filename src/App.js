@@ -53,5 +53,4 @@ export default App;
 // Verificar a necessidade do adicionar mais arquivos no dividir
 // otimizar as paginas comprimir e pdf to jpg para togglebuttom
 // deixar as páginas responsívas para celular
-// adicionar mensagem de erro do servidor
 // ajustar os paineis para que eles não quebrem na tela de dividir

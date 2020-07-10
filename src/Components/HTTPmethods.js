@@ -37,7 +37,7 @@ async function getDataAxios(){
     console.log(response.data)
 }
 
-async function postJuntarPDF(arquivos, acao, funcao, progresso, ordem){
+async function postJuntarPDF(arquivos, acao, funcao, atualizaProgresso, ordem, error){
 
     var url = BuscarURL(acao)
 
@@ -48,22 +48,35 @@ async function postJuntarPDF(arquivos, acao, funcao, progresso, ordem){
         index += 1
     })
 
-    const response = await axios.post( url,
-        data, 
-        { 
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress: progressEvent => {
-                progresso(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
+    try{
+        const response = await axios.post( url,
+            data, 
+            { 
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: progressEvent => {
+                    var percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+                    percent -= 50
+                    percent = Math.max(0, percent)
+                    atualizaProgresso(percent);
+                    },
+                onDownloadProgress: progressEvent => {
+                    var percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)-50
+                    percent = Math.max(0, percent)
+                    atualizaProgresso(50 + percent)
                 },
-            responseType: 'blob',
+                responseType: 'blob',
+            }
+         )
+        if(response.status != 200){
+            error();    
         }
-    )
-    funcao(response.data)
-
-    return response.data
+        funcao(response.data)
+    } catch{
+        error();
+    }
 }
 
-async function postGetInformation(arquivos, acao, funcao, progresso, ordem){
+async function postGetInformation(arquivos, acao, funcao, progresso, ordem, error){
     var url = BuscarURL(acao)
     var data = new FormData()
     var index = 0
@@ -73,22 +86,24 @@ async function postGetInformation(arquivos, acao, funcao, progresso, ordem){
     })
     data.append('getInformation', true)
 
-    const response = await axios.post( url,
-        data, 
-        { 
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress: progressEvent => {
-                progresso(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
-                },
-            responseType: 'json',
+    try{
+        const response = await axios.post( url,
+            data, 
+            { 
+                headers: { 'Content-Type': 'multipart/form-data' },
+                responseType: 'json',
+            }
+        )
+        if(response.status != 200){
+            error();    
         }
-    )
-    funcao(response.data)
-
-    return response.data
+        funcao(response.data)
+    }catch{
+        error()
+    }
 }
 
-async function postDividirPDF(dados, acao, funcao, progresso, onlyOne){
+async function postDividirPDF(dados, acao, funcao,  atualizaProgresso, onlyOne, error){
 
     var url = BuscarURL(acao)
 
@@ -107,19 +122,32 @@ async function postDividirPDF(dados, acao, funcao, progresso, onlyOne){
     data.append('tipoExtracao', dados.tipoExtracao)
     data.append('pages', dados.pages)
 
-    const response = await axios.post( url,
-        data, 
-        { 
-            headers: { 'Content-Type': 'multipart/form-data' },
-            onUploadProgress: progressEvent => {
-                progresso(Math.floor((progressEvent.loaded * 100) / progressEvent.total));
+    try{
+        const response = await axios.post( url,
+            data, 
+            { 
+                headers: { 'Content-Type': 'multipart/form-data' },
+                onUploadProgress: progressEvent => {
+                    var percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+                    percent -= 50
+                    percent = Math.max(0, percent)
+                    atualizaProgresso(percent);
+                    },
+                onDownloadProgress: progressEvent => {
+                    var percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)-50
+                    percent = Math.max(0, percent)
+                    atualizaProgresso(50 + percent)
                 },
-            responseType: 'blob',
+                responseType: 'blob',
+            }
+        )
+        if(response.status != 200){
+            error();    
         }
-    )
-    funcao(response.data)
-
-    return response.data
+        funcao(response.data)
+    } catch{
+        error()
+    }
 }
 
 export{getDataAxios, postJuntarPDF, postGetInformation, postDividirPDF}

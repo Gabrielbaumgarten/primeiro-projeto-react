@@ -10,6 +10,7 @@ import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import PainelLateral from './DrawerDividirPDF.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { postDividirPDF, postGetInformation } from '../../Components/HTTPmethods'
+import ErrorPage from '../../Components/TelaDeErro'
 
 /* 
   Classe que será exportada,
@@ -35,6 +36,7 @@ class DividirPDFPage extends React.Component {
       data: {files: null, pdf64: [], pages: null, order: [],
              modo: 0, tipoExtracao: 'all', size: 0, startPage:1, endPage:2},
       numPage: 0,
+      error: false,
     };
     this.addFilesInputDividirPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -56,8 +58,14 @@ class DividirPDFPage extends React.Component {
     this.handleInformation = this.handleInformation.bind(this)
     this.handleOnlyOne = this.handleOnlyOne.bind(this)
     this.handlePages = this.handlePages.bind(this)
+    this.handleError = this.handleError.bind(this)
   }
 
+  handleError(){
+    this.setState({
+      error: true
+    })
+  }
   handlePages(pages){
     const { data } = this.state
     data.pages = pages
@@ -117,7 +125,7 @@ class DividirPDFPage extends React.Component {
 
   handleDivide(){
     postDividirPDF(this.state.data, 'dividir', this.handleResposta.bind(this),
-                  this.uploadProgress.bind(this), this.state.onlyOne)
+                    this.uploadProgress.bind(this), this.state.onlyOne, this.handleError.bind(this))
 
     this.setState({
       isButtonMergeClick: true,
@@ -186,7 +194,7 @@ class DividirPDFPage extends React.Component {
     
     if(this.state.data.pdf64.length === this.state.data.files.length){
         postGetInformation(this.state.data.files, 'dividir', this.handleInformation.bind(this),
-                            this.uploadProgress.bind(this), this.state.data.order)
+                            this.uploadProgress.bind(this), this.state.data.order, this.handleError.bind(this))
     }
   }
 
@@ -241,7 +249,12 @@ class DividirPDFPage extends React.Component {
   }
 
   render() {
-    if(this.state.isUploadCompleted){
+    if(this.state.error){
+      return(
+        <ErrorPage />
+      )
+    }
+    else if(this.state.isUploadCompleted){
       return (
           <TelaConclusao title='Os PDFs foram divididos' modo='dividido' arquivo={this.state.resposta} nome={this.state.respostaNome} />
       );

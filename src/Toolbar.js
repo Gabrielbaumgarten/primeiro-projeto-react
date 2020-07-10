@@ -74,7 +74,8 @@ const BotaoAllMenuToolbar = (props) => {
   const classes = useStyles();
   return(
       <React.Fragment>
-        <Button onMouseOver={mouseOver} onClick={handleClick}>
+        {/* <Button onMouseOver={mouseOver} onClick={handleClick}> */}
+        <Button onClick={handleClick}>
           <Typography variant="button" align="center" className="MenuText">
             {props.conteudo}
           </Typography>
@@ -131,7 +132,8 @@ const BotaoConverterToolbar = (props) => {
   
   return(
       <React.Fragment>
-        <Button onMouseOver={mouseOver} onClick={handleClick}>
+        {/* <Button onMouseOver={mouseOver} onClick={handleClick}> */}
+        <Button onClick={handleClick}>
           <Typography variant="button" align="center" className="MenuText">
             {props.conteudo}
           </Typography>

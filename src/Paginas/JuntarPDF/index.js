@@ -14,6 +14,7 @@ import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { postJuntarPDF } from '../../Components/HTTPmethods'
 import Typography from '@material-ui/core/Typography'
+import ErrorPage from '../../Components/TelaDeErro'
 
 // icons
 import CallMergeRoundedIcon from '@material-ui/icons/CallMergeRounded';
@@ -99,6 +100,7 @@ class JuntarPDFPage extends React.Component {
       resposta: null,
       respostaNome: '',
       uploadProgress: 0,
+      error: false,
     };
     this.addFilesInputJuntarPDF = React.createRef();
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -112,6 +114,13 @@ class JuntarPDFPage extends React.Component {
     this.handleResposta = this.handleResposta.bind(this)
     this.uploadProgress = this.uploadProgress.bind(this)
     this.handleOrder = this.handleOrder.bind(this)
+    this.handleError = this.handleError.bind(this)
+  }
+
+  handleError(){
+    this.setState({
+      error: true
+    })
   }
 
   // adicionar
@@ -169,10 +178,9 @@ class JuntarPDFPage extends React.Component {
   }
 
   handleMerge(){
-    
   // adicionar
     postJuntarPDF(this.state.data.files, 'juntar', this.handleResposta.bind(this),
-                   this.uploadProgress.bind(this), this.state.data.order)
+                   this.uploadProgress.bind(this), this.state.data.order, this.handleError.bind(this))
     this.setState({
       isButtonMergeClick: true,
     })
@@ -241,7 +249,12 @@ class JuntarPDFPage extends React.Component {
   }
 
   render() {
-    if(this.state.isUploadCompleted){
+    if(this.state.error){
+      return(
+        <ErrorPage />
+      )
+    }
+    else if(this.state.isUploadCompleted){
       return (
         // adicionar campos apos modo
           <TelaConclusao title='Os PDFs foram combinados' modo='combinado' arquivo={this.state.resposta} nome={this.state.respostaNome} />
