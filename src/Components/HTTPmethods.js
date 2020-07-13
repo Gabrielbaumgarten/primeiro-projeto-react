@@ -68,7 +68,8 @@ async function postJuntarPDF(arquivos, acao, funcao, atualizaProgresso, ordem, e
             }
          )
         if(response.status != 200){
-            error();    
+            error();
+            console.log("Erro ao tentar juntar dois arquivos!! Verificar o método postJuntarPDF")    
         }
         funcao(response.data)
     } catch{
@@ -96,6 +97,7 @@ async function postGetInformation(arquivos, acao, funcao, progresso, ordem, erro
         )
         if(response.status != 200){
             error();    
+            console.log("Erro ao buscar informações sobre o arquivo!! Verificar o método getInformation")    
         }
         funcao(response.data)
     }catch{
@@ -142,7 +144,8 @@ async function postDividirPDF(dados, acao, funcao,  atualizaProgresso, onlyOne, 
             }
         )
         if(response.status != 200){
-            error();    
+            error();   
+            console.log("Erro ao tentar dividir o arquivos!! Verificar o método postDividirPDF")   
         }
         funcao(response.data)
     } catch{

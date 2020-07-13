@@ -103,38 +103,47 @@ class JuntarPDFPage extends React.Component {
       error: false,
     };
     this.addFilesInputJuntarPDF = React.createRef();
-    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnChange = this.processOnChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleMerge = this.handleMerge.bind(this);
-    this.handleUploadCompleted = this.handleUploadCompleted.bind(this);
-    this.handleChangeFile = this.handleChangeFile.bind(this);
-    this.handleFile = this.handleFile.bind(this)
+    this.handleUploadCompleted = this.setUploadCompleted.bind(this);
+    this.processChangeFile = this.processChangeFile.bind(this);
+    this.processFiles = this.processFiles.bind(this)
     // adicionar
     this.handleResposta = this.handleResposta.bind(this)
-    this.uploadProgress = this.uploadProgress.bind(this)
+    this.setUploadProgress = this.setUploadProgress.bind(this)
     this.handleOrder = this.handleOrder.bind(this)
-    this.handleError = this.handleError.bind(this)
+    this.setError = this.setError.bind(this)
   }
 
-  handleError(){
+  /*Setter de variáveis */
+  // adicionar
+  setError(){
     this.setState({
       error: true
     })
   }
 
   // adicionar
-  handleOrder(order){
-    const { data } = this.state
-    data.order = order
+  setUploadProgress(progress){
+    this.setState({
+      uploadProgress: progress,
+    })
   }
 
+  setUploadCompleted(){
+    this.setState({
+      isUploadCompleted: true,
+    })
+  }
 
+  /*Manipuladores dos arquivos */
   handleAdd() {
     if(this.state.data.files === null){
       const { data } = this.state;
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
-      array.forEach(this.handleChangeFile);
+      array.forEach(this.processChangeFile);
       data.files = array;
       
   // adicionar
@@ -142,7 +151,7 @@ class JuntarPDFPage extends React.Component {
     } else {
       const { data } = this.state;
       const array = Array.from(this.addFilesInputJuntarPDF.current.files)
-      array.forEach(this.handleChangeFile);
+      array.forEach(this.processChangeFile);
       data.files = data.files.concat(array);
       
   // adicionar
@@ -163,24 +172,11 @@ class JuntarPDFPage extends React.Component {
     data.files.pop();
     this.setState({});
   }
-  
-  handleOnChange() {
-    if(this.state.data.files === null){
-      const { data } = this.state;
-      data.files = Array.from(this.state.fileInputJuntarPDF.current.files);
-      // adicionar
-      var i;
-      for(i= 0; i< data.files.length; i++){
-        data.order.push(i.toString())
-      }
-    }
-    this.state.data.files.forEach(this.handleChangeFile);
-  }
 
   handleMerge(){
   // adicionar
     postJuntarPDF(this.state.data.files, 'juntar', this.handleResposta.bind(this),
-                   this.uploadProgress.bind(this), this.state.data.order, this.handleError.bind(this))
+                   this.setUploadProgress.bind(this), this.state.data.order, this.setError.bind(this))
     this.setState({
       isButtonMergeClick: true,
     })
@@ -198,20 +194,28 @@ class JuntarPDFPage extends React.Component {
       resposta: window.URL.createObjectURL(resp),
     })
   }
-  
+
   // adicionar
-  uploadProgress(progress){
-    this.setState({
-      uploadProgress: progress,
-    })
+  handleOrder(order){
+    const { data } = this.state
+    data.order = order
+  }
+  
+
+  /* Tratadores ao receber os arquivos */
+  processOnChange() {
+    if(this.state.data.files === null){
+      const { data } = this.state;
+      data.files = Array.from(this.state.fileInputJuntarPDF.current.files);
+      // adicionar
+      var i;
+      for(i= 0; i< data.files.length; i++){
+        data.order.push(i.toString())
+      }
+    }
+    this.state.data.files.forEach(this.processChangeFile);
   }
 
-  handleUploadCompleted(){
-    this.setState({
-      isUploadCompleted: true,
-    })
-  }
-  
   onDrop = acceptedFiles => {
     if(this.state.data.files === null){
       const { data } = this.state;
@@ -223,31 +227,31 @@ class JuntarPDFPage extends React.Component {
         data.order.push(i.toString())
       }
     }
-    this.state.data.files.forEach(this.handleChangeFile);
+    this.state.data.files.forEach(this.processChangeFile);
     this.setState({
       fileInputDividirPDF: acceptedFiles,
     });
   };
 
-  handleFile = (e) => {
+  processFiles = (e) => {
     const content = e.target.result;
     this.state.data.pdf64.push(content.split(',')[1]);
 
     if(this.state.data.pdf64.length === this.state.data.files.length){
         this.setState({
         isUpload: true,
-        ready: false,
       });
     }
   }
 
-   handleChangeFile = (file) => {
+   processChangeFile = (file) => {
     let fileData = new FileReader();
-    fileData.onload = this.handleFile;
+    fileData.onload = this.processFiles;
     fileData.readAsDataURL(file);
     this.setState({});
   }
 
+  /* Renderização da página  */
   render() {
     if(this.state.error){
       return(
@@ -263,7 +267,7 @@ class JuntarPDFPage extends React.Component {
       return(
         <div className='Centralizar'>
           {/* adicionar campos apos exibir */}
-          <BarraProgresso executar={this.handleUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} porcentagem={this.state.uploadProgress} />
+          <BarraProgresso executar={this.setUploadCompleted.bind(this)} exibir={this.state.isUploadCompleted} porcentagem={this.state.uploadProgress} />
        </div>
       );
     } else if(this.state.isUpload) {
@@ -300,7 +304,7 @@ class JuntarPDFPage extends React.Component {
                 <label htmlFor="files">
                   Selecionar arquivos PDF
                 </label>
-                <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputJuntarPDF} onChange={this.handleOnChange} className='Upload' multiple/>
+                <input id="files" type="file" accept='application/pdf' ref={this.state.fileInputJuntarPDF} onChange={this.processOnChange} className='Upload' multiple/>
               </Button>
           </div> 
         </div>

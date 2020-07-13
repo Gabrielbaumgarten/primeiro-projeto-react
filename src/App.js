@@ -51,6 +51,6 @@ export default App;
 // TODO: Estudar isso
 // Pedir ajuda para ajustar os panes quando eles ultrapassarem a div
 // Verificar a necessidade do adicionar mais arquivos no dividir
-// otimizar as paginas comprimir e pdf to jpg para togglebuttom
+// Ver qual versão do dividir eles preferem
 // deixar as páginas responsívas para celular
-// ajustar os paineis para que eles não quebrem na tela de dividir
+// continuar a repadronização dos das páginas

@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button"
 import TextoPrincipal from '../../Components/TextoPrincipal.js'
 import BarraProgresso from '../../Components/BarraProgresso.js'
 import PaineisDeArquivosDividir from '../../Components/PaineisDeArquivosDivididos/index.js'
+import PaineisDeArquivos from '../../Components/PaineisDeArquivo.js'
 import InputFileArea from '../../Components/InputFileArea.js'
 import TelaConclusao from '../../Components/TelaConclusao.js'
 import BotaoFluanteAdd from '../../Components/BotaoFlutuanteAdd.js'
@@ -267,7 +268,8 @@ class DividirPDFPage extends React.Component {
     } else if(this.state.isUpload) {
       return(
         <React.Fragment>
-          <PaineisDeArquivosDividir data={this.state.data} removerArquivo={this.handleDelete.bind(this)} ordemDosArquivos={this.handleOrder.bind(this)} />
+          {/* <PaineisDeArquivosDividir data={this.state.data} removerArquivo={this.handleDelete.bind(this)} ordemDosArquivos={this.handleOrder.bind(this)} /> */}
+          <PaineisDeArquivos arquivos={this.state.data.files} removerArquivo={this.handleDelete.bind(this)} pdf64={this.state.data.pdf64} ordemDosArquivos={this.handleOrder.bind(this)}/>
           <div className='AlinhamentoDividirPDF'>
             <BotaoFluanteAdd arquivosAdicionados={this.addFilesInputDividirPDF} adicionarArquivos={this.handleAdd.bind(this)} />
           </div>

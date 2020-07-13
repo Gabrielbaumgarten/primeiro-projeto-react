@@ -141,9 +141,9 @@ const BotaoConverterToolbar = (props) => {
         </Button>
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} 
             onClose={handleClose} classes={{ paper: classes.Menu }} >
-          <MenuItem component='button' className='AjusteMenu' href='/ComprimirPDF'>
-            <SelectIcon icon={'COMPRIMIR'} />
-            Comprimir PDF
+          <MenuItem component='button' className='AjusteMenu' href='/PDFtoJPG'>
+            <SelectIcon icon={'PDFtoJPG'} />
+            Converter PDF para JPG
           </MenuItem>
         </Menu>
     </React.Fragment>
